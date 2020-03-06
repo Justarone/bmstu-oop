@@ -5,7 +5,7 @@
 enum { MOVE = 0, SCALE, ROTATE };
 
 // Number of commands (move, scale, rotate).
-//#define CMD_N 3
+#define CMD_N 3
 
 // Move codes.
 enum { MOVE_UP = 0, MOVE_DOWN, MOVE_RIGHT, MOVE_LEFT, MOVE_FRONT, MOVE_BACK };
