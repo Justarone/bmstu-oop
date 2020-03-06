@@ -7,6 +7,7 @@ static const char *SCALE_NAMES[] = { "scale_plus", "scale_minus" };
 static const char *ROTATE_NAMES[] = { "rotate_up", "rotate_down", "rotate_left", 
     "rotate_right", "rotate_rightup", "rotate_leftup" };
 
+ 
 myApplication::myApplication(const char* const filename)
 {
     Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create();
@@ -16,6 +17,7 @@ myApplication::myApplication(const char* const filename)
     main_window->set_title("Лабораторная №1.");
 
     builder->get_widget("drawing_area", drawing_area);
+    drawing_area->signal_draw().connect(sigc::mem_fun(*this, &myApplication::on_draw));
 
     
     for (int i = 0; i < MOVE_SIZE; i++)
@@ -50,6 +52,7 @@ myApplication::myApplication(const char* const filename)
 void myApplication::on_button_clicked(const char command, const char code)
 {
     double value = 0;
+    drawing_area->queue_draw();
     switch (command)
     {
         case MOVE:
@@ -103,9 +106,21 @@ err_t myApplication::read_entry(Gtk::Entry &entry, double &value)
 }
 
 
-bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr)
+bool myApplication::on_draw(Cairo::RefPtr<Cairo::Context> const& cr)
 {
-    std::cout<<"here\n";
+    const figure_t figure = get_figure();
+    cr->set_source_rgb(1.,.5,.0);
+    cr->set_line_width(2);
+
+    for (unsigned int i = 0; i < figure.links.size; i++)
+    {
+        cr->move_to(figure.points.arr[figure.links.arr[i][0]][0],
+                figure.points.arr[figure.links.arr[i][0]][1]);
+        cr->line_to(figure.points.arr[figure.links.arr[i][1]][0],
+                figure.points.arr[figure.links.arr[i][1]][1]);
+    }
+
+    cr->stroke();
     return true;
 }
 

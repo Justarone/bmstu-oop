@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cmath>
 
+const figure_t &get_figure();
 err_t read_from_file(const char *const filename);
 void destroy_parr();
 err_t move_command(const char code, const double &value);

@@ -1,5 +1,6 @@
 #include "../include/computation.h"
 #include <limits>
+#include <iostream>
 
 // find center of figure.
 static err_t find_center(const parr_t &points, double &x, double &y, double &z)
@@ -74,7 +75,7 @@ err_t rotate_figure(parr_t &points, const double ax, const double ay, const doub
     find_center(points, x, y, z);
     move_figure(points, -x, -y, -z); // move to the center for correct transformation.
 
-    if (abs(ax) > std::numeric_limits<double>::epsilon())
+    if (fabs(ax) > std::numeric_limits<double>::epsilon())
     {
         double conversion_matrix[4][4] = { { 1., 0., 0., 0. },
                                            { 0., cos(ax), sin(ax), 0. },
@@ -83,19 +84,19 @@ err_t rotate_figure(parr_t &points, const double ax, const double ay, const doub
         transform_figure(points, conversion_matrix);
     }
 
-    else if (abs(ay) > std::numeric_limits<double>::epsilon())
+    else if (fabs(ay) > std::numeric_limits<double>::epsilon())
     {
-        double conversion_matrix[4][4] = { { cos(ax), 0., -sin(ax), 0. },
+        double conversion_matrix[4][4] = { { cos(ay), 0., -sin(ay), 0. },
                                            { 0., 1., 0., 0. },
-                                           { sin(ax), 0., cos(ax), 0. },
+                                           { sin(ay), 0., cos(ay), 0. },
                                            { 0., 0., 0., 1. } };
         transform_figure(points, conversion_matrix);
     }
 
-    else if (abs(az) > std::numeric_limits<double>::epsilon())
+    else if (fabs(az) > std::numeric_limits<double>::epsilon())
     {
-        double conversion_matrix[4][4] = { { cos(ax), sin(ax), 0., 0. },
-                                           { -sin(ax), cos(ax), 0., 0. },
+        double conversion_matrix[4][4] = { { cos(az), sin(az), 0., 0. },
+                                           { -sin(az), cos(az), 0., 0. },
                                            { 0., 0., 1., 0. },
                                            { 0., 0., 0., 1. } };
         transform_figure(points, conversion_matrix);

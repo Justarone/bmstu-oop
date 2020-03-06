@@ -1,10 +1,15 @@
 #include "../include/data_processing.h"
 #include "../include/computation.h"
+#include <iostream>
 
 using namespace std;
 
 static figure_t main_figure = {};
 
+const figure_t &get_figure()
+{
+    return main_figure;
+}
 
 void destroy_parr()
 {
@@ -60,13 +65,15 @@ static err_t add_link(larr_t &links_array, const unsigned int *const buffer,
 
     for (unsigned int i = 0; i < buf_size; i++)
         links_array.arr[links_array.size][i] = buffer[i];
+
+    links_array.size++;
     return OK;
 }
 
 static err_t read_links(FILE *const f, larr_t &links_array, const unsigned int max_index)
 {
     unsigned int buf[2];
-    while (fscanf(f, "%u%u", buf, buf + 1) != 2 * READED) 
+    while (fscanf(f, "%u%u", buf, buf + 1) == 2 * READED) 
     {
         if (buf[0] > max_index || buf[1] > max_index)
             return DATA_ERROR;
@@ -93,6 +100,12 @@ err_t read_from_file(const char *const filename)
     
     if (read_points(f, main_figure.points))
         goto error_with_alloc;
+
+#ifdef DEBUG
+    for (auto i = 0; i < main_figure.points.size; i++)
+        std::cout<<":"<<main_figure.points.arr[i][0]<<":"<<main_figure.points.arr[i][1]<<\
+            ":"<<main_figure.points.arr[i][2]<<"\n";
+#endif
 
     if (read_links(f, main_figure.links, main_figure.points.size - 1))
         goto error_with_alloc;
@@ -151,16 +164,16 @@ err_t rotate_command(const char code, const double &value)
             ax = -value / 180 * M_PI;
             break;
         case ROTATE_RIGHT:
-            ay = -value / 180 * M_PI;
-            break;
-        case ROTATE_LEFT:
             ay = value / 180 * M_PI;
             break;
+        case ROTATE_LEFT:
+            ay = -value / 180 * M_PI;
+            break;
         case ROTATE_RIGHTUP:
-            az = value / 180 * M_PI;
+            az = -value / 180 * M_PI;
             break;
         case ROTATE_LEFTUP:
-            az = -value / 180 * M_PI;
+            az = value / 180 * M_PI;
             break;
     }
 
