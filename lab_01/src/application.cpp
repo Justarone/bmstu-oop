@@ -58,6 +58,7 @@ void myApplication::on_button_clicked(const char command, const char code)
 
     event_t event = { .command = command, .code = code };
     task_manager(event, value);
+    drawing_area->queue_draw();
 }
 
 Gtk::Window * myApplication::get_window()

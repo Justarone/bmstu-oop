@@ -29,7 +29,16 @@ err_t move_figure(parr_t &points, const point_t &dp) // dp - delta point.
                                        { 0., 1., 0., 0. },
                                        { 0., 0., 1., 0. },
                                        { dp.x, dp.y, dp.z, 1. } };
-    return transform_figure(points, conversion_matrix);
+
+    err_t rc = OK;
+    if ((rc = transform_figure(points, conversion_matrix)))
+        return rc;
+
+    points.cp.x += dp.x;
+    points.cp.y += dp.y;
+    points.cp.z += dp.z;
+
+    return OK;
 }
 
 
@@ -39,6 +48,7 @@ err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
         return DATA_ERROR;
 
     point_t dcp = { .x = -points.cp.x, .y = -points.cp.y, .z = -points.cp.z, .w = 1 };
+    point_t rdcp = { .x = points.cp.x, .y = points.cp.y, .z = points.cp.z, .w = 1 };
     err_t rc = OK;
 
     if ((rc = move_figure(points, dcp)))
@@ -52,7 +62,6 @@ err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
     if ((rc = transform_figure(points, conversion_matrix)))
         return rc;
 
-    point_t rdcp = { .x = points.cp.x, .y = points.cp.y, .z = points.cp.z, .w = 1 };
     if ((rc = move_figure(points, rdcp)))
         return rc;
 
@@ -65,6 +74,7 @@ err_t rotate_figure(parr_t &points, const point_t &ap)
     err_t rc = OK;
 
     point_t dcp = { .x = -points.cp.x, .y = -points.cp.y, .z = -points.cp.z, .w = 1 };
+    point_t rdcp = { .x = points.cp.x, .y = points.cp.y, .z = points.cp.z, .w = 1 };
     if ((rc = move_figure(points, dcp)))
         return rc;
 
@@ -98,7 +108,6 @@ err_t rotate_figure(parr_t &points, const point_t &ap)
             return rc;
     }
 
-    point_t rdcp = { .x = points.cp.x, .y = points.cp.y, .z = points.cp.z, .w = 1 };
     if ((rc = move_figure(points, rdcp)))
         return rc;
 
