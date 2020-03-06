@@ -97,6 +97,7 @@ err_t myApplication::read_entry(Gtk::Entry &entry, double &value)
     } 
     catch (const std::invalid_argument& ia) {
         std::cerr << "Invalid argument: " << ia.what() << '\n';
+        return READ_ERROR;
     }
     return OK;
 }
