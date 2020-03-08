@@ -4,6 +4,7 @@
 #include <iostream>
 #include <gtkmm.h>
 
+#include "structs.h"
 #include "constants.h"
 #include "app_codes.h"
 #include "iomodule.h"

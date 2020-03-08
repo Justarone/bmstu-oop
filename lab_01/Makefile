@@ -1,7 +1,6 @@
 CC = g++
 INCLUDE_DIR = include/
-BINARIES = $(patsubst src/%.cpp,bin/%.o, $(wildcard src/*.cpp)) \
-		   $(patsubst %.cpp,bin/%.o, $(wildcard *.cpp))
+BINARIES = $(patsubst src/%.cpp,bin/%.o, $(wildcard src/*.cpp))
 # Remove -g if not in debug mode
 GTK_FLAGS = `pkg-config gtkmm-3.0 --libs --cflags`
 COMPILE_FLAGS = -Wall

@@ -4,7 +4,7 @@
 err_t task_manager(const event_t &event)
 {
     err_t rc = OK;
-    static figure_t main_figure = { { NULL, 0 }, { NULL, 0 } };
+    static figure_t main_figure = init_figure(NULL, 0, NULL, 0);
 
     switch (event.command)
     {

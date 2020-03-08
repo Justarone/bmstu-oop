@@ -47,8 +47,8 @@ err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
     if (sf == 0)
         return DATA_ERROR;
 
-    point_t dcp = { .x = -points.cp.x, .y = -points.cp.y, .z = -points.cp.z, .w = 1 };
-    point_t rdcp = { .x = points.cp.x, .y = points.cp.y, .z = points.cp.z, .w = 1 };
+    point_t dcp = init_point(-points.cp.x, -points.cp.y, -points.cp.z, 1);
+    point_t rdcp = init_point(points.cp.x, points.cp.y, points.cp.z, 1);
     err_t rc = OK;
 
     if ((rc = move_figure(points, dcp)))
@@ -73,8 +73,9 @@ err_t rotate_figure(parr_t &points, const point_t &ap)
 {
     err_t rc = OK;
 
-    point_t dcp = { .x = -points.cp.x, .y = -points.cp.y, .z = -points.cp.z, .w = 1 };
-    point_t rdcp = { .x = points.cp.x, .y = points.cp.y, .z = points.cp.z, .w = 1 };
+    point_t dcp = init_point(-points.cp.x, -points.cp.y, -points.cp.z, 1);
+    point_t rdcp = init_point(points.cp.x, points.cp.y, points.cp.z, 1);
+
     if ((rc = move_figure(points, dcp)))
         return rc;
 

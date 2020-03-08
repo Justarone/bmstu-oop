@@ -27,7 +27,7 @@ err_t move_command(figure_t &main_figure, const char code, const double &value)
             return DATA_ERROR;
     }
 
-    point_t dp = { .x = dx, .y = dy, .z = dz, .w = 1 };
+    point_t dp = init_point(dx, dy, dz, 1);
     err_t rc = move_figure(main_figure.points, dp);
     return rc;
 }
@@ -58,7 +58,7 @@ err_t rotate_command(figure_t &main_figure, const char code, const double &value
             break;
     }
 
-    point_t ap = { .x = ax, .y = ay, .z = az, .w = 1 };
+    point_t ap = init_point(ax, ay, az, 1);
 
     err_t rc = rotate_figure(main_figure.points, ap);
     return rc;

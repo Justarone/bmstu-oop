@@ -6,6 +6,11 @@ using namespace std;
 // find center of figure.
 static err_t find_center(parr_t &points)
 {
+    points.cp.x = 0;
+    points.cp.y = 0;
+    points.cp.z = 0;
+    points.cp.w = 0;
+
     if (points.size <= 0)
         return DATA_ERROR;
 
@@ -19,6 +24,7 @@ static err_t find_center(parr_t &points)
     points.cp.x /= points.size;
     points.cp.y /= points.size;
     points.cp.z /= points.size;
+    points.cp.w = 1;
     return OK;
 }
 
@@ -26,10 +32,16 @@ static err_t find_center(parr_t &points)
 void destroy_figure(figure_t &main_figure)
 {
     if (main_figure.points.arr != NULL)
+    {
         free(main_figure.points.arr);
+        main_figure.points.arr = NULL;
+    }
 
     if (main_figure.links.arr != NULL)
+    {
         free(main_figure.links.arr);
+        main_figure.links.arr = NULL;
+    }
 }
 
 

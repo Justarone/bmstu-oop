@@ -9,5 +9,6 @@
 
 #include <gtkmm.h>
 #include <iostream>
+#include <cstdio>
 
 #endif

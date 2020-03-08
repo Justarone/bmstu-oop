@@ -52,4 +52,10 @@ typedef struct event
     event_data_t data;
 } event_t;
 
+event_t init_event(const char command, const char code, Gtk::DrawingArea *const area,
+                   double *const value);
+figure_t init_figure(point_t *const parr, const unsigned int psize, link_t *const larr, 
+                     const unsigned int lsize);
+point_t init_point(const double x, const double y, const double z, const double w);
+
 #endif
