@@ -21,14 +21,12 @@ class myApplication
     protected:
         Gtk::Window *main_window;
         Gtk::DrawingArea *drawing_area;
-        //Cairo::RefPtr<Cairo::Context> main_context;
         Gtk::Button *move_btns[MOVE_SIZE];
         Gtk::Button *scale_btns[SCALE_SIZE];
         Gtk::Button *rotate_btns[ROTATE_SIZE];
         Gtk::Entry *entry_arr[ENTRY_SIZE];
 
         err_t read_entry(Gtk::Entry &entry, double &value);
-        //bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
         void on_button_clicked(const char command, const char code);
 };
 

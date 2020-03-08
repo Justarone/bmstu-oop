@@ -23,7 +23,7 @@ static err_t find_center(parr_t &points)
 }
 
 
-void destroy_parr(figure_t &main_figure)
+void destroy_figure(figure_t &main_figure)
 {
     if (main_figure.points.arr != NULL)
         free(main_figure.points.arr);
@@ -79,7 +79,9 @@ static err_t read_links(FILE *const f, larr_t &links_array, const unsigned int m
 
 err_t read_from_file(figure_t &main_figure, const char *const filename)
 {
+    err_t rc = OK;
     FILE *f = fopen(filename, "r");
+
     if (!f)
         return FILE_ERROR;
 
@@ -89,22 +91,25 @@ err_t read_from_file(figure_t &main_figure, const char *const filename)
     main_figure.points.arr = static_cast<point_t *>(calloc(main_figure.points.size,
                                                            sizeof(point_t)));
     if (!main_figure.points.arr)
+    {
         goto error_with_alloc;
+        rc = ALLOCATION_ERROR;
+    }
     
-    if (read_points(f, main_figure.points))
+    if ((rc = read_points(f, main_figure.points)))
         goto error_with_alloc;
 
-    if (find_center(main_figure.points))
+    if ((rc = find_center(main_figure.points)))
         goto error_with_alloc;
 
-    if (read_links(f, main_figure.links, main_figure.points.size - 1))
+    if ((rc = read_links(f, main_figure.links, main_figure.points.size - 1)))
         goto error_with_alloc;
 
     fclose(f);
-    return OK;
+    return rc;
 
 error_with_alloc:
-    destroy_parr(main_figure);
-    return ALLOCATION_ERROR;
+    destroy_figure(main_figure);
+    return rc;
 }
 

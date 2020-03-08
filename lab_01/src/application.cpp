@@ -25,12 +25,7 @@ myApplication::myApplication(const char* const filename)
     main_window->override_background_color(color);
 
     builder->get_widget("drawing_area", drawing_area);
-    //drawing_area->signal_draw().connect(sigc::mem_fun(*this, &myApplication::on_draw));
 
-    //main_context = drawing_area->get_window()->create_cairo_context();
-    //main_context->set_source_rgb(1.0, 0.0, 0.0);
-    //main_context->set_line_width(2.0);
-    
     for (int i = 0; i < MOVE_SIZE; i++)
     {
         builder->get_widget(MOVE_NAMES[i], move_btns[i]);
@@ -75,10 +70,21 @@ void myApplication::on_button_clicked(const char command, const char code)
         if (read_entry(*entry_arr[i], value[i]))
             return;
 
-    event_t event = { .command = command, .code = code };
-    task_manager(event, value);
-    //drawing_area->queue_draw();
-    my_draw(drawing_area, get_figure());
+    event_data_t event_data = { .area = drawing_area, .value = value };
+    event_t click_event = { .command = command, .code = code, .data = event_data };
+    err_t rc = task_manager(click_event);
+
+    if (rc)
+    {
+        event_t error_event = { .command = QUIT, .code = NO_CODE, .data = event_data };
+        task_manager(error_event);
+        exit(rc);
+    }
+    else
+    {
+        event_t draw_event = { .command = DRAW, .code = NO_CODE, .data = event_data };
+        task_manager(draw_event);
+    }
 }
 
 Gtk::Window * myApplication::get_window()
@@ -102,6 +108,8 @@ err_t myApplication::read_entry(Gtk::Entry &entry, double &value)
 }
 
 
+// call this callback with drawing_area->queue_draw()
+// connect: drawing_area->signal_draw().connect(sigc::mem_fun(*this, &myApplication::on_draw));
 //bool myApplication::on_draw(Cairo::RefPtr<Cairo::Context> const& cr)
 //{
     //const figure_t figure = get_figure();
@@ -120,24 +128,3 @@ err_t myApplication::read_entry(Gtk::Entry &entry, double &value)
     //return true;
 //}
 
-
-//void my_draw(Cairo::RefPtr<Cairo::Context> cr, const figure_t &figure)
-//{
-void my_draw(Gtk::DrawingArea *da, const figure_t &figure)
-{
-    Cairo::RefPtr<Cairo::Context> cr = da->get_window()->create_cairo_context();
-    cr->set_source_rgb(0., 0., 0.);
-    cr->paint();
-    cr->set_source_rgb(1., .5, 1.);
-    cr->set_line_width(2);
-
-    for (unsigned int i = 0; i < figure.links.size; i++)
-    {
-        cr->move_to(figure.points.arr[figure.links.arr[i].l1].x,
-                figure.points.arr[figure.links.arr[i].l1].y);
-        cr->line_to(figure.points.arr[figure.links.arr[i].l2].x,
-                figure.points.arr[figure.links.arr[i].l2].y);
-    }
-
-    cr->stroke();
-}

@@ -1,8 +1,8 @@
 #ifndef _FIGURE_HANDLERS_H_
 #define _FIGURE_HANDLERS_H_
 
-#include "structs.h"
 #include "constants.h"
+#include "structs.h"
 #include <cmath>
 #include <limits>
 

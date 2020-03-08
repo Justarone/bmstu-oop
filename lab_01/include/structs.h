@@ -1,6 +1,9 @@
 #ifndef _STRUCTS_H_
 #define _STRUCTS_H_
 
+#include <cstdlib>
+#include <gtkmm.h>
+
 typedef struct point
 {
     double x;
@@ -17,15 +20,15 @@ typedef struct link
 
 typedef struct points_array
 {
-    point_t *arr; // points[N][4] - array with points.
-    unsigned int size; // number of points.
-    point_t cp; // center point.
+    point_t *arr;
+    unsigned int size;
+    point_t cp;
 } parr_t;
 
 typedef struct links_array
 {
-    link_t *arr; // links[lsize][2]; N - number of links.
-    unsigned int size; // number of links.
+    link_t *arr;
+    unsigned int size;
 } larr_t;
 
 typedef struct figure
@@ -34,16 +37,19 @@ typedef struct figure
     larr_t links;
 } figure_t;
 
+typedef struct event_data
+{
+    Gtk::DrawingArea *area;
+    double *value;
+} event_data_t;
+
+// command = MOVE, ROTATE, SCALE, DRAW, LOAD_DATA and etc.
+// code = MOVE_UP, MOVE_DOWN and etc. (not every command use code (by default code = 0)).
 typedef struct event
 {
     char command;
     char code;
+    event_data_t data;
 } event_t;
-
-typedef struct double_array
-{
-    double *array;
-    unsigned int size;
-} darr_t;
 
 #endif

@@ -1,41 +1,34 @@
 #include "../include/task_manager.h"
 
-static figure_t main_figure = {};
 
-const figure_t &get_figure()
+err_t task_manager(const event_t &event)
 {
-    return main_figure;
-}
+    err_t rc = OK;
+    static figure_t main_figure = { { NULL, 0 }, { NULL, 0 } };
 
-err_t task_manager(const event_t &event, const double *value)
-{
-    static bool data_loaded = false;
-    if (!data_loaded)
-    {
-        read_from_file(main_figure, POINTS_FILE);
-        data_loaded = true;
-    }
     switch (event.command)
     {
+        case LOAD_DATA:
+            rc = read_from_file(main_figure, POINTS_FILE);
+            break;
         case MOVE:
-            if (move_command(main_figure, event.code, value[MOVE]))
-                return MOVE_ERROR;
+            rc = move_command(main_figure, event.code, event.data.value[MOVE]);
             break;
-
         case SCALE:
-            if (scale_command(main_figure, event.code, value[SCALE]))
-                return SCALE_ERROR;
+            rc = scale_command(main_figure, event.code, event.data.value[SCALE]);
             break;
-
         case ROTATE:
-            if (rotate_command(main_figure, event.code, value[ROTATE]))
-                return ROTATE_ERROR;
+            rc = rotate_command(main_figure, event.code, event.data.value[ROTATE]);
             break;
-
+        case DRAW:
+            rc = draw_figure(event.data.area, main_figure);
+            break;
+        case QUIT:
+            destroy_figure(main_figure);
+            break;
         default:
-            // Error state.
-            return STATE_ERROR;
+            rc = COMMAND_ERROR;
     }
-    return OK;
+    return rc;
 }
 

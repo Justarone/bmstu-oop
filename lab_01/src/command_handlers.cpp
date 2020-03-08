@@ -28,10 +28,8 @@ err_t move_command(figure_t &main_figure, const char code, const double &value)
     }
 
     point_t dp = { .x = dx, .y = dy, .z = dz, .w = 1 };
-    if (move_figure(main_figure.points, dp))
-        return MOVE_ERROR;
-
-    return OK;
+    err_t rc = move_figure(main_figure.points, dp);
+    return rc;
 }
 
 
@@ -62,9 +60,8 @@ err_t rotate_command(figure_t &main_figure, const char code, const double &value
 
     point_t ap = { .x = ax, .y = ay, .z = az, .w = 1 };
 
-    if (rotate_figure(main_figure.points, ap))
-        return ROTATE_ERROR;
-    return OK;
+    err_t rc = rotate_figure(main_figure.points, ap);
+    return rc;
 }
 
 err_t scale_command(figure_t &main_figure, const char code, const double &value)
@@ -83,7 +80,6 @@ err_t scale_command(figure_t &main_figure, const char code, const double &value)
             break;
     }
 
-    if (scale_figure(main_figure.points, scale_factor))
-        return SCALE_ERROR;
-    return OK;
+    err_t rc = scale_figure(main_figure.points, scale_factor);
+    return rc;
 }
