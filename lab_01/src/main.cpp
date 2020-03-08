@@ -8,6 +8,7 @@
 
 int main(int argc, char *argv[])
 {
+    setbuf(stdout, NULL);
     auto app = Gtk::Application::create(argc, argv);
     myApplication application(FILENAME);  
     return app->run(*application.get_window());

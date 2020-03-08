@@ -1,4 +1,5 @@
 #include "../include/application.h"
+#include <iostream>
 
 static const char *MOVE_NAMES[] = { "move_up", "move_down", "move_right",
     "move_left", "move_front", "move_back" };
@@ -6,6 +7,9 @@ static const char *SCALE_NAMES[] = { "scale_plus", "scale_minus" };
 static const char *ROTATE_NAMES[] = { "rotate_up", "rotate_down", "rotate_left", 
     "rotate_right", "rotate_rightup", "rotate_leftup" };
 static const char *ENTRY_NAMES[] = { "move_entry", "scale_entry", "rotate_entry" };
+
+
+void my_draw(Gtk::DrawingArea *da, const figure_t &figure);
 
  
 myApplication::myApplication(const char* const filename)
@@ -15,16 +19,25 @@ myApplication::myApplication(const char* const filename)
 
     builder->get_widget("main_window", main_window);
     main_window->set_title("Лабораторная №1.");
+    Gdk::RGBA color, color2;
+    color.set_rgba(0.8, 0.8, 0.8);
+    color2.set_rgba(0., 0.15, 0.3);
+    main_window->override_background_color(color);
 
     builder->get_widget("drawing_area", drawing_area);
-    drawing_area->signal_draw().connect(sigc::mem_fun(*this, &myApplication::on_draw));
+    //drawing_area->signal_draw().connect(sigc::mem_fun(*this, &myApplication::on_draw));
 
+    //main_context = drawing_area->get_window()->create_cairo_context();
+    //main_context->set_source_rgb(1.0, 0.0, 0.0);
+    //main_context->set_line_width(2.0);
     
     for (int i = 0; i < MOVE_SIZE; i++)
     {
         builder->get_widget(MOVE_NAMES[i], move_btns[i]);
         move_btns[i]->signal_clicked().connect(sigc::bind<char, char>(sigc::mem_fun(*this,
                         &myApplication::on_button_clicked), MOVE, i));
+        move_btns[i]->override_background_color(color2);
+        move_btns[i]->override_color(color);
     }
 
     for (int i = 0; i < SCALE_SIZE; i++)
@@ -32,6 +45,8 @@ myApplication::myApplication(const char* const filename)
         builder->get_widget(SCALE_NAMES[i], scale_btns[i]);
         scale_btns[i]->signal_clicked().connect(sigc::bind<char, char>(sigc::mem_fun(*this,
                         &myApplication::on_button_clicked), SCALE, i));
+        scale_btns[i]->override_background_color(color2);
+        scale_btns[i]->override_color(color);
     }
 
     for (int i = 0; i < ROTATE_SIZE; i++)
@@ -39,12 +54,16 @@ myApplication::myApplication(const char* const filename)
         builder->get_widget(ROTATE_NAMES[i], rotate_btns[i]);
         rotate_btns[i]->signal_clicked().connect(sigc::bind<char, char>(sigc::mem_fun(*this,
                         &myApplication::on_button_clicked), ROTATE, i));
+        rotate_btns[i]->override_background_color(color2);
+        rotate_btns[i]->override_color(color);
     }
 
     for (int i = 0; i < CMD_N; i++)
     {
         builder->get_widget(ENTRY_NAMES[i], entry_arr[i]);
         entry_arr[i]->get_buffer()->set_text("0");
+        entry_arr[i]->override_background_color(color2);
+        entry_arr[i]->override_color(color);
     }
 }
 
@@ -58,7 +77,8 @@ void myApplication::on_button_clicked(const char command, const char code)
 
     event_t event = { .command = command, .code = code };
     task_manager(event, value);
-    drawing_area->queue_draw();
+    //drawing_area->queue_draw();
+    my_draw(drawing_area, get_figure());
 }
 
 Gtk::Window * myApplication::get_window()
@@ -82,10 +102,33 @@ err_t myApplication::read_entry(Gtk::Entry &entry, double &value)
 }
 
 
-bool myApplication::on_draw(Cairo::RefPtr<Cairo::Context> const& cr)
+//bool myApplication::on_draw(Cairo::RefPtr<Cairo::Context> const& cr)
+//{
+    //const figure_t figure = get_figure();
+    //cr->set_source_rgb(1., .5, .0);
+    //cr->set_line_width(2);
+
+    //for (unsigned int i = 0; i < figure.links.size; i++)
+    //{
+        //cr->move_to(figure.points.arr[figure.links.arr[i].l1].x,
+                //figure.points.arr[figure.links.arr[i].l1].y);
+        //cr->line_to(figure.points.arr[figure.links.arr[i].l2].x,
+                //figure.points.arr[figure.links.arr[i].l2].y);
+    //}
+
+    //cr->stroke();
+    //return true;
+//}
+
+
+//void my_draw(Cairo::RefPtr<Cairo::Context> cr, const figure_t &figure)
+//{
+void my_draw(Gtk::DrawingArea *da, const figure_t &figure)
 {
-    const figure_t figure = get_figure();
-    cr->set_source_rgb(1., .5, .0);
+    Cairo::RefPtr<Cairo::Context> cr = da->get_window()->create_cairo_context();
+    cr->set_source_rgb(0., 0., 0.);
+    cr->paint();
+    cr->set_source_rgb(1., .5, 1.);
     cr->set_line_width(2);
 
     for (unsigned int i = 0; i < figure.links.size; i++)
@@ -97,5 +140,4 @@ bool myApplication::on_draw(Cairo::RefPtr<Cairo::Context> const& cr)
     }
 
     cr->stroke();
-    return true;
 }

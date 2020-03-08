@@ -5,8 +5,8 @@
   <object class="GtkWindow" id="main_window">
     <property name="name">main_window</property>
     <property name="can_focus">False</property>
-    <property name="default_width">1350</property>
-    <property name="default_height">1000</property>
+    <property name="default_width">1300</property>
+    <property name="default_height">900</property>
     <child>
       <placeholder/>
     </child>
@@ -49,22 +49,6 @@
                 <property name="left_attach">2</property>
                 <property name="top_attach">2</property>
                 <property name="width">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="move_left">
-                <property name="label" translatable="yes">⇐</property>
-                <property name="name">move_left</property>
-                <property name="width_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_move_left_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-                <property name="height">2</property>
               </packing>
             </child>
             <child>
@@ -136,6 +120,22 @@
                 <property name="left_attach">1</property>
                 <property name="top_attach">1</property>
                 <property name="width">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="move_left">
+                <property name="label" translatable="yes">⇐</property>
+                <property name="name">move_left</property>
+                <property name="width_request">50</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_move_left_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="height">2</property>
               </packing>
             </child>
           </object>
