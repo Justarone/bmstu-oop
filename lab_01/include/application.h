@@ -27,7 +27,7 @@ class myApplication
         Gtk::Button *rotate_btns[ROTATE_SIZE];
         Gtk::Entry *entry_arr[ENTRY_SIZE];
 
-        err_t read_entry(Gtk::Entry &entry, double &value);
+        err_t read_entry(const Gtk::Entry &entry, double &value);
         void on_button_clicked(const char command, const char code);
 };
 

@@ -9,5 +9,6 @@
 
 err_t read_from_file(figure_t &figure, const char *const filename);
 void destroy_figure(figure_t &figure); 
+void destroy_projection(fpr_t &projection);
 
 #endif

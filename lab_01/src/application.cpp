@@ -101,7 +101,7 @@ Gtk::Window * myApplication::get_window()
 }
 
 
-err_t myApplication::read_entry(Gtk::Entry &entry, double &value)
+err_t myApplication::read_entry(const Gtk::Entry &entry, double &value)
 {
     std::string str = static_cast<std::string>(entry.get_buffer()->get_text());
     try

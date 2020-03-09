@@ -28,6 +28,7 @@ err_t task_manager(const event_t &event)
             break;
         case QUIT:
             destroy_figure(main_figure);
+            destroy_projection(*event.data.projection);
             break;
         default:
             rc = COMMAND_ERROR;

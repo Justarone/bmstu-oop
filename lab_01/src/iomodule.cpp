@@ -45,6 +45,16 @@ void destroy_figure(figure_t &main_figure)
 }
 
 
+void destroy_projection(fpr_t &projection)
+{
+    if (projection.points.arr != NULL)
+    {
+        free(projection.points.arr);
+        projection.points.arr = NULL;
+    }
+}
+
+
 static err_t read_points(FILE *const f, parr_t &points_array)
 {
     for (unsigned int i = 0; i < points_array.size; i++)
