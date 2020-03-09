@@ -83,3 +83,14 @@ err_t scale_command(figure_t &main_figure, const char code, const double &value)
     err_t rc = scale_figure(main_figure.points, scale_factor);
     return rc;
 }
+
+
+err_t get_projection(fpr_t &figure_projection, const figure_t &main_figure)
+{
+    err_t rc = match_figure_project(figure_projection, main_figure);
+    if (rc)
+        return rc;
+
+    rc = read_projection(figure_projection, main_figure);
+    return rc;
+}

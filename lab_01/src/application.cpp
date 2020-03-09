@@ -65,25 +65,34 @@ myApplication::myApplication(const char* const filename)
 // command - move, scale, rotate, code - right, left, up, etc. (look app_codes.h)
 void myApplication::on_button_clicked(const char command, const char code)
 {
+    static fpr_t figure_projection = init_projection();
+
     double value[CMD_N] = {};
     for (int i = 0; i < CMD_N; i++)
         if (read_entry(*entry_arr[i], value[i]))
             return;
 
-    event_t click_event = init_event(command, code, drawing_area, value);
+    event_t click_event = init_event(command, code, drawing_area, value, &figure_projection);
+    event_t update_event = init_event(UPDATE_PROJECTION, NO_CODE, drawing_area,
+                                      value, &figure_projection);
+    event_t draw_event = init_event(DRAW, NO_CODE, drawing_area, value, &figure_projection);
+
     err_t rc = task_manager(click_event);
 
     if (rc)
-    {
-        event_t error_event = init_event(QUIT, NO_CODE, drawing_area, value);
-        task_manager(error_event);
-        exit(rc);
-    }
-    else
-    {
-        event_t draw_event = init_event(DRAW, NO_CODE, drawing_area, value);
-        task_manager(draw_event);
-    }
+        goto error_state;
+
+    if ((rc = task_manager(update_event)))
+        goto error_state;
+
+    task_manager(draw_event);
+
+    return;
+
+error_state:
+    event_t error_event = init_event(QUIT, NO_CODE, drawing_area, value, &figure_projection);
+    task_manager(error_event);
+    exit(rc);
 }
 
 Gtk::Window * myApplication::get_window()

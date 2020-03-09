@@ -37,10 +37,28 @@ typedef struct figure
     larr_t links;
 } figure_t;
 
+typedef struct projection_point
+{
+    double x, y;
+} ppoint_t;
+
+typedef struct projection_points_array
+{
+    ppoint_t *arr;
+    unsigned int size;
+} pparr_t;
+
+typedef struct figure_projection
+{
+    pparr_t points;
+    larr_t links;
+} fpr_t;
+
 typedef struct event_data
 {
     Gtk::DrawingArea *area;
     double *value;
+    fpr_t *projection;
 } event_data_t;
 
 // command = MOVE, ROTATE, SCALE, DRAW, LOAD_DATA and etc.
@@ -52,10 +70,14 @@ typedef struct event
     event_data_t data;
 } event_t;
 
-event_t init_event(const char command, const char code, Gtk::DrawingArea *const area,
-                   double *const value);
-figure_t init_figure(point_t *const parr, const unsigned int psize, link_t *const larr, 
-                     const unsigned int lsize);
-point_t init_point(const double x, const double y, const double z, const double w);
+event_t init_event(const char command = 0, const char code = 0,
+                   Gtk::DrawingArea *const area = NULL, double *const value = NULL,
+                   fpr_t *const projection = NULL);
+figure_t init_figure(point_t *const parr = NULL, const unsigned int psize = 0,
+        link_t *const larr = NULL, const unsigned int lsize = 0);
+point_t init_point(const double x = 0, const double y = 0, const double z = 0, const double w = 1);
+ppoint_t init_proj_point(const double x = 0, const double y = 0);
+fpr_t init_projection(ppoint_t *const parr = NULL, const unsigned int psize = 0,
+        link_t *const larr = NULL, const unsigned int lsize = 0);
 
 #endif

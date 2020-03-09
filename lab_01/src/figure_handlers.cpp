@@ -23,6 +23,15 @@ static err_t transform_figure(parr_t &points, const double conversion_matrix[4][
 }
 
 
+static err_t point_to_proj(ppoint_t &projection, const point_t &point)
+{
+    err_t rc = OK;
+    projection.x = point.x;
+    projection.y = point.y;
+    return rc;
+}
+
+
 err_t move_figure(parr_t &points, const point_t &dp) // dp - delta point.
 {
     double conversion_matrix[4][4] = { { 1., 0., 0., 0. },
@@ -113,4 +122,35 @@ err_t rotate_figure(parr_t &points, const point_t &ap)
         return rc;
 
     return OK;
+}
+
+err_t match_figure_project(fpr_t &figure_projection, const figure_t &main_figure)
+{
+    figure_projection.links.arr = main_figure.links.arr;
+    figure_projection.links.size = main_figure.links.size;
+
+    if (figure_projection.points.size != main_figure.points.size)
+    {
+        ppoint_t *tmp = static_cast<ppoint_t *>(realloc(figure_projection.points.arr,
+                                                     sizeof(point_t) * main_figure.points.size));
+        if (!tmp)
+            return ALLOCATION_ERROR;
+
+        figure_projection.points.arr = tmp;
+        figure_projection.points.size = main_figure.points.size;
+    }
+    
+    return OK;
+}
+
+err_t read_projection(fpr_t &figure_projection, const figure_t &main_figure)
+{
+    err_t rc = OK;
+
+    for (unsigned int i = 0; i < main_figure.points.size; i++)
+    {
+        if ((rc = point_to_proj(figure_projection.points.arr[i], main_figure.points.arr[i])))
+            return rc;
+    }
+    return rc;
 }

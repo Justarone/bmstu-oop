@@ -15,7 +15,7 @@ enum { ROTATE_UP = 0, ROTATE_DOWN, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_RIGHTUP, RO
 
 
 // Non-conversion commands (first index one value bigger than last elem's in command codes enum).
-enum { LOAD_DATA = ROTATE + 1, DRAW, QUIT };
+enum { LOAD_DATA = ROTATE + 1, UPDATE_PROJECTION, DRAW, QUIT };
 #define NO_CODE 0
 
 #endif

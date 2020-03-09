@@ -4,7 +4,7 @@
 err_t task_manager(const event_t &event)
 {
     err_t rc = OK;
-    static figure_t main_figure = init_figure(NULL, 0, NULL, 0);
+    static figure_t main_figure = init_figure();
 
     switch (event.command)
     {
@@ -20,8 +20,11 @@ err_t task_manager(const event_t &event)
         case ROTATE:
             rc = rotate_command(main_figure, event.code, event.data.value[ROTATE]);
             break;
+        case UPDATE_PROJECTION:
+            rc = get_projection(*event.data.projection, main_figure);
+            break;
         case DRAW:
-            rc = draw_figure(event.data.area, main_figure);
+            rc = draw_figure(event.data.area, *event.data.projection);
             break;
         case QUIT:
             destroy_figure(main_figure);

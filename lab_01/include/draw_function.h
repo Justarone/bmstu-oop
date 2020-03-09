@@ -5,6 +5,6 @@
 #include "structs.h"
 #include "constants.h"
 
-err_t draw_figure(Gtk::DrawingArea *da, const figure_t &figure);
+err_t draw_figure(Gtk::DrawingArea *da, const fpr_t &figure);
 
 #endif
