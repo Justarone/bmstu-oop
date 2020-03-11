@@ -1,21 +1,4 @@
-#include "../include/structs.h"
-
-event_t init_event(const char command, const char code, Gtk::DrawingArea *const area,
-        double *const value, fpr_t *const projection)
-{
-    event_data_t data;
-    data.area = area;
-    data.value = value;
-
-    event_t event;
-    event.command = command;
-    event.code = code;
-    event.data = data;
-
-    event.data.projection = projection;
-
-    return event;
-}
+#include "../include/points_structs.h"
 
 figure_t init_figure(point_t *const parr, const unsigned int psize, link_t *const larr,
         const unsigned int lsize)

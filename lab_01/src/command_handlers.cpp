@@ -91,6 +91,6 @@ err_t get_projection(fpr_t &figure_projection, const figure_t &main_figure)
     if (rc)
         return rc;
 
-    rc = read_projection(figure_projection, main_figure);
+    rc = read_projection(figure_projection.points, main_figure.points);
     return rc;
 }

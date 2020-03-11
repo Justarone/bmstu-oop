@@ -1,8 +1,8 @@
 #ifndef _IOMODULE_H_
 #define _IOMODULE_H_
 
-#include "../include/constants.h"
-#include "../include/structs.h"
+#include "constants.h"
+#include "points_structs.h"
 
 #include <cstdio>
 #include <cstdlib>

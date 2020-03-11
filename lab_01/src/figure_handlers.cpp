@@ -3,20 +3,21 @@
 static err_t transform_figure(parr_t &points, const double conversion_matrix[4][4])
 {
     double tmp[4];
+    point_t *const &points_array = points.arr;
     for (unsigned int i = 0; i < points.size; i++)
     {
         for (int j = 0; j < 4; j++)
         {
             tmp[j] = 0;
-            tmp[j] += points.arr[i].x * conversion_matrix[0][j] +
-                points.arr[i].y * conversion_matrix[1][j] + 
-                points.arr[i].z * conversion_matrix[2][j] +
-                points.arr[i].w * conversion_matrix[3][j];
+            tmp[j] += points_array[i].x * conversion_matrix[0][j] +
+                points_array[i].y * conversion_matrix[1][j] + 
+                points_array[i].z * conversion_matrix[2][j] +
+                points_array[i].w * conversion_matrix[3][j];
         } 
-        points.arr[i].x = tmp[0];
-        points.arr[i].y = tmp[1];
-        points.arr[i].z = tmp[2];
-        points.arr[i].w = tmp[3];
+        points_array[i].x = tmp[0];
+        points_array[i].y = tmp[1];
+        points_array[i].z = tmp[2];
+        points_array[i].w = tmp[3];
     }
 
     return OK;
@@ -43,9 +44,10 @@ err_t move_figure(parr_t &points, const point_t &dp) // dp - delta point.
     if ((rc = transform_figure(points, conversion_matrix)))
         return rc;
 
-    points.cp.x += dp.x;
-    points.cp.y += dp.y;
-    points.cp.z += dp.z;
+    point_t &center = points.cp;
+    center.x += dp.x;
+    center.y += dp.y;
+    center.z += dp.z;
 
     return OK;
 }
@@ -56,8 +58,9 @@ err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
     if (sf == 0)
         return DATA_ERROR;
 
-    point_t dcp = init_point(-points.cp.x, -points.cp.y, -points.cp.z, 1);
-    point_t rdcp = init_point(points.cp.x, points.cp.y, points.cp.z, 1);
+    point_t center = points.cp;
+    point_t dcp = init_point(-center.x, -center.y, -center.z, 1);
+    point_t rdcp = init_point(center.x, center.y, center.z, 1);
     err_t rc = OK;
 
     if ((rc = move_figure(points, dcp)))
@@ -82,8 +85,9 @@ err_t rotate_figure(parr_t &points, const point_t &ap)
 {
     err_t rc = OK;
 
-    point_t dcp = init_point(-points.cp.x, -points.cp.y, -points.cp.z, 1);
-    point_t rdcp = init_point(points.cp.x, points.cp.y, points.cp.z, 1);
+    point_t center = points.cp;
+    point_t dcp = init_point(-center.x, -center.y, -center.z, 1);
+    point_t rdcp = init_point(center.x, center.y, center.z, 1);
 
     if ((rc = move_figure(points, dcp)))
         return rc;
@@ -124,32 +128,40 @@ err_t rotate_figure(parr_t &points, const point_t &ap)
     return OK;
 }
 
-err_t match_figure_project(fpr_t &figure_projection, const figure_t &main_figure)
-{
-    figure_projection.links.arr = main_figure.links.arr;
-    figure_projection.links.size = main_figure.links.size;
 
-    if (figure_projection.points.size != main_figure.points.size)
+static err_t match_points(pparr_t &prj_points, const parr_t &fgr_points)
+{
+    if (prj_points.size != fgr_points.size)
     {
-        ppoint_t *tmp = static_cast<ppoint_t *>(realloc(figure_projection.points.arr,
-                                                     sizeof(point_t) * main_figure.points.size));
+        ppoint_t *tmp = static_cast<ppoint_t *>(realloc(prj_points.arr,
+                                                     sizeof(point_t) * fgr_points.size));
         if (!tmp)
             return ALLOCATION_ERROR;
 
-        figure_projection.points.arr = tmp;
-        figure_projection.points.size = main_figure.points.size;
+        prj_points.arr = tmp;
+        prj_points.size = fgr_points.size;
     }
-    
     return OK;
 }
 
-err_t read_projection(fpr_t &figure_projection, const figure_t &main_figure)
+
+err_t match_figure_project(fpr_t &figure_projection, const figure_t &main_figure)
+{
+    figure_projection.links = main_figure.links;
+
+    err_t rc = OK;
+    rc = match_points(figure_projection.points, main_figure.points);
+    return rc;
+}
+
+
+err_t read_projection(pparr_t &prj_points, const parr_t &main_points)
 {
     err_t rc = OK;
 
-    for (unsigned int i = 0; i < main_figure.points.size; i++)
+    for (unsigned int i = 0; i < main_points.size; i++)
     {
-        if ((rc = point_to_proj(figure_projection.points.arr[i], main_figure.points.arr[i])))
+        if ((rc = point_to_proj(prj_points.arr[i], main_points.arr[i])))
             return rc;
     }
     return rc;

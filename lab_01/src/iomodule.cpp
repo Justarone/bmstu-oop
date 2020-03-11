@@ -6,52 +6,66 @@ using namespace std;
 // find center of figure.
 static err_t find_center(parr_t &points)
 {
-    points.cp.x = 0;
-    points.cp.y = 0;
-    points.cp.z = 0;
-    points.cp.w = 0;
+    point_t &center = points.cp;
+    center = init_point(0, 0, 0, 0);
 
     if (points.size <= 0)
         return DATA_ERROR;
 
+    const point_t *const &points_array = points.arr;
     for (unsigned int i = 0; i < points.size; i++)
     {
-        points.cp.x += points.arr[i].x;
-        points.cp.y += points.arr[i].y;
-        points.cp.z += points.arr[i].z;
+        center.x += points_array[i].x;
+        center.y += points_array[i].y;
+        center.z += points_array[i].z;
     }
 
-    points.cp.x /= points.size;
-    points.cp.y /= points.size;
-    points.cp.z /= points.size;
-    points.cp.w = 1;
+    center.x /= points.size;
+    center.y /= points.size;
+    center.z /= points.size;
+    center.w = 1;
     return OK;
+}
+
+
+static void destroy_points(parr_t &points)
+{
+    if (points.arr != NULL)
+    {
+        free(points.arr);
+        points.arr = NULL;
+    }
+}
+
+static void destroy_links(larr_t &links)
+{
+    if (links.arr != NULL)
+    {
+        free(links.arr);
+        links.arr = NULL;
+    }
+}
+
+static void destroy_ppoints(pparr_t &points)
+{
+    if (points.arr != NULL)
+    {
+        free(points.arr);
+        points.arr = NULL;
+    }
 }
 
 
 void destroy_figure(figure_t &main_figure)
 {
-    if (main_figure.points.arr != NULL)
-    {
-        free(main_figure.points.arr);
-        main_figure.points.arr = NULL;
-    }
-
-    if (main_figure.links.arr != NULL)
-    {
-        free(main_figure.links.arr);
-        main_figure.links.arr = NULL;
-    }
+    destroy_points(main_figure.points);
+    destroy_links(main_figure.links);
 }
 
 
 void destroy_projection(fpr_t &projection)
 {
-    if (projection.points.arr != NULL)
-    {
-        free(projection.points.arr);
-        projection.points.arr = NULL;
-    }
+    destroy_ppoints(projection.points);
 }
 
 
@@ -107,24 +121,26 @@ err_t read_from_file(figure_t &main_figure, const char *const filename)
     if (!f)
         return FILE_ERROR;
 
-    if (fscanf(f, "%u", &main_figure.points.size) != READED)
+    parr_t &points = main_figure.points;
+    larr_t &links = main_figure.links;
+
+    if (fscanf(f, "%u", &points.size) != READED)
         return READ_ERROR;
 
-    main_figure.points.arr = static_cast<point_t *>(calloc(main_figure.points.size,
-                                                           sizeof(point_t)));
-    if (!main_figure.points.arr)
+    points.arr = static_cast<point_t *>(calloc(points.size, sizeof(point_t)));
+    if (!points.arr)
     {
         goto error_with_alloc;
         rc = ALLOCATION_ERROR;
     }
     
-    if ((rc = read_points(f, main_figure.points)))
+    if ((rc = read_points(f, points)))
         goto error_with_alloc;
 
-    if ((rc = find_center(main_figure.points)))
+    if ((rc = find_center(points)))
         goto error_with_alloc;
 
-    if ((rc = read_links(f, main_figure.links, main_figure.points.size - 1)))
+    if ((rc = read_links(f, links, points.size - 1)))
         goto error_with_alloc;
 
     fclose(f);
