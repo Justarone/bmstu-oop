@@ -15,7 +15,7 @@ static err_t allocate_link(larr_t &links_array)
 static err_t add_link(larr_t &links_array, const unsigned int l1, const unsigned int l2)
 {
     err_t rc = allocate_link(links_array);
-    if (!rc)
+    if (rc)
         return rc;
     links_array.arr[links_array.size].l1 = l1;
     links_array.arr[links_array.size].l2 = l2;

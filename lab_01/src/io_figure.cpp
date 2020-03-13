@@ -42,12 +42,6 @@ err_t read_from_file(figure_t &main_figure, const char *const filename)
         return rc;
     }
 
-    if ((rc = find_center(points)))
-    {
-        destroy_figure(main_figure);
-        return rc;
-    }
-
     if ((rc = read_links(f, links, points.size - 1)))
     {
         destroy_figure(main_figure);
@@ -55,5 +49,12 @@ err_t read_from_file(figure_t &main_figure, const char *const filename)
     }
 
     fclose(f);
+
+    if ((rc = find_center(points)))
+    {
+        destroy_figure(main_figure);
+        return rc;
+    }
+
     return rc;
 }
