@@ -1,7 +1,7 @@
 #ifndef _FIGURE_H_
 #define _FIGURE_H_
 
-#include "links.h"
+#include "links_arr.h"
 #include "points_arr.h"
 
 struct figure_projection

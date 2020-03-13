@@ -20,4 +20,7 @@ struct projection_points_array
 };
 using pparr_t = struct projection_points_array;
 
+parr_t init_points_arr(point_t *const arr = NULL, const unsigned int size = 0);
+pparr_t init_proj_points_arr(ppoint_t *const arr = NULL, const unsigned int size = 0);
+
 #endif

@@ -1,7 +1,7 @@
 #ifndef _IO_LINKS_H_
 #define _IO_LINKS_H_
 
-#include "links.h"
+#include "links_arr.h"
 #include "constants.h"
 
 #include <cstdlib>

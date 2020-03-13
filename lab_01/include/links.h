@@ -8,11 +8,6 @@ struct link
 };
 using link_t = struct link;
 
-struct links_array
-{
-    link_t *arr;
-    unsigned int size;
-};
-using larr_t = struct links_array;
+link_t init_link(const unsigned int l1 = 0, const unsigned int l2 = 0);
 
 #endif
