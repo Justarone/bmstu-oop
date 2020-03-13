@@ -3,13 +3,14 @@
 
 #include "app_codes.h"
 #include "constants.h"
-#include "iomodule.h"
-#include "points_structs.h"
+#include "io_figure.h"
+#include "figure.h"
 #include "command_handlers.h"
 #include "draw_function.h"
 
 struct event_data
 {
+    const char *filename;
     Gtk::DrawingArea *area;
     double *value;
     fpr_t *projection;
@@ -22,13 +23,12 @@ struct event
 {
     char command;
     char code;
-    event_data_t data;
 };
 using event_t = struct event;
 
-err_t task_manager(const event_t &event);
-event_t init_event(const char command = 0, const char code = 0,
-                   Gtk::DrawingArea *const area = NULL, double *const value = NULL,
-                   fpr_t *const projection = NULL);
+err_t task_manager(const event_t &event, event_data_t &data);
+event_t init_event(const char command = 0, const char code = 0);
+event_data_t init_data(const char *const filename=NULL, Gtk::DrawingArea *const area=NULL,
+        double *const value=NULL, fpr_t *const projection=NULL);
 
 #endif

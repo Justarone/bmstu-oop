@@ -2,7 +2,7 @@
 #define _FIGURE_HANDLERS_H_
 
 #include "constants.h"
-#include "points_structs.h"
+#include "figure.h"
 
 #include <cstdio>
 #include <limits>

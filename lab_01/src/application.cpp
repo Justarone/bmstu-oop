@@ -72,27 +72,30 @@ void myApplication::on_button_clicked(const char command, const char code)
         if (read_entry(*entry_arr[i], value[i]))
             return;
 
-    event_t click_event = init_event(command, code, drawing_area, value, &figure_projection);
-    event_t update_event = init_event(UPDATE_PROJECTION, NO_CODE, drawing_area,
-                                      value, &figure_projection);
-    event_t draw_event = init_event(DRAW, NO_CODE, drawing_area, value, &figure_projection);
+    event_t click_event = init_event(command, code);
+    event_t update_event = init_event(UPDATE_PROJECTION, NO_CODE);
+    event_t draw_event = init_event(DRAW, NO_CODE);
+    event_t error_event = init_event(QUIT, NO_CODE);
 
-    err_t rc = task_manager(click_event);
+    event_data_t click_data = init_data(NULL, drawing_area, value, &figure_projection);
+
+    err_t rc = task_manager(click_event, click_data);
 
     if (rc)
-        goto error_state;
+    {
+        task_manager(error_event, click_data);
+        exit(rc);
+    }
 
-    if ((rc = task_manager(update_event)))
-        goto error_state;
+    if ((rc = task_manager(update_event, click_data)))
+    {
+        task_manager(error_event, click_data);
+        exit(rc);
+    }
 
-    task_manager(draw_event);
+    task_manager(draw_event, click_data);
 
     return;
-
-error_state:
-    event_t error_event = init_event(QUIT, NO_CODE, drawing_area, value, &figure_projection);
-    task_manager(error_event);
-    exit(rc);
 }
 
 Gtk::Window * myApplication::get_window()

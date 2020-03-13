@@ -2,7 +2,9 @@
 #define _IOMODULE_H_
 
 #include "constants.h"
-#include "points_structs.h"
+#include "figure.h"
+#include "io_links.h"
+#include "io_points.h"
 
 #include <cstdio>
 #include <cstdlib>

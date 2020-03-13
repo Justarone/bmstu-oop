@@ -2,10 +2,10 @@
 
 #include "constants.h"
 #include "task_manager.h"
-#include "points_structs.h"
+#include "figure.h"
 #include "application.h"
 #include "app_codes.h"
-#include "iomodule.h"
+#include "io_figure.h"
 
 #include <gtkmm.h>
 #include <iostream>

@@ -4,10 +4,10 @@
 #include <iostream>
 #include <gtkmm.h>
 
-#include "points_structs.h"
+#include "figure.h"
 #include "constants.h"
 #include "app_codes.h"
-#include "iomodule.h"
+#include "io_figure.h"
 #include "task_manager.h"
 
 // Button groups' sizes.
