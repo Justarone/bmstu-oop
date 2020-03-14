@@ -8,12 +8,39 @@
 #include "command_handlers.h"
 #include "draw_function.h"
 
+struct load_data
+{
+    const char* filename;
+};
+using load_data_t = struct load_data;
+
+
+struct draw_data
+{
+    Gtk::DrawingArea *area;
+};
+using draw_data_t = struct draw_data;
+
+
+struct transform_data
+{
+    double *value;
+};
+using trans_data_t = struct transform_data;
+
+
+struct projection_data
+{
+    fpr_t *projection;
+};
+using prj_data_t = projection_data;
+
 struct event_data
 {
-    const char *filename;
-    Gtk::DrawingArea *area;
-    double *value;
-    fpr_t *projection;
+    load_data_t load_data;
+    draw_data_t draw_data;
+    trans_data_t trans_data;
+    prj_data_t prj_data;
 };
 using event_data_t = struct event_data;
 

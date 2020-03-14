@@ -9,10 +9,10 @@ err_t task_manager(const event_t &event, event_data_t &data)
     switch (event.command)
     {
         case LOAD_DATA:
-            rc = read_from_file(main_figure, data.filename);
+            rc = read_from_file(main_figure, data.load_data);
             break;
         case MOVE:
-            rc = move_command(main_figure, event.code, data.value[MOVE]);
+            rc = move_command(main_figure, event.code, data.trans_data);
             break;
         case SCALE:
             rc = scale_command(main_figure, event.code, data.value[SCALE]);
@@ -51,10 +51,10 @@ event_data_t init_data(const char *const filename, Gtk::DrawingArea *const area,
 {
     event_data_t data;
 
-    data.filename = filename;
-    data.area = area;
-    data.value = value;
-    data.projection = projection;
+    data.load_data = init_load_data(filename);
+    data.draw_data = init_draw_data(area);
+    data.trans_data = init_trans_data(value);
+    data.prj_data = init_prj_data(projection);
 
     return data;
 }
