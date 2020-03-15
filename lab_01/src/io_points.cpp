@@ -4,7 +4,7 @@
 err_t find_center(parr_t &points)
 {
     point_t &center = points.cp;
-    center = init_point(0, 0, 0, 0);
+    center = init_point(0, 0, 0);
 
     if (points.size <= 0)
         return DATA_ERROR;
@@ -20,7 +20,6 @@ err_t find_center(parr_t &points)
     center.x /= points.size;
     center.y /= points.size;
     center.z /= points.size;
-    center.w = 1;
     return OK;
 }
 
@@ -40,7 +39,6 @@ err_t read_points(FILE *const f, parr_t &points_array)
         if (fscanf(f, "%lf%lf%lf", &points_array.arr[i].x, &points_array.arr[i].y,
                     &points_array.arr[i].z) != 3 * READED)
             return READ_ERROR;
-        points_array.arr[i].w = 1;
     }
 
     return OK;

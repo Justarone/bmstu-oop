@@ -68,7 +68,7 @@ void myApplication::on_button_clicked(const char command, const char code)
     static fpr_t figure_projection = init_projection();
 
     double value = 0;
-    if (read_entry(*entry_arr[static_cast<int>(command)], value))
+    if (read_entry(value, *entry_arr[static_cast<int>(command)]))
     {
         printf("Can't read entry.");
         return;
@@ -114,7 +114,7 @@ Gtk::Window * myApplication::get_window()
 }
 
 
-err_t myApplication::read_entry(const Gtk::Entry &entry, double &value)
+err_t myApplication::read_entry(double &value, const Gtk::Entry &entry)
 {
     std::string str = static_cast<std::string>(entry.get_buffer()->get_text());
     try

@@ -4,6 +4,7 @@
 #include "app_codes.h"
 #include "constants.h"
 #include "transform_figure.h"
+#include "projection_funcs.h"
 #include "draw_function.h"
 #include "io_figure.h"
 #include "event_data.h"
