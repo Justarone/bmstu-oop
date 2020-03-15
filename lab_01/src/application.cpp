@@ -67,35 +67,45 @@ void myApplication::on_button_clicked(const char command, const char code)
 {
     static fpr_t figure_projection = init_projection();
 
-    double value[CMD_N] = {};
-    for (int i = 0; i < CMD_N; i++)
-        if (read_entry(*entry_arr[i], value[i]))
-            return;
+    double value = 0;
+    if (read_entry(*entry_arr[static_cast<int>(command)], value))
+    {
+        printf("Can't read entry.");
+        return;
+    }
 
     event_t click_event = init_event(command, code);
     event_t update_event = init_event(UPDATE_PROJECTION, NO_CODE);
     event_t draw_event = init_event(DRAW, NO_CODE);
-    event_t error_event = init_event(QUIT, NO_CODE);
+    //event_t error_event = init_event(QUIT, NO_CODE);
 
-    event_data_t click_data = init_data(NULL, drawing_area, value, &figure_projection);
+    event_data_t data = init_data();
+    add_trans_data(data, value);
+    add_prj_data(data, &figure_projection);
 
-    err_t rc = task_manager(click_event, click_data);
+    err_t rc = task_manager(click_event, data);
 
     if (rc)
     {
-        task_manager(error_event, click_data);
-        exit(rc);
+        printf("Can't process clicked button.");
+        return;
+        //task_manager(error_event, data);
     }
 
-    if ((rc = task_manager(update_event, click_data)))
+    if ((rc = task_manager(update_event, data)))
     {
-        task_manager(error_event, click_data);
-        exit(rc);
+        printf("Can't update the projection.");
+        return;
+        //task_manager(error_event, data);
     }
 
-    task_manager(draw_event, click_data);
+    add_draw_data(data, drawing_area);
 
-    return;
+    if ((rc = task_manager(draw_event, data)))
+    {
+        printf("Can't draw the projection.");
+        //task_manager(error_event, data);
+    }
 }
 
 Gtk::Window * myApplication::get_window()

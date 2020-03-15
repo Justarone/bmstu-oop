@@ -1,7 +1,8 @@
 #include "../include/command_handlers.h"
 
-err_t move_command(figure_t &main_figure, const char code, const double &value)
+err_t move_command(figure_t &main_figure, const char code, const trans_data_t &data)
 {
+    double value = data.value;
     double dx = 0, dy = 0, dz = 0;
     switch (code)
     {
@@ -33,8 +34,9 @@ err_t move_command(figure_t &main_figure, const char code, const double &value)
 }
 
 
-err_t rotate_command(figure_t &main_figure, const char code, const double &value)
+err_t rotate_command(figure_t &main_figure, const char code, const trans_data_t &data)
 {
+    double value = data.value;
     double ax = 0, ay = 0, az = 0;
     switch (code)
     {
@@ -64,8 +66,9 @@ err_t rotate_command(figure_t &main_figure, const char code, const double &value
     return rc;
 }
 
-err_t scale_command(figure_t &main_figure, const char code, const double &value)
+err_t scale_command(figure_t &main_figure, const char code, const trans_data_t &data)
 {
+    double value = data.value;
     if (value == 0)
         return DATA_ERROR;
 
@@ -85,12 +88,44 @@ err_t scale_command(figure_t &main_figure, const char code, const double &value)
 }
 
 
-err_t get_projection(fpr_t &figure_projection, const figure_t &main_figure)
+err_t get_projection(prj_data_t &data, const figure_t &main_figure)
 {
+    if (!data.projection)
+        return DATA_ERROR;
+    fpr_t &figure_projection = *data.projection;
+
     err_t rc = match_figure_project(figure_projection, main_figure);
     if (rc)
         return rc;
 
     rc = read_projection(figure_projection.points, main_figure.points);
     return rc;
+}
+
+
+void destroy_all(figure_t &main_figure, prj_data_t &data)
+{
+    fpr_t *projection = data.projection; 
+    destroy_figure(main_figure);
+    if (projection)
+        destroy_projection(*projection);
+}
+
+err_t read_from_file(figure_t &figure, load_data_t &data)
+{
+    const char *filename = data.filename;
+    if (!filename)
+        return DATA_ERROR;
+    return read_from_file(figure, filename);
+}
+
+err_t draw_figure(draw_data_t &draw_data, const prj_data_t &prj_data)
+{
+    Gtk::DrawingArea * &area = draw_data.area;
+    const fpr_t * projection = prj_data.projection;
+
+    if (!area || !projection)
+        return DATA_ERROR;
+    err_t rc = draw_figure(area, *projection);
+    return rc;        
 }

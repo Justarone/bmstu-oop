@@ -9,6 +9,7 @@
 #include "app_codes.h"
 #include "io_figure.h"
 #include "task_manager.h"
+#include "event_data.h"
 
 // Button groups' sizes.
 enum { MOVE_SIZE = 6, SCALE_SIZE = 2, ROTATE_SIZE = 6, ENTRY_SIZE = 3 };

@@ -6,6 +6,7 @@
 #include "application.h"
 #include "app_codes.h"
 #include "io_figure.h"
+#include "event_data.h"
 
 #include <gtkmm.h>
 #include <iostream>
