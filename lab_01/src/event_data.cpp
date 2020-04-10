@@ -48,10 +48,11 @@ load_data_t init_load_data(const char *filename)
     return data;
 }
 
-draw_data_t init_draw_data(Gtk::DrawingArea *area)
+draw_data_t init_draw_data(Gtk::DrawingArea *area, canvas_conf *const conf)
 {
     draw_data_t data;
     data.area = area;
+    data.conf = init_canvas_conf(conf);
     return data;
 }
 
