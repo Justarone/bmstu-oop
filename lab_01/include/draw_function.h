@@ -1,7 +1,7 @@
 #ifndef _DRAW_FUNCTION_H_
 #define _DRAW_FUNCTION_H_
 
-#include <gtkmm.h>
+#include <gtkmm-3.0/gtkmm.h>
 #include "figure.h"
 #include "constants.h"
 

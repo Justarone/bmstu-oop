@@ -2,7 +2,7 @@
 #define _SUB_EVENTS_H_
 
 #include "figure.h"
-#include <gtkmm.h>
+#include <gtkmm-3.0/gtkmm.h>
 
 struct load_data
 {

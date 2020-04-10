@@ -3,7 +3,7 @@ INCLUDE_DIR = include/
 BINARIES = $(patsubst src/%.cpp,bin/%.o, $(wildcard src/*.cpp))
 # Remove -g if not in debug mode
 GTK_FLAGS = `pkg-config gtkmm-3.0 --libs --cflags`
-COMPILE_FLAGS = -Wall
+COMPILE_FLAGS = -Wall -g -Werror
 
 .PHONY: all test clean
 all: app.exe

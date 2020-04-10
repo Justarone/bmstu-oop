@@ -3,7 +3,8 @@
 
 #include "points.h"
 #include <cstdlib>
-#include <gtkmm.h>
+//#include <glibmm-2.4/glibmm.h>
+#include <gtkmm-3.0/gtkmm.h>
 
 struct points_array
 {

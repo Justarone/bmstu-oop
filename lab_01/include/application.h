@@ -2,7 +2,7 @@
 #define _APPLICATION_H_
 
 #include <iostream>
-#include <gtkmm.h>
+#include <gtkmm-3.0/gtkmm.h>
 
 #include "figure.h"
 #include "constants.h"
@@ -18,7 +18,7 @@ enum { MOVE_SIZE = 6, SCALE_SIZE = 2, ROTATE_SIZE = 6, ENTRY_SIZE = 3 };
 class myApplication
 {
     public:
-        myApplication(const char *const filename=FILENAME);
+        myApplication(const char *const filename);
         Gtk::Window *get_window();
     protected:
         Gtk::Window *main_window;

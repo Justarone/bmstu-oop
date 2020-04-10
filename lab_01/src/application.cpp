@@ -1,5 +1,4 @@
 #include "../include/application.h"
-#include <iostream>
 
 static const char *MOVE_NAMES[] = { "move_up", "move_down", "move_right",
     "move_left", "move_front", "move_back" };
@@ -9,9 +8,6 @@ static const char *ROTATE_NAMES[] = { "rotate_up", "rotate_down", "rotate_left",
 static const char *ENTRY_NAMES[] = { "move_entry", "scale_entry", "rotate_entry" };
 
 
-void my_draw(Gtk::DrawingArea *da, const figure_t &figure);
-
- 
 myApplication::myApplication(const char* const filename)
 {
     Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create();

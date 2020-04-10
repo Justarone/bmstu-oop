@@ -19,3 +19,5 @@
 /usr/include/x86_64-linux-gnu
 -isystem
 /usr/include
+
+`pkg-config gtkmm-3.0 --libs --cflags`
