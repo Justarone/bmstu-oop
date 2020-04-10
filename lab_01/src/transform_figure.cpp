@@ -1,6 +1,6 @@
 #include "../include/transform_figure.h"
 
-err_t move_figure(parr_t &points, const point_t &dp) // dp - delta point.
+err_t move_figure(parr_t &points, const transform_t &dp) // dp - delta point.
 {
     if (!points.arr || points.size <= 0)
         return DATA_ERROR;
@@ -33,7 +33,7 @@ err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
 }
 
 
-err_t rotate_figure(parr_t &points, const point_t &ap)
+err_t rotate_figure(parr_t &points, const transform_t &ap)
 {
     if (!points.arr || points.size <= 0)
         return DATA_ERROR;

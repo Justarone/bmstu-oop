@@ -4,67 +4,38 @@ err_t move_command(figure_t &main_figure, const char code, const trans_data_t &d
 {
     double value = data.value;
     double dx = 0, dy = 0, dz = 0;
-    switch (code)
-    {
-        case MOVE_UP:
-            dy = -value;
-            break;
-        case MOVE_DOWN:
-            dy = value;
-            break;
-        case MOVE_RIGHT:
-            dx = value;
-            break;
-        case MOVE_LEFT:
-            dx = -value;
-            break;
-        case MOVE_BACK:
-            dz = -value;
-            break;
-        case MOVE_FRONT:
-            dz = value;
-            break;
-        default:
-            return DATA_ERROR;
-    }
 
-    point_t dp = init_point(dx, dy, dz);
-    err_t rc = move_figure(main_figure.points, dp);
+    dx += CHECK_CODE(code, MOVE_RIGHT) ? value : 0;
+    dx += CHECK_CODE(code, MOVE_LEFT) ? -value : 0;
+
+    dy += CHECK_CODE(code, MOVE_DOWN) ? value : 0;
+    dy += CHECK_CODE(code, MOVE_UP) ? -value : 0;
+
+    dz += CHECK_CODE(code, MOVE_FRONT) ? value : 0;
+    dz += CHECK_CODE(code, MOVE_BACK) ? -value : 0;
+
+    transform_t move_params = init_transform(dx, dy, dz);
+    err_t rc = move_figure(main_figure.points, move_params);
     return rc;
 }
 
 
 err_t rotate_command(figure_t &main_figure, const char code, const trans_data_t &data)
 {
-    double value = data.value;
+    double value = data.value / 180 * M_PI;
     double ax = 0, ay = 0, az = 0;
-    switch (code)
-    {
-        case ROTATE_UP:
-            ax = value / 180 * M_PI;
-            break;
-        case ROTATE_DOWN:
-            ax = -value / 180 * M_PI;
-            break;
-        case ROTATE_RIGHT:
-            ay = value / 180 * M_PI;
-            break;
-        case ROTATE_LEFT:
-            ay = -value / 180 * M_PI;
-            break;
-        case ROTATE_RIGHTUP:
-            az = -value / 180 * M_PI;
-            break;
-        case ROTATE_LEFTUP:
-            az = value / 180 * M_PI;
-            break;
-        default:
-            return DATA_ERROR;
-    }
 
-    point_t ap = init_point(ax, ay, az);
+    ax += CHECK_CODE(code, ROTATE_DOWN) ? -value : 0;
+    ax += CHECK_CODE(code, ROTATE_UP) ? value : 0;
 
-    err_t rc = rotate_figure(main_figure.points, ap);
+    ay += CHECK_CODE(code, ROTATE_LEFT) ? -value : 0;
+    ay += CHECK_CODE(code, ROTATE_RIGHT) ? value : 0;
+
+    az += CHECK_CODE(code, ROTATE_RIGHTUP) ? -value : 0;
+    az += CHECK_CODE(code, ROTATE_LEFTUP) ? value : 0;
+
+    transform_t rotate_params = init_transform(ax, ay, az);
+    err_t rc = rotate_figure(main_figure.points, rotate_params);
     return rc;
 }
 

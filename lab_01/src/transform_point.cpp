@@ -1,7 +1,7 @@
 #include "../include/transform_point.h"
 #include <cstdio>
 
-err_t move_point(point_t &point, const point_t &dp)
+err_t move_point(point_t &point, const transform_t &dp)
 {
     point.x += dp.x;
     point.y += dp.y;
@@ -23,7 +23,7 @@ err_t scale_point(point_t &point, const double sf, const point_t &cp)
 }
 
 
-err_t rotate_point(point_t &point, const point_t &ap, const point_t &cp)
+err_t rotate_point(point_t &point, const transform_t &ap, const point_t &cp)
 {
     int rotate_flag = static_cast<int>(fabs(ap.x) > 
                                        std::numeric_limits<double>::epsilon());
@@ -32,10 +32,7 @@ err_t rotate_point(point_t &point, const point_t &ap, const point_t &cp)
     rotate_flag += static_cast<int>(fabs(ap.z) >
                                     std::numeric_limits<double>::epsilon());
     if (rotate_flag >= 2)
-    {
-        printf("oh my");
         return DATA_ERROR;
-    }
 
     point_t tmp = init_point();
 
@@ -61,4 +58,15 @@ err_t rotate_point(point_t &point, const point_t &ap, const point_t &cp)
 
     point = tmp;
     return OK;
+}
+
+
+transform_t init_transform(const double x, const double y, const double z)
+{
+    transform_t transformation;
+    transformation.x = x;
+    transformation.y = y;
+    transformation.z = z;
+
+    return transformation;
 }

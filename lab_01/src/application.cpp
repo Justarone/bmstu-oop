@@ -26,7 +26,7 @@ myApplication::myApplication(const char* const filename)
     {
         builder->get_widget(MOVE_NAMES[i], move_btns[i]);
         move_btns[i]->signal_clicked().connect(sigc::bind<char, char>(sigc::mem_fun(*this,
-                        &myApplication::on_button_clicked), MOVE, i));
+                        &myApplication::on_button_clicked), MOVE, 1 << i));
         move_btns[i]->override_background_color(color2);
         move_btns[i]->override_color(color);
     }
@@ -44,7 +44,7 @@ myApplication::myApplication(const char* const filename)
     {
         builder->get_widget(ROTATE_NAMES[i], rotate_btns[i]);
         rotate_btns[i]->signal_clicked().connect(sigc::bind<char, char>(sigc::mem_fun(*this,
-                        &myApplication::on_button_clicked), ROTATE, i));
+                        &myApplication::on_button_clicked), ROTATE, 1 << i));
         rotate_btns[i]->override_background_color(color2);
         rotate_btns[i]->override_color(color);
     }

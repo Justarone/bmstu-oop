@@ -7,8 +7,12 @@
 
 #include <cstdio>
 
-err_t move_figure(parr_t &points, const point_t &dp);
+
+using transform_t = struct transformation_data;
+
+err_t move_figure(parr_t &points, const transform_t &dp);
 err_t scale_figure(parr_t &points, const double sf); // sf - scale factor.
-err_t rotate_figure(parr_t &points, const point_t &ap);
+err_t rotate_figure(parr_t &points, const transform_t &ap);
+
 
 #endif
