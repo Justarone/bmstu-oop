@@ -58,6 +58,8 @@ err_t rotate_command(figure_t &main_figure, const char code, const trans_data_t 
         case ROTATE_LEFTUP:
             az = value / 180 * M_PI;
             break;
+        default:
+            return DATA_ERROR;
     }
 
     point_t ap = init_point(ax, ay, az);
@@ -81,6 +83,8 @@ err_t scale_command(figure_t &main_figure, const char code, const trans_data_t &
         case SCALE_MINUS:
             scale_factor = 1 / value;
             break;
+        default:
+            return DATA_ERROR;
     }
 
     err_t rc = scale_figure(main_figure.points, scale_factor);
