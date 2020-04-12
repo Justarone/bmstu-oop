@@ -8,8 +8,7 @@
 #include <cstdio>
 
 err_t find_center(parr_t &points);
-err_t allocate_points(parr_t &points);
-err_t read_points(FILE *const f, parr_t &points_array);
+err_t get_points(parr_t &points, FILE *const f);
 void destroy_points(parr_t &points);
 void destroy_ppoints(pparr_t &points);
 

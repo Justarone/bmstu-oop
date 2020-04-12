@@ -20,6 +20,7 @@ err_t find_center(parr_t &points)
     center.x /= points.size;
     center.y /= points.size;
     center.z /= points.size;
+
     return OK;
 }
 
@@ -64,3 +65,18 @@ void destroy_ppoints(pparr_t &points)
     }
 }
 
+err_t get_points(parr_t &points, FILE *const f)
+{
+    err_t rc = OK;
+
+    if (fscanf(f, "%u", &points.size) != READED)
+        rc = READ_ERROR;
+
+    else if ((rc = allocate_points(points)))
+        ;
+
+    else if ((rc = read_points(f, points)))
+        destroy_points(points);
+
+    return rc;
+}
