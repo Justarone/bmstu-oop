@@ -84,7 +84,6 @@ void myApplication::on_button_clicked(const char command, const char code)
     if (rc)
     {
         printf("Can't process clicked button.");
-        return;
         //task_manager(error_event, data);
     }
 
