@@ -42,23 +42,23 @@ err_t rotate_command(figure_t &main_figure, const char code, const trans_data_t 
 err_t scale_command(figure_t &main_figure, const char code, const trans_data_t &data)
 {
     double value = data.value;
+    err_t rc = OK;
+
     if (value == 0)
-        return DATA_ERROR;
+        rc = DATA_ERROR;
 
     double scale_factor = 0;
-    switch (code)
+    if (!rc)
     {
-        case SCALE_PLUS:
-            scale_factor = value;
-            break;
-        case SCALE_MINUS:
-            scale_factor = 1 / value;
-            break;
-        default:
-            return DATA_ERROR;
+        if (code != SCALE_MINUS && code != SCALE_PLUS)
+            rc = DATA_ERROR;
+        else
+            scale_factor = (code == SCALE_PLUS) ? value : 1 / value;
     }
 
-    err_t rc = scale_figure(main_figure.points, scale_factor);
+    if (!rc)
+        rc = scale_figure(main_figure.points, scale_factor);
+
     return rc;
 }
 
@@ -67,13 +67,18 @@ err_t get_projection(prj_data_t &data, const figure_t &main_figure)
 {
     if (!data.projection)
         return DATA_ERROR;
+
     fpr_t &figure_projection = *data.projection;
+    fpr_t tmp_projection = init_projection();
 
-    err_t rc = match_figure_project(figure_projection, main_figure);
-    if (rc)
-        return rc;
-
-    rc = read_projection(figure_projection.points, main_figure.points);
+    err_t rc = match_figure_project(tmp_projection, main_figure);
+    if (!rc)
+        rc = read_projection(tmp_projection.points, main_figure.points);
+    if (!rc)
+    {
+        destroy_projection(figure_projection);
+        figure_projection = tmp_projection;
+    }
     return rc;
 }
 
@@ -86,6 +91,7 @@ void destroy_all(figure_t &main_figure, prj_data_t &data)
         destroy_projection(*projection);
 }
 
+
 err_t read_from_file(figure_t &figure, load_data_t &data)
 {
     const char *filename = data.filename;
@@ -93,6 +99,7 @@ err_t read_from_file(figure_t &figure, load_data_t &data)
         return DATA_ERROR;
     return read_from_file(figure, filename);
 }
+
 
 err_t draw_figure(draw_data_t &draw_data, const prj_data_t &prj_data)
 {

@@ -13,8 +13,8 @@ static err_t match_points(pparr_t &prj_points, const parr_t &fgr_points)
 {
     if (prj_points.size != fgr_points.size)
     {
-        ppoint_t *tmp = static_cast<ppoint_t *>(realloc(prj_points.arr,
-                                                     sizeof(point_t) * fgr_points.size));
+        ppoint_t *tmp = (ppoint_t *)realloc(prj_points.arr,
+                                            sizeof(point_t) * fgr_points.size);
         if (!tmp)
             return ALLOCATION_ERROR;
 
@@ -27,10 +27,9 @@ static err_t match_points(pparr_t &prj_points, const parr_t &fgr_points)
 
 err_t match_figure_project(fpr_t &figure_projection, const figure_t &main_figure)
 {
-    figure_projection.links = main_figure.links;
-
-    err_t rc = OK;
-    rc = match_points(figure_projection.points, main_figure.points);
+    err_t rc = match_points(figure_projection.points, main_figure.points);
+    if (!rc)
+        figure_projection.links = main_figure.links;
     return rc;
 }
 
