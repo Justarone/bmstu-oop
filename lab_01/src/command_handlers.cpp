@@ -70,19 +70,11 @@ err_t get_projection(prj_data_t &data, const figure_t &main_figure)
         rc = DATA_ERROR;
 
     fpr_t &figure_projection = *data.projection;
-    fpr_t tmp_projection = init_projection();
 
     if (!rc)
-        rc = match_figure_project(tmp_projection, main_figure);
+        rc = match_figure_project(figure_projection, main_figure);
     if (!rc)
-        rc = read_projection(tmp_projection.points, main_figure.points);
-    if (!rc)
-    {
-        destroy_projection(figure_projection);
-        figure_projection = tmp_projection;
-    }
-    else
-        destroy_projection(tmp_projection);
+        rc = read_projection(figure_projection.points, main_figure.points);
 
     return rc;
 }
