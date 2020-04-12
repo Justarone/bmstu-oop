@@ -20,9 +20,9 @@ void add_load_data(event_data_t &event_data, const char *filename)
 }
 
 
-void add_draw_data(event_data_t &event_data, Gtk::DrawingArea * area)
+void add_draw_data(event_data_t &event_data, Cairo::RefPtr<Cairo::Context> *cr)
 {
-    draw_data_t data = init_draw_data(area);
+    draw_data_t data = init_draw_data(cr);
     event_data.draw_data = data;
 }
 
@@ -48,10 +48,10 @@ load_data_t init_load_data(const char *filename)
     return data;
 }
 
-draw_data_t init_draw_data(Gtk::DrawingArea *area, canvas_conf *const conf)
+draw_data_t init_draw_data(Cairo::RefPtr<Cairo::Context> *cr, canvas_conf *const conf)
 {
     draw_data_t data;
-    data.area = area;
+    data.cr = cr;
     data.conf = init_canvas_conf(conf);
     return data;
 }

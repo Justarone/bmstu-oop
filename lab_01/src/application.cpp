@@ -94,7 +94,8 @@ void myApplication::on_button_clicked(const char command, const char code)
         //task_manager(error_event, data);
     }
 
-    add_draw_data(data, drawing_area);
+    Cairo::RefPtr<Cairo::Context> cr = drawing_area->get_window()->create_cairo_context();
+    add_draw_data(data, &cr);
 
     if ((rc = task_manager(draw_event, data)))
     {

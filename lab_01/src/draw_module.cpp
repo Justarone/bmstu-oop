@@ -15,6 +15,8 @@ Cairo::RefPtr<Cairo::Context> get_canvas(Gtk::DrawingArea *const da, const canva
 
 void create_line(Cairo::RefPtr<Cairo::Context> &cr, const ppoint_t from, const ppoint_t to)
 {
+    cr->fill();
+    cr->paint();
     cr->move_to(from.x, from.y);
     cr->line_to(to.x, to.y);
 }
