@@ -1,7 +1,7 @@
 #include "../include/draw_function.h"
 
 
-err_t draw_figure(draw_data_t &data, const canvas_conf &conf, const fpr_t &projection)
+err_t draw_figure(draw_data_t &data, const fpr_t &projection)
 {
     pparr_t points = projection.points;
     larr_t links = projection.links;

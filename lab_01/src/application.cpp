@@ -64,7 +64,7 @@ void myApplication::on_button_clicked(const char command, const char code)
     static fpr_t figure_projection = init_projection();
 
     double value = 0;
-    if (read_entry(value, *entry_arr[static_cast<int>(command)]))
+    if (read_entry(value, *entry_arr[(int) (command)]))
     {
         printf("Can't read entry.");
         return;

@@ -7,6 +7,6 @@
 #include "constants.h"
 #include "draw_module.h"
 
-err_t draw_figure(draw_data_t &data, const canvas_conf &conf, const fpr_t &figure);
+err_t draw_figure(draw_data_t &data, const fpr_t &figure);
 
 #endif

@@ -108,6 +108,6 @@ err_t draw_figure(draw_data_t &draw_data, const prj_data_t &prj_data)
 {
     if (!prj_data.projection)
         return DATA_ERROR;
-    err_t rc = draw_figure(draw_data, draw_data.conf, *prj_data.projection);
+    err_t rc = draw_figure(draw_data, *prj_data.projection);
     return rc;        
 }

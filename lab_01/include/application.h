@@ -21,8 +21,8 @@ class myApplication
         myApplication(const char *const filename);
         Gtk::Window *get_window();
     protected:
-        Gtk::Window *main_window;
-        Gtk::DrawingArea *drawing_area;
+        Gtk::Window *main_window = nullptr;
+        Gtk::DrawingArea *drawing_area = nullptr;
         Gtk::Button *move_btns[MOVE_SIZE];
         Gtk::Button *scale_btns[SCALE_SIZE];
         Gtk::Button *rotate_btns[ROTATE_SIZE];
