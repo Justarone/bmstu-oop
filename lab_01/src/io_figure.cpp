@@ -29,8 +29,9 @@ err_t read_from_file(figure_t &main_figure, const char *const filename)
     if (!rc)
     {
         rc = read_from_file(tmp_figure, f);
-        fclose(f);
     }
+
+    fclose(f);
 
     if (!rc)
     {
@@ -48,22 +49,28 @@ static err_t read_from_file(figure_t &main_figure, FILE *const f)
 
     err_t rc = OK;
 
-    if ((rc = get_points(points, f)))
-        ;
+    if (!rc)
+        rc = FILE_ERROR;
 
-    else if ((rc = get_links(links, f, points.size - 1)))
-        destroy_points(points);
-
-    else if ((rc = find_center(points)))
+    if (!rc)
     {
-        destroy_points(points);
-        destroy_links(links);
-    }
+        if ((rc = get_points(points, f)))
+            ;
 
-    else
-    {
-        main_figure.points = points;
-        main_figure.links = links;
+        else if ((rc = get_links(links, f, points.size - 1)))
+            destroy_points(points);
+
+        else if ((rc = find_center(points)))
+        {
+            destroy_points(points);
+            destroy_links(links);
+        }
+
+        else
+        {
+            main_figure.points = points;
+            main_figure.links = links;
+        }
     }
 
     return rc;

@@ -38,7 +38,7 @@ err_t allocate_points(parr_t &points)
     return rc;
 }
 
-err_t read_points(FILE *const f, parr_t &points_array)
+err_t read_points(parr_t &points_array, FILE *const f)
 {
     err_t rc = OK;
     for (unsigned int i = 0; i < points_array.size && !rc; i++)
@@ -82,8 +82,8 @@ err_t get_points(parr_t &points, FILE *const f)
     else if ((rc = allocate_points(tmp_points)))
         ;
 
-    else if ((rc = read_points(f, tmp_points)))
-        destroy_points(points);
+    else if ((rc = read_points(tmp_points, f)))
+        destroy_points(tmp_points);
     else 
         points = tmp_points;
 
