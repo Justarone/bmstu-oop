@@ -2,32 +2,34 @@
 
 err_t move_figure(parr_t &points, const transform_t &dp) // dp - delta point.
 {
-    if (!points.arr || points.size <= 0)
-        return DATA_ERROR;
-
     err_t rc = OK;
+    if (!points.arr || points.size <= 0)
+        rc = DATA_ERROR;
 
-    for (unsigned int i = 0; i < points.size; i++)
-        if ((rc = move_point(points.arr[i], dp)))
-            return rc;
+    if (!rc)
+    {
+        for (unsigned int i = 0; i < points.size; i++)
+            move_point(points.arr[i], dp);
+        move_point(points.cp, dp);
+    }
 
-    rc = move_point(points.cp, dp);
     return rc;
 }
 
 
 err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
 {
-    if (!points.arr || points.size <= 0 ||
-            fabs(sf) < std::numeric_limits<double>::epsilon())
-        return DATA_ERROR;
-
     err_t rc = OK;
-    point_t &center = points.cp;
+    if (!points.arr || points.size <= 0 ||
+            fabs(sf) < DBL_EPSILON)
+        rc = DATA_ERROR;
 
-    for (unsigned int i = 0; i < points.size; i++)
-        if ((rc = scale_point(points.arr[i], sf, center)))
-            return rc;
+    if (!rc)
+    {
+        point_t &center = points.cp;
+        for (unsigned int i = 0; i < points.size && !rc; i++)
+            rc = scale_point(points.arr[i], sf, center);
+    }
 
     return rc;
 }
@@ -35,15 +37,17 @@ err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
 
 err_t rotate_figure(parr_t &points, const transform_t &ap)
 {
-    if (!points.arr || points.size <= 0)
-        return DATA_ERROR;
-
     err_t rc = OK;
-    point_t &center = points.cp;
+    if (!points.arr || points.size <= 0)
+        rc = DATA_ERROR;
 
-    for (unsigned int i = 0; i < points.size; i++)
-        if ((rc = rotate_point(points.arr[i], ap, center)))
-            return rc;
+    if (!rc)
+    {
+        point_t &center = points.cp;
+
+        for (unsigned int i = 0; i < points.size; i++)
+            rotate_point(points.arr[i], ap, center);
+    }
 
     return rc;
 }

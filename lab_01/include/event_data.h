@@ -2,7 +2,6 @@
 #define _SUB_EVENTS_H_
 
 #include "figure.h"
-#include "draw_module.h"
 #include <gtkmm-3.0/gtkmm.h>
 
 struct load_data
@@ -14,8 +13,7 @@ using load_data_t = struct load_data;
 
 struct draw_data
 {
-    Cairo::RefPtr<Cairo::Context> *cr;
-    canvas_conf conf;
+    Cairo::RefPtr<Cairo::Context> *canvas;
 };
 using draw_data_t = struct draw_data;
 
@@ -44,13 +42,13 @@ using event_data_t = struct event_data;
 
 event_data_t init_data();
 load_data_t init_load_data(const char *filename = NULL);
-draw_data_t init_draw_data(Cairo::RefPtr<Cairo::Context> * cr = NULL, canvas_conf *const conf = NULL);
+draw_data_t init_draw_data(Cairo::RefPtr<Cairo::Context> * canvas = NULL);
 trans_data_t init_trans_data(const double value = 0);
 prj_data_t init_prj_data(fpr_t *projection = NULL);
 
 void add_prj_data(event_data_t &event_data, fpr_t * projection = NULL);
 void add_trans_data(event_data_t &event_data, const double value = 0);
-void add_draw_data(event_data_t &event_data, Cairo::RefPtr<Cairo::Context> * cr = NULL);
+void add_draw_data(event_data_t &event_data, Cairo::RefPtr<Cairo::Context> * canvas = NULL);
 void add_load_data(event_data_t &event_data, const char *filename = NULL);
 
 #endif

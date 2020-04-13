@@ -14,19 +14,23 @@ void destroy_figure(figure_t &main_figure)
 void destroy_projection(fpr_t &projection)
 {
     destroy_ppoints(projection.points);
-    destroy_links(projection.links);
 }
 
 
 err_t read_from_file(figure_t &main_figure, const char *const filename)
 {
     FILE *f = fopen(filename, "r");
+
+    err_t rc = OK;
     if (!f)
-        return FILE_ERROR;
+        rc = FILE_ERROR;
     
     figure_t tmp_figure = init_figure();
-    err_t rc = read_from_file(tmp_figure, f);
-    fclose(f);
+    if (!rc)
+    {
+        rc = read_from_file(tmp_figure, f);
+        fclose(f);
+    }
 
     if (!rc)
     {
@@ -37,10 +41,10 @@ err_t read_from_file(figure_t &main_figure, const char *const filename)
     return rc;
 }
 
-static err_t read_from_file(figure_t &tmp_figure, FILE *const f)
+static err_t read_from_file(figure_t &main_figure, FILE *const f)
 {
-    parr_t &points = tmp_figure.points;
-    larr_t &links = tmp_figure.links;
+    parr_t points = init_points_arr();
+    larr_t links = init_links_arr();
 
     err_t rc = OK;
 
@@ -51,7 +55,16 @@ static err_t read_from_file(figure_t &tmp_figure, FILE *const f)
         destroy_points(points);
 
     else if ((rc = find_center(points)))
-        destroy_figure(tmp_figure);
+    {
+        destroy_points(points);
+        destroy_links(links);
+    }
+
+    else
+    {
+        main_figure.points = points;
+        main_figure.links = links;
+    }
 
     return rc;
 }

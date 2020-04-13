@@ -6,6 +6,7 @@
 #include "transform_point.h"
 
 #include <cstdio>
+#include <cfloat>
 
 
 using transform_t = struct transformation_data;

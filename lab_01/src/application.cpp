@@ -16,7 +16,7 @@ myApplication::myApplication(const char* const filename)
     builder->get_widget("main_window", main_window);
     main_window->set_title("Лабораторная №1.");
     Gdk::RGBA color, color2;
-    color.set_rgba(0.8, 0.8, 0.8);
+    color.set_rgba(0.95, 0.95, 0.95);
     color2.set_rgba(0., 0.15, 0.3);
     main_window->override_background_color(color);
 
@@ -84,6 +84,7 @@ void myApplication::on_button_clicked(const char command, const char code)
     if (rc)
     {
         printf("Can't process clicked button.");
+        return;
         //task_manager(error_event, data);
     }
 
@@ -95,6 +96,12 @@ void myApplication::on_button_clicked(const char command, const char code)
     }
 
     Cairo::RefPtr<Cairo::Context> cr = drawing_area->get_window()->create_cairo_context();
+    cr->set_source_rgb(DEFAULT_SCREEN_RGB[0], DEFAULT_SCREEN_RGB[1], DEFAULT_SCREEN_RGB[2]);
+    cr->paint();
+    cr->stroke();
+
+    cr->set_source_rgb(DEFAULT_LINE_RGB[0], DEFAULT_LINE_RGB[1], DEFAULT_LINE_RGB[2]);
+    cr->set_line_width(DEFAULT_LINE_WIDTH);
     add_draw_data(data, &cr);
 
     if ((rc = task_manager(draw_event, data)))

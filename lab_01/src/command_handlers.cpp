@@ -106,8 +106,12 @@ err_t read_from_file(figure_t &figure, load_data_t &data)
 
 err_t draw_figure(draw_data_t &draw_data, const prj_data_t &prj_data)
 {
+    err_t rc = OK;
     if (!prj_data.projection)
-        return DATA_ERROR;
-    err_t rc = draw_figure(draw_data, *prj_data.projection);
+        rc = DATA_ERROR;
+
+    if (!rc)
+        rc = draw_figure(draw_data, *prj_data.projection);
+
     return rc;        
 }

@@ -13,6 +13,11 @@
 
 // Button groups' sizes.
 enum { MOVE_SIZE = 6, SCALE_SIZE = 2, ROTATE_SIZE = 6, ENTRY_SIZE = 3 };
+#define RGB_NUM 3 // number of elements in rgb list (always 3)
+
+const double DEFAULT_SCREEN_RGB[RGB_NUM] = { 0.1, 0.2, 0.3 };
+const double DEFAULT_LINE_RGB[RGB_NUM] = { 0.9, 0.8, 0.7 };
+const int DEFAULT_LINE_WIDTH = 2;
 
 
 class myApplication
