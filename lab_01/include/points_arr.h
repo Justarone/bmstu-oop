@@ -2,7 +2,7 @@
 #define _POINTS_ARR_H_
 
 #include "points.h"
-#include <cstdlib>
+#include <stdlib.h>
 //#include <glibmm-2.4/glibmm.h>
 #include <gtkmm-3.0/gtkmm.h>
 

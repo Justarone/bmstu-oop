@@ -1,4 +1,4 @@
-#include "../include/io_points.h"
+#include "io_points.h"
 
 // find center of figure.
 err_t find_center(parr_t &points)

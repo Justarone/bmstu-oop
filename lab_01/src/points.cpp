@@ -1,4 +1,4 @@
-#include "../include/points.h"
+#include "points.h"
 
 
 point_t init_point(const double x, const double y, const double z)

@@ -1,4 +1,4 @@
-#include "../include/projection_funcs.h"
+#include "projection_funcs.h"
 
 static err_t point_to_proj(ppoint_t &projection, const point_t &point)
 {

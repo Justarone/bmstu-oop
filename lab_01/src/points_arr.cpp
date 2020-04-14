@@ -1,4 +1,4 @@
-#include "../include/points_arr.h"
+#include "points_arr.h"
 
 
 parr_t init_points_arr(point_t *const arr, const unsigned int size)

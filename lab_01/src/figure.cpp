@@ -1,4 +1,4 @@
-#include "../include/figure.h"
+#include "figure.h"
 
 figure_t init_figure(point_t *const parr, const unsigned int psize, link_t *const larr,
         const unsigned int lsize)

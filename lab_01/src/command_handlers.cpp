@@ -1,4 +1,4 @@
-#include "../include/command_handlers.h"
+#include "command_handlers.h"
 
 err_t move_command(figure_t &main_figure, const trans_data_t &data)
 {

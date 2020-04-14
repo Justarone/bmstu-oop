@@ -1,4 +1,4 @@
-#include "../include/io_figure.h"
+#include "io_figure.h"
 
 
 static err_t read_from_file(figure_t &tmp_figure, FILE *const f);

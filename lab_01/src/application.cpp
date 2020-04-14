@@ -1,5 +1,4 @@
-#include "../include/application.h"
-#include <cmath>
+#include "application.h"
 
 static const char *MOVE_NAMES[] = { "move_up", "move_down", "move_right",
     "move_left", "move_front", "move_back" };

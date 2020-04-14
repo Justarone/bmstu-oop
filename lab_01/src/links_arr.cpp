@@ -1,4 +1,4 @@
-#include "../include/links_arr.h"
+#include "links_arr.h"
 
 larr_t init_links_arr(link_t *const arr, const unsigned int size)
 {

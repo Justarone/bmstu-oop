@@ -1,15 +1,16 @@
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
 
-#include <iostream>
-#include <gtkmm-3.0/gtkmm.h>
-
 #include "figure.h"
 #include "constants.h"
 #include "app_codes.h"
 #include "io_figure.h"
 #include "task_manager.h"
 #include "event_data.h"
+
+#include <iostream>
+#include <gtkmm-3.0/gtkmm.h>
+#include <cmath>
 
 // Button groups' sizes.
 enum { MOVE_SIZE = 6, SCALE_SIZE = 2, ROTATE_SIZE = 6, ENTRY_SIZE = 3 };

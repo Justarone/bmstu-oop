@@ -1,4 +1,4 @@
-#include "../include/transform_figure.h"
+#include "transform_figure.h"
 
 err_t move_figure(parr_t &points, const transform_t &dp) // dp - delta point.
 {

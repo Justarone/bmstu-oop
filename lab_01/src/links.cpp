@@ -1,4 +1,4 @@
-#include "../include/links.h"
+#include "links.h"
 
 link_t init_link(const unsigned int l1, const unsigned int l2)
 {

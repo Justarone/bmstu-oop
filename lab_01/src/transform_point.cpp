@@ -1,4 +1,4 @@
-#include "../include/transform_point.h"
+#include "transform_point.h"
 #include <cstdio>
 
 void move_point(point_t &point, const transform_t &dp)
