@@ -49,7 +49,7 @@ static err_t read_from_file(figure_t &main_figure, FILE *const f)
 
     err_t rc = OK;
 
-    if (!rc)
+    if (!f)
         rc = FILE_ERROR;
 
     if (!rc)

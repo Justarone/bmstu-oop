@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     int window_argc = 1;
     auto app = Gtk::Application::create(window_argc, argv);
 
-    event_t load_event = init_event(LOAD_DATA, NO_CODE);
+    event_t load_event = init_event(LOAD_DATA);
     event_data_t data = init_data();
 
     const char *data_filename;
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     err_t rc = task_manager(load_event, data);
     if (rc)
     {
-        event_t quit_event = init_event(QUIT, NO_CODE);
+        event_t quit_event = init_event(QUIT);
         task_manager(quit_event, error_data);
         return rc;
     }

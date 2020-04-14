@@ -1,64 +1,21 @@
 #include "../include/command_handlers.h"
 
-err_t move_command(figure_t &main_figure, const char code, const trans_data_t &data)
+err_t move_command(figure_t &main_figure, const trans_data_t &data)
 {
-    double value = data.value;
-    double dx = 0, dy = 0, dz = 0;
-
-    dx += CHECK_CODE(code, MOVE_RIGHT) ? value : 0;
-    dx += CHECK_CODE(code, MOVE_LEFT) ? -value : 0;
-
-    dy += CHECK_CODE(code, MOVE_DOWN) ? value : 0;
-    dy += CHECK_CODE(code, MOVE_UP) ? -value : 0;
-
-    dz += CHECK_CODE(code, MOVE_FRONT) ? value : 0;
-    dz += CHECK_CODE(code, MOVE_BACK) ? -value : 0;
-
-    transform_t move_params = init_transform(dx, dy, dz);
-    err_t rc = move_figure(main_figure.points, move_params);
+    err_t rc = move_figure(main_figure.points, data.trans_coeffs);
     return rc;
 }
 
 
-err_t rotate_command(figure_t &main_figure, const char code, const trans_data_t &data)
+err_t rotate_command(figure_t &main_figure, const trans_data_t &data)
 {
-    double value = data.value / 180 * M_PI;
-    double ax = 0, ay = 0, az = 0;
-
-    ax += CHECK_CODE(code, ROTATE_DOWN) ? -value : 0;
-    ax += CHECK_CODE(code, ROTATE_UP) ? value : 0;
-
-    ay += CHECK_CODE(code, ROTATE_LEFT) ? -value : 0;
-    ay += CHECK_CODE(code, ROTATE_RIGHT) ? value : 0;
-
-    az += CHECK_CODE(code, ROTATE_RIGHTUP) ? -value : 0;
-    az += CHECK_CODE(code, ROTATE_LEFTUP) ? value : 0;
-
-    transform_t rotate_params = init_transform(ax, ay, az);
-    err_t rc = rotate_figure(main_figure.points, rotate_params);
+    err_t rc = rotate_figure(main_figure.points, data.trans_coeffs);
     return rc;
 }
 
-err_t scale_command(figure_t &main_figure, const char code, const trans_data_t &data)
+err_t scale_command(figure_t &main_figure, const trans_data_t &data)
 {
-    double value = data.value;
-    err_t rc = OK;
-
-    if (value == 0)
-        rc = DATA_ERROR;
-
-    double scale_factor = 0;
-    if (!rc)
-    {
-        if (code != SCALE_MINUS && code != SCALE_PLUS)
-            rc = DATA_ERROR;
-        else
-            scale_factor = (code == SCALE_PLUS) ? value : 1 / value;
-    }
-
-    if (!rc)
-        rc = scale_figure(main_figure.points, scale_factor);
-
+    err_t rc = scale_figure(main_figure.points, data.trans_coeffs);
     return rc;
 }
 

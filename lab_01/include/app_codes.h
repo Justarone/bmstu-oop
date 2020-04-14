@@ -3,7 +3,7 @@
 
 // Number of conversion commands (move, scale, rotate).
 #define CMD_N 3
-#define CHECK_CODE(CODE, PROPERTY) CODE & PROPERTY
+#define CHECK_CODE(CODE, PROPERTY) ((CODE & PROPERTY) ? 1 : 0)
 // Conversion command codes (conversion commands).
 enum { MOVE, SCALE, ROTATE };
 

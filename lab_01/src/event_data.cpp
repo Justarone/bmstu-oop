@@ -27,10 +27,10 @@ void add_draw_data(event_data_t &event_data, Cairo::RefPtr<Cairo::Context> *canv
 }
 
 
-void add_trans_data(event_data_t &event_data, const double value)
+void add_trans_data(event_data_t &event_data, const transform_t *const data)
 {
-    trans_data_t data = init_trans_data(value);
-    event_data.trans_data = data;
+    trans_data_t trans_data = init_trans_data(data);
+    event_data.trans_data = trans_data;
 }
 
 
@@ -55,11 +55,13 @@ draw_data_t init_draw_data(Cairo::RefPtr<Cairo::Context> *canvas)
     return data;
 }
 
-trans_data_t init_trans_data(const double value)
+trans_data_t init_trans_data(const transform_t *const data)
 {
-    trans_data_t data;
-    data.value = value;
-    return data;
+    trans_data_t trans_data = {};
+    if (data)
+        trans_data.trans_coeffs = *data;
+
+    return trans_data;
 }
 
 prj_data_t init_prj_data(fpr_t *projection)

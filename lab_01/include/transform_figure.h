@@ -12,7 +12,7 @@
 using transform_t = struct transformation_data;
 
 err_t move_figure(parr_t &points, const transform_t &dp);
-err_t scale_figure(parr_t &points, const double sf); // sf - scale factor.
+err_t scale_figure(parr_t &points, const transform_t &sp); // sf - scale factor.
 err_t rotate_figure(parr_t &points, const transform_t &ap);
 
 

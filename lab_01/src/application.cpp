@@ -1,4 +1,5 @@
 #include "../include/application.h"
+#include <cmath>
 
 static const char *MOVE_NAMES[] = { "move_up", "move_down", "move_right",
     "move_left", "move_front", "move_back" };
@@ -70,13 +71,54 @@ void myApplication::on_button_clicked(const char command, const char code)
         return;
     }
 
-    event_t click_event = init_event(command, code);
-    event_t update_event = init_event(UPDATE_PROJECTION, NO_CODE);
-    event_t draw_event = init_event(DRAW, NO_CODE);
+    event_t click_event = init_event(command);
+    event_t update_event = init_event(UPDATE_PROJECTION);
+    event_t draw_event = init_event(DRAW);
     //event_t error_event = init_event(QUIT, NO_CODE);
 
     event_data_t data = init_data();
-    add_trans_data(data, value);
+
+    transform_t trans_data = init_transform();
+
+    if (command == MOVE)
+    {
+        trans_data = init_transform(value * (CHECK_CODE(code, MOVE_RIGHT) - CHECK_CODE(code, MOVE_LEFT)),
+                                    value * (CHECK_CODE(code, MOVE_DOWN) - CHECK_CODE(code, MOVE_UP)),
+                                    value * (CHECK_CODE(code, MOVE_FRONT) - CHECK_CODE(code, MOVE_BACK)));
+    }
+
+    else if (command == ROTATE)
+    {
+        value *= M_PI / 180;
+        trans_data = init_transform(value * (CHECK_CODE(code, ROTATE_UP) - CHECK_CODE(code, ROTATE_DOWN)),
+                                    value * (CHECK_CODE(code, ROTATE_LEFT) - CHECK_CODE(code, ROTATE_RIGHT)),
+                                    value * (CHECK_CODE(code, ROTATE_LEFTUP) - CHECK_CODE(code, ROTATE_RIGHTUP)));
+    }
+
+    else if (command == SCALE)
+    {
+        if (fabs(value) < DBL_EPSILON)
+        {
+            printf("Incorrect scale value");
+            return;
+        }
+
+        if (code == SCALE_PLUS)
+            trans_data = init_transform(value, value, value);
+        else if (code == SCALE_MINUS)
+        {
+            double rev_value = 1 / value;
+            trans_data = init_transform(rev_value, rev_value, rev_value);
+        }
+    }
+
+    else
+    {
+        printf("Incorrect code!");
+        return;
+    }
+
+    add_trans_data(data, &trans_data);
     add_prj_data(data, &figure_projection);
 
     err_t rc = task_manager(click_event, data);

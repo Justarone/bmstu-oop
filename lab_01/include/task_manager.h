@@ -9,16 +9,13 @@
 #include "draw_function.h"
 #include "event_data.h"
 
-// command = MOVE, ROTATE, SCALE, DRAW, LOAD_DATA and etc.
-// code = MOVE_UP, MOVE_DOWN and etc. (not every command use code (by default code = 0)).
 struct event
 {
     char command;
-    char code;
 };
 using event_t = struct event;
 
 err_t task_manager(const event_t &event, event_data_t &data);
-event_t init_event(const char command = 0, const char code = 0);
+event_t init_event(const char command = 0);
 
 #endif

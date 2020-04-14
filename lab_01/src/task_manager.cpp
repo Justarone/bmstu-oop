@@ -12,13 +12,13 @@ err_t task_manager(const event_t &event, event_data_t &data)
             rc = read_from_file(main_figure, data.load_data);
             break;
         case MOVE:
-            rc = move_command(main_figure, event.code, data.trans_data);
+            rc = move_command(main_figure, data.trans_data);
             break;
         case SCALE:
-            rc = scale_command(main_figure, event.code, data.trans_data);
+            rc = scale_command(main_figure, data.trans_data);
             break;
         case ROTATE:
-            rc = rotate_command(main_figure, event.code, data.trans_data);
+            rc = rotate_command(main_figure, data.trans_data);
             break;
         case UPDATE_PROJECTION:
             rc = get_projection(data.prj_data, main_figure);
@@ -36,11 +36,10 @@ err_t task_manager(const event_t &event, event_data_t &data)
 }
 
 
-event_t init_event(const char command, const char code)
+event_t init_event(const char command)
 {
     event_t event;
     event.command = command;
-    event.code = code;
 
     return event;
 }

@@ -17,12 +17,20 @@ err_t move_figure(parr_t &points, const transform_t &dp) // dp - delta point.
 }
 
 
-err_t scale_figure(parr_t &points, const double sf) // sf - scale factor.
+err_t scale_figure(parr_t &points, const transform_t &sp) // sf - scale factor.
 {
     err_t rc = OK;
-    if (!points.arr || points.size <= 0 ||
-            fabs(sf) < DBL_EPSILON)
+    double sf = 0;
+
+    if (fabs(sp.x - sp.y) > DBL_EPSILON || fabs(sp.x - sp.z) > DBL_EPSILON ||
+        fabs(sp.z - sp.y) > DBL_EPSILON)
         rc = DATA_ERROR;
+    else
+        sf = sp.x;
+
+    if (!rc)
+        if (!points.arr || points.size <= 0 || fabs(sf) < DBL_EPSILON)
+            rc = DATA_ERROR;
 
     if (!rc)
     {
