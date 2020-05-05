@@ -9,11 +9,11 @@ COMPILE_FLAGS = -Wall -g -Werror
 all: app.exe
 
 app.exe: $(BINARIES)
-	$(CC) $^ -o $@ -I $(INCLUDE_DIR) $(GTK_FLAGS) 
+	$(CC) $^ -o $@ $(GTK_FLAGS) 
 
 bin/%.o: src/%.cpp
 	mkdir -p bin
-	$(CC) -c -o $@ $(GTK_FLAGS) $(COMPILE_FLAGS) $^
+	$(CC) -c -o $@ $(GTK_FLAGS) $(COMPILE_FLAGS) $^ -I$(INCLUDE_DIR)
 
 clean:
 	rm -rf bin/ app.exe
