@@ -17,12 +17,19 @@ public:
     bool operator==(Iterator const& other) const;
     bool operator<(Iterator const& other) const;
 
+    Iterator<Type> operator+(const int value);
+    Iterator<Type> &operator+=(const int value);
+    Iterator<Type> &operator=(const Iterator<Type> &it);
+
     Type& operator*();
     const Type& operator*() const;
+
     Type* operator->();
     const Type* operator->() const;
+
     Iterator<Type>& operator++();
     Iterator<Type> operator++(int);
+
 private:
     WeakPtr<SharedPtr<Type[]>[]> _data;
     size_t _index = 0;

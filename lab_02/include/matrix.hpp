@@ -3,7 +3,7 @@
 #include <new>
 #include <vector>
 #include <memory>
-#include "iterator.h"
+#include "iterator.hpp"
 
 template <typename Type>
 using SharedPtr = std::shared_ptr<Type>;
@@ -32,6 +32,8 @@ public:
     Matrix(const Matrix &matrix);
     Matrix(const Matrix &&matrix);
 
+    virtual ~Matrix() = default;
+
     Matrix &operator=(const Matrix &matrix);
     Matrix &operator=(const Matrix &&matrix);
 
@@ -43,9 +45,7 @@ public:
     void transpose();
 
     void resizeRows(const size_t new_size);
-    void resizeRows(const size_t new_size, const Type &filler);
     void resizeCols(const size_t new_size);
-    void resizeCols(const size_t new_size, const Type &filler);
 
     void insertRow(const size_t pos);
     void insertRow(const size_t pos, const Type &filler);

@@ -1,8 +1,16 @@
 template <typename T>
 SharedPtr<SharedPtr<T[]>[]> Matrix<T>::_allocate_memory(const size_t rows, const size_t cols) {
-    SharedPtr<SharedPtr<T[]>[]> data(new SharedPtr<T[]>[rows]());
+    SharedPtr<SharedPtr<T[]>[]> data = nullptr;
+    try {
+    data.reset(new SharedPtr<T[]>[rows]);
     for (size_t i = 0; i < rows; i++)
-        data.get()[i].reset(new T[rows]);
+        data[i].reset(new T[cols]());
+    }
+    catch (std::bad_alloc &err) {
+        auto cur_time = time(NULL);
+        throw MemoryError(std::ctime(cur_time), __FILE__, __LINE__, "resizeRows error");
+    }
+
     return data;
 }
 
@@ -89,27 +97,30 @@ template<typename T>
 void Matrix<T>::transpose() {
     size_t rows = _cols;
     size_t cols = _rows;
-    std::cout << "transpose..." << std::endl;
+    Matrix<T> tmp(_cols, _rows);
+
 }
 
 template<typename T>
 void Matrix<T>::resizeRows(const size_t new_size) {
-    std::cout << "resizeRows..." << std::endl;
-}
+    SharedPtr<SharedPtr<Type[]>[]> tmp = _allocate_memory(new_size, _cols);
 
-template<typename T>
-void Matrix<T>::resizeRows(const size_t new_size, const T &filler) {
-    std::cout << "resizeRows with two args..." << std::endl;
+    for (size_t i = 0; i < std::min(_rows, new_size); ++i)
+        for (size_t j = 0; j < _cols, ++j)
+            tmp[i][j] = _data[i][j];
+
+    _data = tmp;
 }
 
 template<typename T>
 void Matrix<T>::resizeCols(const size_t new_size) {
-    std::cout << "resizeCols..." << std::endl;
-}
+    SharedPtr<SharedPtr<Type[]>[]> tmp = _allocate_memory(_rows, new_size);
 
-template<typename T>
-void Matrix<T>::resizeCols(const size_t new_size, const T &filler) {
-    std::cout << "resizeCols with two cols..." << std::endl;
+    for (size_t i = 0; i < _rows; ++i)
+        for (size_t j = 0; j < std::min(new_size, _cols), ++j)
+            tmp[i][j] = _data[i][j];
+
+    _data = tmp;
 }
 
 template<typename T>
@@ -144,38 +155,41 @@ void Matrix<T>::deleteCol(const size_t pos) {
 
 template<typename T>
 bool Matrix<T>::operator==(const Matrix& matrix) const {
-    std::cout << "operator==" << std::endl;
+    if (_rows != matrix._rows || _cols != matrix._cols)
+        return false;
+
+    for (size_t i = 0; i < _rows; ++i)
+        for (size_t j = 0; j < _cols; ++j)
+            if (_data[i][j] != matrix[i][j])
+                return false;
+
     return true;
+
 }
 
 template<typename T>
 bool Matrix<T>::operator!=(const Matrix& matrix) const {
-    std::cout << "operator!=" << std::endl;
-    return false;
+    return !operator==(matrix);
 }
 
 template<typename T>
 T* Matrix<T>::operator[](const size_t row) {
-    std::cout << "operator[]..." << std::endl;
-    return _data.get()[row].get();
+    return _data[row];
 }
 
 template<typename T>
 const T* Matrix<T>::operator[](const size_t row) const {
-    std::cout << "operator[] const..." << std::endl;
-    return _data.get()[row].get();
+    return _data[row];
 }
 
 template<typename T>
 T &Matrix<T>::at(const size_t row, const size_t col) {
-    std::cout << "at..." << std::endl;
-    return _data.get()[row].get()[col];
+    return _data[row][col];
 }
 
 template<typename T>
 const T &Matrix<T>::at(const size_t row, const size_t col) const {
-    std::cout << "const at..." << std::endl;
-    return _data.get()[row].get()[col];
+    return _data[row][col];
 }
 
 template<typename T>
@@ -186,4 +200,22 @@ const Iterator<T> Matrix<T>::begin() const {
 template<typename T>
 const Iterator<T> Matrix<T>::end() const {
     return Iterator<T>(_data, _rows * _cols, _rows, _cols);
+}
+
+ostream &operator<<(ostream &out, const Matrix &matrix) {
+    bool first = true;
+    bool first_col = true;
+    for (size_t i = 0; i < matrix.GetRows(); ++i) {
+        first_col = true;
+        if (!first)
+            out << std::endl;
+        first = false;
+        for(size_t j = 0; j < matrix.GetColumns(); ++j) {
+            if (!first_col)
+                out << ' ';
+            first_col = false;
+            out << matrix[i][j];
+        }
+    }
+    return out;
 }

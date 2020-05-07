@@ -57,3 +57,22 @@ template <typename T>
 bool Iterator<T>::operator<(Iterator const& other) const {
     return _index < other._index;
 }
+
+template <typename T>
+Iterator<T> Iterator<T>::operator+(const int value) {
+    Iterator<T> it(*this);
+    it._index += value;
+    return it;
+}
+
+template <typename T>
+Iterator<T> &Iterator<T>::operator+=(const int value) {
+    _index += value;
+    return *this;
+}
+
+template <typename T>
+Iterator<T> &Iterator<T>::operator=(const Iterator<T> &it) {
+    _data = it._data, _index = it._index, _rows = it._rows, _cols = it._cols;
+    return *this;
+}
