@@ -1,5 +1,4 @@
 template <typename T>
-
 void Iterator<T>::_index_check(const string hint) {
     if (_index < _rows * _cols)
         return;
@@ -20,29 +19,29 @@ bool Iterator<T>::operator==(Iterator const& other) const {
 template <typename T>
 T& Iterator<T>::operator*() {
     _index_check("Iterator doens't in data bounds, while executing operator*");
-    SharedPtr<SharedPtr<T[]>[]> data_ptr = _data.lock();
-    return data_ptr[_index / _rows][_index % _cols];
+    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    return data_ptr[_index / _cols][_index % _cols];
 }
 
 template <typename T>
 const T& Iterator<T>::operator*() const {
     _index_check("Iterator doens't in data bounds, while executing const operator*");
-    SharedPtr<SharedPtr<T[]>[]> data_ptr = _data;
-    return data_ptr[_index / _rows][_index % _cols];
+    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    return data_ptr[_index / _cols][_index % _cols];
 }
 
 template <typename T>
 T* Iterator<T>::operator->() {
     _index_check("Iterator doens't in data bounds, while executing operator->");
-    SharedPtr<SharedPtr<T[]>[]> data_ptr = _data.lock();
-    return data_ptr[_index / _rows].get() + (_index % _cols);
+    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    return data_ptr[_index / _cols].getAddr() + (_index % _cols);
 }
 
 template <typename T>
 const T* Iterator<T>::operator->() const {
     _index_check("Iterator doens't in data bounds, while executing const operator->");
-    SharedPtr<SharedPtr<T[]>> data_ptr = _data.lock();
-    return data_ptr[_index / _rows].get() + (_index % _cols);
+    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    return data_ptr[_index / _cols].getAddr() + (_index % _cols);
 }
 
 template <typename T>

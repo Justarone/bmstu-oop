@@ -3,11 +3,13 @@
 #include <new>
 #include <vector>
 #include <memory>
+#include "matrix_row.hpp"
 #include "iterator.hpp"
 #include "exception.hpp"
 
 template <typename Type>
 using SharedPtr = std::shared_ptr<Type>;
+using string = std::string;
 
 class BaseMatrix {
 public:
@@ -27,6 +29,7 @@ template <typename Type>
 class Matrix: public BaseMatrix {
     friend Iterator<Type>;
 public:
+
     Matrix(const size_t rows = 0, const size_t columns = 0);
     Matrix(const size_t rows, const size_t columns, const Type &filler);
     Matrix(std::initializer_list<std::initializer_list<Type> > init_list);
@@ -40,13 +43,18 @@ public:
 
     const Iterator<Type> begin() const;
     const Iterator<Type> end() const;
+    Iterator<Type> begin();
+    Iterator<Type> end();
+    const Iterator<Type> cbegin();
+    const Iterator<Type> cend();
 
     void fill(const Iterator<Type> start, const Iterator<Type> end, const Type &value);
     void reverse(const Iterator<Type> start, const Iterator<Type> end);
     void transpose();
 
-    void resizeRows(const size_t new_size);
-    void resizeCols(const size_t new_size);
+    void resize(size_t new_rows, size_t new_cols, const Type &filler = {});
+    void resizeRows(size_t new_size, const Type &filler = {});
+    void resizeCols(size_t new_size, const Type &filler = {});
 
     void insertRow(const size_t pos, const Type &filler = {});
     void insertCol(const size_t pos, const Type &filler = {});
@@ -57,17 +65,20 @@ public:
     bool operator==(const Matrix& matrix) const;
     bool operator!=(const Matrix& matrix) const;
 
-    Type *operator[](const size_t row);
-    const Type *operator[](const size_t row) const;
+    MatrixRow<Type> operator[](const size_t row);
+    const MatrixRow<Type> operator[](const size_t row) const;
     Type &at(const size_t row, const size_t col);
     const Type &at(const size_t row, const size_t col) const;
+    Type &operator()(const size_t row, const size_t col);
+    const Type &operator()(const size_t row, const size_t col) const;
 
 
 private:
-    SharedPtr<SharedPtr<Type[]>[]> _data { nullptr };
-    SharedPtr<SharedPtr<Type[]>[]> _allocate_memory(const size_t rows, const size_t cols);
-    void _shiftRows(const size_t from, const size_t to);
-    void _shiftCols(const size_t from, const size_t to);
+    SharedPtr<MatrixRow<Type>[]> _data { nullptr };
+    SharedPtr<MatrixRow<Type>[]> _allocateMemory(const size_t rows, const size_t cols);
+    void _moveRow(const size_t from, const size_t to);
+    void _moveCol(const size_t from, const size_t to);
+    void _checkIndex(const size_t pos, const size_t limit);
 };
 
 #include "../implementation/matrix.hpp"

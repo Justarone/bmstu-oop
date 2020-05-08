@@ -40,4 +40,13 @@ public:
     }
 };
 
+class InvalidArgument: public ExceptionMatrix {
+public:
+    InvalidArgument(const string time_info, const string file_info, const int line_info, 
+               const string errmsg = "No error message"):
+               ExceptionMatrix(time_info, file_info, line_info, errmsg) {
+        _errmsg += " (error type: InvalidArgument)";
+    }
+};
+
 #include "../implementation/exception.hpp"
