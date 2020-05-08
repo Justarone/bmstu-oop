@@ -2,13 +2,14 @@ template <typename T>
 SharedPtr<SharedPtr<T[]>[]> Matrix<T>::_allocate_memory(const size_t rows, const size_t cols) {
     SharedPtr<SharedPtr<T[]>[]> data = nullptr;
     try {
-    data.reset(new SharedPtr<T[]>[rows]);
-    for (size_t i = 0; i < rows; i++)
-        data[i].reset(new T[cols]());
+        data.reset(new SharedPtr<T[]>[rows]);
+        for (size_t i = 0; i < rows; i++)
+            data[i].reset(new T[cols]());
     }
     catch (std::bad_alloc &err) {
-        auto cur_time = time(NULL);
-        throw MemoryError(std::ctime(cur_time), __FILE__, __LINE__, "resizeRows error");
+        time_t cur_time = time(NULL);
+        auto curtime = localtime(&cur_time);
+        throw MemoryError(asctime(curtime), __FILE__, __LINE__, "resizeRows error");
     }
 
     return data;
@@ -29,7 +30,6 @@ Matrix<T>::Matrix(const size_t rows, const size_t columns, const T &filler): Bas
 
 template<typename T>
 Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init_list) {
-
     size_t rows = init_list.size();
     auto it = init_list.begin();
     size_t cols = it->size();
@@ -95,18 +95,15 @@ void Matrix<T>::reverse(Iterator<T> start, Iterator<T> end) {
 
 template<typename T>
 void Matrix<T>::transpose() {
-    size_t rows = _cols;
-    size_t cols = _rows;
-    Matrix<T> tmp(_cols, _rows);
-
+    int a = 0;
 }
 
 template<typename T>
 void Matrix<T>::resizeRows(const size_t new_size) {
-    SharedPtr<SharedPtr<Type[]>[]> tmp = _allocate_memory(new_size, _cols);
+    SharedPtr<SharedPtr<T[]>[]> tmp = _allocate_memory(new_size, _cols);
 
     for (size_t i = 0; i < std::min(_rows, new_size); ++i)
-        for (size_t j = 0; j < _cols, ++j)
+        for (size_t j = 0; j < _cols; ++j)
             tmp[i][j] = _data[i][j];
 
     _data = tmp;
@@ -114,10 +111,10 @@ void Matrix<T>::resizeRows(const size_t new_size) {
 
 template<typename T>
 void Matrix<T>::resizeCols(const size_t new_size) {
-    SharedPtr<SharedPtr<Type[]>[]> tmp = _allocate_memory(_rows, new_size);
+    SharedPtr<SharedPtr<T[]>[]> tmp = _allocate_memory(_rows, new_size);
 
     for (size_t i = 0; i < _rows; ++i)
-        for (size_t j = 0; j < std::min(new_size, _cols), ++j)
+        for (size_t j = 0; j < std::min(new_size, _cols); ++j)
             tmp[i][j] = _data[i][j];
 
     _data = tmp;
@@ -174,12 +171,12 @@ bool Matrix<T>::operator!=(const Matrix& matrix) const {
 
 template<typename T>
 T* Matrix<T>::operator[](const size_t row) {
-    return _data[row];
+    return _data[row].get();
 }
 
 template<typename T>
 const T* Matrix<T>::operator[](const size_t row) const {
-    return _data[row];
+    return _data[row].get();
 }
 
 template<typename T>
@@ -202,14 +199,17 @@ const Iterator<T> Matrix<T>::end() const {
     return Iterator<T>(_data, _rows * _cols, _rows, _cols);
 }
 
-ostream &operator<<(ostream &out, const Matrix &matrix) {
+template<typename T>
+std::ostream &operator<<(std::ostream &out, const Matrix<T> &matrix) {
     bool first = true;
     bool first_col = true;
+
     for (size_t i = 0; i < matrix.GetRows(); ++i) {
         first_col = true;
         if (!first)
             out << std::endl;
         first = false;
+
         for(size_t j = 0; j < matrix.GetColumns(); ++j) {
             if (!first_col)
                 out << ' ';

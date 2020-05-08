@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "iterator.hpp"
+#include "exception.hpp"
 
 template <typename Type>
 using SharedPtr = std::shared_ptr<Type>;
@@ -13,9 +14,9 @@ public:
     BaseMatrix(const size_t rows = 0, const size_t columns = 0): _rows(rows), _cols(columns) {}
     virtual ~BaseMatrix() = default;
 
-    size_t GetColumns() { return _cols; };
-    size_t GetRows() { return _rows; };
-    operator bool() { return _cols && _rows; }
+    size_t GetColumns() const noexcept { return _cols; };
+    size_t GetRows() const noexcept { return _rows; };
+    operator bool() const noexcept { return _cols && _rows; }
 
 protected:
     size_t _rows = 0, _cols = 0;

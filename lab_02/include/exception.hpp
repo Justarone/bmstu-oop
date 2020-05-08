@@ -11,26 +11,32 @@ class ExceptionMatrix: public std::exception {
 protected:
     string _errmsg;
 public:
-    ExceptionMatrix(const string file_info, const string line_info, 
-                    const string time_info, const string errmsg = "No error message");
+    ExceptionMatrix(const string time_info, const string file_info, const int line_info, 
+                    const string errmsg = "No error message");
     virtual ~ExceptionMatrix() {};
-    virtual const char *what() const noexcept override;
+    virtual const char *what() const noexcept override {
+        return _errmsg.c_str();
+    };
 };
 
 
 class IndexError: public ExceptionMatrix {
-    IndexError(const string file_info, const string line_info, 
-               const string time_info, const string errmsg = "No error message"):
-               ExceptionMatrix(file_info, line_info, time_info, errmsg) {
+public:
+    IndexError(const string time_info, const string file_info, const int line_info, 
+               const string errmsg = "No error message"):
+               ExceptionMatrix(time_info, file_info, line_info, errmsg) {
         _errmsg += " (error type: IndexError)";
     }
 };
 
 
 class MemoryError: public ExceptionMatrix {
-    MemoryError(const string file_info, const string line_info, 
-               const string time_info, const string errmsg = "No error message"):
-               ExceptionMatrix(file_info, line_info, time_info, errmsg) {
+public:
+    MemoryError(const string time_info, const string file_info, const int line_info, 
+               const string errmsg = "No error message"):
+               ExceptionMatrix(time_info, file_info, line_info, errmsg) {
         _errmsg += " (error type: MemoryError)";
     }
 };
+
+#include "../implementation/exception.hpp"
