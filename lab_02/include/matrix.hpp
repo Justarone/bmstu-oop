@@ -47,9 +47,9 @@ public:
     const Iterator<Type> cbegin();
     const Iterator<Type> cend();
 
-    void fill(const Iterator<Type> &start, const Iterator<Type> &end, const Type &value);
-    //void fillFromSource(const Iterator<Type> &start, const Iterator<Type> &end, const std::iterator<std::input_iterator_tag, );
-    void reverse(const Iterator<Type> &start, const Iterator<Type> &end);
+    void insert(Iterator<Type> start, const Iterator<Type> &end, const Type &value);
+    void insert(Iterator<Type> start, Iterator<Type> source_start, const Iterator<Type> &source_end);
+    void reverse(Iterator<Type> start, Iterator<Type> end);
     void transpose();
 
     void resize(size_t new_rows, size_t new_cols, const Type &filler = {});

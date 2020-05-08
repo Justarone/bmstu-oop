@@ -80,7 +80,7 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init_list) {
     for (const auto &ilist: init_list)
         for (const auto &elem: ilist)
         {
-            _data[i / rows][i % rows] = elem;
+            _data[i / cols][i % cols] = elem;
             ++i;
         }
 }
@@ -111,20 +111,29 @@ Matrix<T> &Matrix<T>::operator=(const Matrix<T> &&matrix) {
 }
 
 template<typename T>
-void Matrix<T>::fill(const Iterator<T> &start, const Iterator<T> &end, const T &value) {
+void Matrix<T>::insert(Iterator<T> start, const Iterator<T> &end, const T &value) {
     for (auto it = start; it < end; ++it)
         *it = value;
 }
 
 template<typename T>
-void Matrix<T>::reverse(const Iterator<T> &start, const Iterator<T> &end) {
-    auto end_it = end;
-    --end_it;
-    for (auto it = start; it < end_it; ++it, --end_it)
+void Matrix<T>::insert(Iterator<T> start, Iterator<T> source_start, const Iterator<T> &source_end) {
+    auto source_it = source_start;
+    auto it = start;
+    while (!it.is_end() && source_it < source_end) {
+        *it = *source_it;
+        ++it, ++source_it;
+    }
+}
+
+template<typename T>
+void Matrix<T>::reverse(Iterator<T> start, Iterator<T> end) {
+    --end;
+    for (; start < end; start++, end++)
     {
-        auto tmp = *it;
-        *it = *end_it;
-        *end_it = tmp;
+        auto tmp = *start;
+        *start = *end;
+        *end = *start;
     }
 }
 

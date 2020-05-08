@@ -1,6 +1,7 @@
 #include "matrix.hpp"
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 template <typename T>
 using vector = std::vector<T>;
@@ -34,50 +35,97 @@ int main() {
     std::cout << c << "\n\n";
     std::cout << "CONSTRUCTOR SECTION END\n\n\n";
 
+
     std::cout << "INSERT-DELETE-RESIZE OPERATIONS TESTING SECTION:\n\n";
     std::cout << "Working with matrix c:\n";
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.insertRow(1, 3.33);\n";
     c.insertRow(1, 3.33);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.insertCol(1, 4.321);\n";
     c.insertCol(1, 4.321);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.deleteCol(1);\n";
     c.deleteCol(1);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.deleteRow(0);\n";
     c.deleteRow(0);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.resizeRows(c.GetRows() + 1);\n";
     c.resizeRows(c.GetRows() + 1);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.resizeCols(c.GetColumns() + 1);\n";
     c.resizeCols(c.GetColumns() + 1);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.resizeRows(c.GetRows() + 1, 34);\n";
     c.resizeRows(c.GetRows() + 1, 34);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.resizeCols(c.GetColumns() + 1, 43);\n";
     c.resizeCols(c.GetColumns() + 1, 43);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.resize(c.GetRows() + 2, c.GetColumns() + 1);\n";
     c.resize(c.GetRows() + 2, c.GetColumns() + 1);
     std::cout << c << "\n\n";
+
     std::cout << "Command: c.resize(c.GetRows() - 2, c.GetColumns() - 1);\n";
     c.resize(c.GetRows() - 2, c.GetColumns() - 1);
     std::cout << c << "\n\n";
     std::cout << "INSERT-DELETE-RESIZE OPERATIONS SECTION END\n\n\n";
 
+
     std::cout << "GET ELEMENT METHODS SECTION:\n\n";
     Matrix<string> new_m = { { "a1", "a2", "a3" }, { "b1", "b2", "b3" }, { "c1", "c2", "c3" } };
     std::cout << "Working with matrix new_m: \n" << new_m << "\n\n";
+
     std::cout << "Commands: new_m[1][1] and new_m.at(1, 1)\n";
     std::cout << new_m[1][1] << " / " << new_m.at(1, 1) << "\n\n";
+
     std::cout << "Commands: new_m[1][1] = new1 and new_m.at(1, 2) = new2\n";
     new_m[1][1] = "new1"; new_m.at(1, 2) = "new2";
     std::cout << "new_m[1][1] = " << new_m[1][1] << ", new_m[1][2] = " << new_m[1][2] << "\n\n";
     std::cout << "GET ELEMENT METHODS SECTION END\n\n\n";
+
+
+    std::cout << "ITERATORS SECTION\n\n";
+    std::cout << "Matrix from previos section:\n";
+    std::cout << new_m << "\n\n";
+
+    std::cout << "Command: range-based for cycle (const elem &), ' ' as delimiter\n";
+    for (const auto &elem: new_m)
+        std::cout << elem << ' ';
+    std::cout << "\n\n";
+
+    size_t cnt = 0;
+    std::cout << "Range-based for filling matrix with string \"new_test<number>\":\n";
+    for (auto &elem: new_m)
+        elem = "new_test" + std::to_string(++cnt);
+    std::cout << new_m << "\n\n";
+
+    std::cout << "Test insert [from, to, filler]:\n";
+    new_m.insert(new_m.end() - static_cast<int>(new_m.GetColumns()), new_m.end(), "filler_for_last_line");
+    std::cout << new_m << "\n\n";
+
+    std::cout << "Test insert from another matrix container via iterators:\n";
+    Matrix<string> test_m = {{"test1", "test2", "test3"}, {"test4", "test5", "test6"}};
+    new_m.insert(new_m.end() - static_cast<int>(new_m.GetColumns()), test_m.begin(), test_m.end());
+    std::cout << new_m << "\n\n";
+
+    //algorithms work with bidirectional iterators, and I need to overload operator-- to work with them
+    //std::cout << "Use of standard algorithm lib (reverse function, first line = arg):\n";
+    //std::reverse(new_m.begin(), new_m.begin() + static_cast<int>(new_m.GetColumns()));
+    //std::cout << new_m << "\n";
+
+    std::cout << "ITERATORS SECTION ENDS\n\n";
+
 
     return 0;
 }
