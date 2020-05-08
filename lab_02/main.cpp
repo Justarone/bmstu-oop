@@ -79,34 +79,5 @@ int main() {
     std::cout << "new_m[1][1] = " << new_m[1][1] << ", new_m[1][2] = " << new_m[1][2] << "\n\n";
     std::cout << "GET ELEMENT METHODS SECTION END\n\n\n";
 
-
-    //std::cout << "Command: c.fill(c.begin() + 1, c.end() - 1, 2.22);\n";
-    //c.fill(c.begin() + 1, c.end() - 1, 2.22);
-    std::cout << c << "\n\n";
-
-    //for (const auto &elem: c)
-        //std::cout << elem << ' ';
-    //std::cout << std::endl;
-
-    std::cout << std::endl << std::endl << c.GetRows() << ' ' << c.GetColumns() << std::endl << std::endl;
-
-    std::cout << c << std::endl;
-
-    Matrix<vector<int>> v(3, 3, vector<int>(3, 3));
-
-    //auto it = v.begin();
-    //auto it2 = it - q;
-    //it2 += 2;
-    //it2 = v.end();
-
-    //auto it3 = c.end();
-    //std::cout << *it3;
-
-    //std::cout << it2->at(1) << std::endl;
-    
-
-    std::cout << c << std::endl;
-
-    std::cout << static_cast<int>(c == a) << std::endl;
     return 0;
 }

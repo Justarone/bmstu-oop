@@ -111,13 +111,13 @@ Matrix<T> &Matrix<T>::operator=(const Matrix<T> &&matrix) {
 }
 
 template<typename T>
-void Matrix<T>::fill(const Iterator<T> start, const Iterator<T> end, const T &value) {
+void Matrix<T>::fill(const Iterator<T> &start, const Iterator<T> &end, const T &value) {
     for (auto it = start; it < end; ++it)
         *it = value;
 }
 
 template<typename T>
-void Matrix<T>::reverse(const Iterator<T> start, const Iterator<T> end) {
+void Matrix<T>::reverse(const Iterator<T> &start, const Iterator<T> &end) {
     auto end_it = end;
     --end_it;
     for (auto it = start; it < end_it; ++it, --end_it)
@@ -179,7 +179,7 @@ void Matrix<T>::insertRow(const size_t pos, const T &filler) {
     _checkIndex(pos, _rows);
 
     resizeRows(_rows + 1);
-    fill(end() - _cols, end(), filler);
+    fill(end() - static_cast<int>(_cols), end(), filler);
     _moveRow(_rows - 1, pos);
 }
 
@@ -283,33 +283,33 @@ const T &Matrix<T>::operator()(const size_t row, const size_t col) const {
 
 template<typename T>
 Iterator<T> Matrix<T>::begin() {
-    return Iterator<T>(_data, 0, _rows, _cols);
+    return Iterator<T>(*this, 0);
 }
 
 template<typename T>
 Iterator<T> Matrix<T>::end() {
-    return Iterator<T>(_data, _rows * _cols, _rows, _cols);
+    return Iterator<T>(*this, _cols * _rows);
 }
 
 template<typename T>
 const Iterator<T> Matrix<T>::begin() const {
-    return Iterator<T>(_data, 0, _rows, _cols);
+    return Iterator<T>(*this, 0);
 }
 
 template<typename T>
 const Iterator<T> Matrix<T>::end() const {
-    return Iterator<T>(_data, _rows * _cols, _rows, _cols);
+    return Iterator<T>(*this, _cols * _rows);
 }
 
 
 template<typename T>
 const Iterator<T> Matrix<T>::cbegin() {
-    return Iterator<T>(_data, 0, _rows, _cols);
+    return Iterator<T>(*this, 0);
 }
 
 template<typename T>
 const Iterator<T> Matrix<T>::cend() {
-    return Iterator<T>(_data, _rows * _cols, _rows, _cols);
+    return Iterator<T>(*this, _cols * _rows);
 }
 
 template<typename T>

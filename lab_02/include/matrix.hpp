@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
-#include <new>
-#include <vector>
+#include <iterator>
 #include <memory>
 #include "matrix_row.hpp"
 #include "iterator.hpp"
@@ -48,8 +47,9 @@ public:
     const Iterator<Type> cbegin();
     const Iterator<Type> cend();
 
-    void fill(const Iterator<Type> start, const Iterator<Type> end, const Type &value);
-    void reverse(const Iterator<Type> start, const Iterator<Type> end);
+    void fill(const Iterator<Type> &start, const Iterator<Type> &end, const Type &value);
+    //void fillFromSource(const Iterator<Type> &start, const Iterator<Type> &end, const std::iterator<std::input_iterator_tag, );
+    void reverse(const Iterator<Type> &start, const Iterator<Type> &end);
     void transpose();
 
     void resize(size_t new_rows, size_t new_cols, const Type &filler = {});
@@ -61,6 +61,18 @@ public:
 
     void deleteRow(const size_t pos);
     void deleteCol(const size_t pos);
+
+    //void pushRowFront(const Type &filler);
+    //void pushColFront(const Type &filler);
+
+    //void pushRowBack(const Type &filler);
+    //void pushColBack(const Type &filler);
+
+    //void popRowFront();
+    //void popColFront();
+
+    //void popRowBack();
+    //void popColBack();
 
     bool operator==(const Matrix& matrix) const;
     bool operator!=(const Matrix& matrix) const;
@@ -82,20 +94,4 @@ private:
 };
 
 #include "../implementation/matrix.hpp"
-
-    //void pushRowFront();
-    //void pushRowFront(const Type &filler);
-    //void pushColFront();
-    //void pushColFront(const Type &filler);
-
-    //void pushRowBack();
-    //void pushRowBack(const Type &filler);
-    //void pushColBack();
-    //void pushColBack(const Type &filler);
-
-    //void popRowFront();
-    //void popColFront();
-
-    //void popRowBack();
-    //void popColBack();
 
