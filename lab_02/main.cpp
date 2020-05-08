@@ -1,4 +1,8 @@
 #include "matrix.hpp"
+#include <vector>
+
+template <typename T>
+using vector = std::vector<T>;
 
 int main() {
     size_t q = 2, z = 3;
@@ -17,10 +21,24 @@ int main() {
     Matrix<double> c({ { 2., 3. }, { 3., 4. } });
 
     c.fill(c.begin(), c.end(), 2.22);
+    std::cout << c;
 
-    auto it = c.begin();
-    auto it2 = it + q;
+    c.insertRow(1, 3.33);
+    std::cout << c;
+
+
+    Matrix<vector<int>> v(3, 3, vector<int>(3, 3));
+
+    auto it = v.begin();
+    auto it2 = it - q;
     it2 += 2;
+    it2 = v.end();
+
+    auto it3 = c.end();
+    std::cout << *it3;
+
+    std::cout << it2->at(1) << std::endl;
+    
 
     for (const auto &elem: c)
         std::cout << elem << ' ';

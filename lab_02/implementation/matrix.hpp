@@ -1,4 +1,27 @@
 template <typename T>
+void Matrix<T>::_shiftRows(const size_t from, const size_t to) {
+    auto tmp = _data[to];
+    for (size_t i = to; i > from; --i)
+        _data[i] = _data[i - 1];
+    for (size_t i = to; i < from; ++i)
+        _data[i] = _data[i + 1];
+    _data[from] = tmp;
+}
+
+template <typename T>
+void Matrix<T>::_shiftCols(const size_t from, const size_t to) {
+    for (size_t j = 0; j < _rows; ++j)
+    {
+        auto tmp = _data[j][to];
+        for (size_t i = to; i > from; --i)
+            _data[j][i] = _data[j][i - 1];
+        for (size_t i = to; i < from; ++i)
+            _data[j][i] = _data[j][i + 1];
+        _data[j][from] = tmp;
+    }
+}
+
+template <typename T>
 SharedPtr<SharedPtr<T[]>[]> Matrix<T>::_allocate_memory(const size_t rows, const size_t cols) {
     SharedPtr<SharedPtr<T[]>[]> data = nullptr;
     try {
@@ -76,13 +99,13 @@ Matrix<T> &Matrix<T>::operator=(const Matrix<T> &&matrix) {
 }
 
 template<typename T>
-void Matrix<T>::fill(Iterator<T> start, Iterator<T> end, const T &value) {
+void Matrix<T>::fill(const Iterator<T> start, const Iterator<T> end, const T &value) {
     for (auto it = start; it < end; ++it)
         *it = value;
 }
 
 template<typename T>
-void Matrix<T>::reverse(Iterator<T> start, Iterator<T> end) {
+void Matrix<T>::reverse(const Iterator<T> start, const Iterator<T> end) {
     auto end_it = end;
     --end_it;
     for (auto it = start; it < end_it; ++it, --end_it)
@@ -107,6 +130,7 @@ void Matrix<T>::resizeRows(const size_t new_size) {
             tmp[i][j] = _data[i][j];
 
     _data = tmp;
+    _rows = new_size;
 }
 
 template<typename T>
@@ -118,21 +142,14 @@ void Matrix<T>::resizeCols(const size_t new_size) {
             tmp[i][j] = _data[i][j];
 
     _data = tmp;
-}
-
-template<typename T>
-void Matrix<T>::insertRow(const size_t pos) {
-    std::cout << "insertRow..." << std::endl;
+    _cols = new_size;
 }
 
 template<typename T>
 void Matrix<T>::insertRow(const size_t pos, const T &filler) {
-    std::cout << "insertRow with filler..." << std::endl;
-}
-
-template<typename T>
-void Matrix<T>::insertCol(const size_t pos) {
-    std::cout << "insertCol..." << std::endl;
+    resizeRows(_rows + 1);
+    fill(end() - _cols, end(), filler);
+    _shiftRows(pos, _rows - 1);
 }
 
 template<typename T>

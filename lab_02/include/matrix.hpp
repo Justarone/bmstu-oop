@@ -41,17 +41,15 @@ public:
     const Iterator<Type> begin() const;
     const Iterator<Type> end() const;
 
-    void fill(Iterator<Type> start, Iterator<Type> end, const Type &value);
-    void reverse(Iterator<Type> start, Iterator<Type> end);
+    void fill(const Iterator<Type> start, const Iterator<Type> end, const Type &value);
+    void reverse(const Iterator<Type> start, const Iterator<Type> end);
     void transpose();
 
     void resizeRows(const size_t new_size);
     void resizeCols(const size_t new_size);
 
-    void insertRow(const size_t pos);
-    void insertRow(const size_t pos, const Type &filler);
-    void insertCol(const size_t pos);
-    void insertCol(const size_t pos, const Type &filler);
+    void insertRow(const size_t pos, const Type &filler = {});
+    void insertCol(const size_t pos, const Type &filler = {});
 
     void deleteRow(const size_t pos);
     void deleteCol(const size_t pos);
@@ -68,6 +66,8 @@ public:
 private:
     SharedPtr<SharedPtr<Type[]>[]> _data { nullptr };
     SharedPtr<SharedPtr<Type[]>[]> _allocate_memory(const size_t rows, const size_t cols);
+    void _shiftRows(const size_t from, const size_t to);
+    void _shiftCols(const size_t from, const size_t to);
 };
 
 #include "../implementation/matrix.hpp"

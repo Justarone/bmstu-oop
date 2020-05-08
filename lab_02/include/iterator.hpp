@@ -1,5 +1,8 @@
 #pragma once
 #include <memory>
+#include <string>
+
+#include "exception.hpp"
 
 template <typename T>
 using SharedPtr = std::shared_ptr<T>;
@@ -17,7 +20,8 @@ public:
     bool operator==(Iterator const& other) const;
     bool operator<(Iterator const& other) const;
 
-    Iterator<Type> operator+(const int value);
+    Iterator<Type> operator+(const int value) const;
+    Iterator<Type> operator-(const int value) const;
     Iterator<Type> &operator+=(const int value);
     Iterator<Type> &operator=(const Iterator<Type> &it);
 
@@ -31,6 +35,7 @@ public:
     Iterator<Type> operator++(int);
 
 private:
+    void _index_check(const string hint = "") noexcept(false);
     WeakPtr<SharedPtr<Type[]>[]> _data;
     size_t _index = 0;
     size_t _rows = 0;
