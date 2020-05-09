@@ -79,6 +79,15 @@ int main() {
     std::cout << "Command: c.resize(c.GetRows() - 2, c.GetColumns() - 1);\n";
     c.resize(c.GetRows() - 2, c.GetColumns() - 1);
     std::cout << c << "\n\n";
+
+    std::cout << "Check of transpose method on matrix c (but first - resize (+ 2 rows)):\n";
+    std::cout << "Command: c.resizeRows(c.GetRows() + 2, 32.10);\n";
+    c.resizeRows(c.GetRows() + 2, 32.10);
+    std::cout << "Result: \n" << c << "\n\n";
+    std::cout << "Command: c.transpose();\n";
+    c.transpose();
+    std::cout << "Result: \n" << c << "\n\n";
+
     std::cout << "INSERT-DELETE-RESIZE OPERATIONS SECTION END\n\n\n";
 
 
