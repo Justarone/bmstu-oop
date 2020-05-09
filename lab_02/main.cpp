@@ -1,7 +1,7 @@
-#include "matrix.hpp"
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include "matrix.hpp"
 
 template <typename T>
 using vector = std::vector<T>;
@@ -119,12 +119,33 @@ int main() {
     new_m.insert(new_m.end() - static_cast<int>(new_m.GetColumns()), test_m.begin(), test_m.end());
     std::cout << new_m << "\n\n";
 
-    //algorithms work with bidirectional iterators, and I need to overload operator-- to work with them
-    //std::cout << "Use of standard algorithm lib (reverse function, first line = arg):\n";
-    //std::reverse(new_m.begin(), new_m.begin() + static_cast<int>(new_m.GetColumns()));
-    //std::cout << new_m << "\n";
+    std::cout << "Reverse method check (reverse first line): \n";
+    new_m.reverse(new_m.begin(), new_m.begin() + static_cast<int>(new_m.GetColumns()));
+    std::cout << new_m << "\n\n";
 
     std::cout << "ITERATORS SECTION ENDS\n\n";
+
+
+    std::cout << "CONST ITERATORS AND OBJECTS SECTION\n\n";
+
+    std::cout << "Create const matrix = { { '11', '12', '13' }, { '21', '22', '23' } }\n";
+    const Matrix<string> const_m = { { "11", "12", "13" }, { "21", "22", "23" } };
+    std::cout << "Range-based for cycle for const matrix:\n";
+    for (const auto &elem: const_m)
+        std::cout << elem << "; ";
+    std::cout << "\n\n";
+
+    std::cout << "Insert in new_m matrix from const matrix:\n";
+    std::cout << "new_m matrix:\n" << new_m << "\n\n";
+    std::cout << "Insert command: new_m.insert(new_m.begin(), const_m.begin(), const_m.begin() + 3);\n";
+    new_m.insert(new_m.begin(), const_m.begin(), const_m.begin() + 3);
+    std::cout << "new_m matrix after insertion: \n" << new_m << "\n\n";
+
+    std::cout << "Check of cbegin and cend methods of non-constant object (new_m matrix):\n";
+    for (auto it = new_m.cbegin(); it < new_m.cend(); it++)
+        std::cout << *it << "; ";
+    std::cout << "\n\n";
+    std::cout << "CONST ITERATORS AND OBJECTS SECTION ENDS\n\n";
 
 
     return 0;

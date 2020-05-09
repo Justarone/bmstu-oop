@@ -97,7 +97,10 @@ bool Iterator<T>::is_valid() const {
 template <typename T>
 Iterator<T> Iterator<T>::operator+(const int value) const {
     Iterator<T> it(*this);
-    it._index += value;
+    if (value < 0 && it._index < static_cast<size_t>(-value))
+        it._index = 0;
+    else
+        it._index += value;
 
     if (it._index < 0)
         it._index = 0;

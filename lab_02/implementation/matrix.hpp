@@ -127,13 +127,23 @@ void Matrix<T>::insert(Iterator<T> start, Iterator<T> source_start, const Iterat
 }
 
 template<typename T>
+void Matrix<T>::insert(Iterator<T> start, ConstIterator<T> source_start, const ConstIterator<T> &source_end) {
+    auto source_it = source_start;
+    auto it = start;
+    while (!it.is_end() && source_it < source_end) {
+        *it = *source_it;
+        ++it, ++source_it;
+    }
+}
+
+template<typename T>
 void Matrix<T>::reverse(Iterator<T> start, Iterator<T> end) {
-    --end;
-    for (; start < end; start++, end++)
+    end = end - 1;
+    for (; start < end; start++, end = end - 1)
     {
         auto tmp = *start;
         *start = *end;
-        *end = *start;
+        *end = tmp;
     }
 }
 
@@ -301,24 +311,24 @@ Iterator<T> Matrix<T>::end() {
 }
 
 template<typename T>
-const Iterator<T> Matrix<T>::begin() const {
-    return Iterator<T>(*this, 0);
+ConstIterator<T> Matrix<T>::begin() const {
+    return ConstIterator<T>(*this, 0);
 }
 
 template<typename T>
-const Iterator<T> Matrix<T>::end() const {
-    return Iterator<T>(*this, _cols * _rows);
+ConstIterator<T> Matrix<T>::end() const {
+    return ConstIterator<T>(*this, _cols * _rows);
 }
 
 
 template<typename T>
-const Iterator<T> Matrix<T>::cbegin() {
-    return Iterator<T>(*this, 0);
+ConstIterator<T> Matrix<T>::cbegin() const {
+    return ConstIterator<T>(*this, 0);
 }
 
 template<typename T>
-const Iterator<T> Matrix<T>::cend() {
-    return Iterator<T>(*this, _cols * _rows);
+ConstIterator<T> Matrix<T>::cend() const {
+    return ConstIterator<T>(*this, _cols * _rows);
 }
 
 template<typename T>

@@ -4,6 +4,7 @@
 #include <memory>
 #include "matrix_row.hpp"
 #include "iterator.hpp"
+#include "const_iterator.hpp"
 #include "exception.hpp"
 
 template <typename Type>
@@ -27,6 +28,7 @@ protected:
 template <typename Type>
 class Matrix: public BaseMatrix {
     friend Iterator<Type>;
+    friend ConstIterator<Type>;
 public:
 
     Matrix(const size_t rows = 0, const size_t columns = 0);
@@ -40,15 +42,16 @@ public:
     Matrix &operator=(const Matrix &matrix);
     Matrix &operator=(const Matrix &&matrix);
 
-    const Iterator<Type> begin() const;
-    const Iterator<Type> end() const;
+    ConstIterator<Type> begin() const;
+    ConstIterator<Type> end() const;
     Iterator<Type> begin();
     Iterator<Type> end();
-    const Iterator<Type> cbegin();
-    const Iterator<Type> cend();
+    ConstIterator<Type> cbegin() const;
+    ConstIterator<Type> cend() const;
 
     void insert(Iterator<Type> start, const Iterator<Type> &end, const Type &value);
     void insert(Iterator<Type> start, Iterator<Type> source_start, const Iterator<Type> &source_end);
+    void insert(Iterator<Type> start, ConstIterator<Type> source_start, const ConstIterator<Type> &source_end);
     void reverse(Iterator<Type> start, Iterator<Type> end);
     void transpose();
 
@@ -61,18 +64,6 @@ public:
 
     void deleteRow(const size_t pos);
     void deleteCol(const size_t pos);
-
-    //void pushRowFront(const Type &filler);
-    //void pushColFront(const Type &filler);
-
-    //void pushRowBack(const Type &filler);
-    //void pushColBack(const Type &filler);
-
-    //void popRowFront();
-    //void popColFront();
-
-    //void popRowBack();
-    //void popColBack();
 
     bool operator==(const Matrix& matrix) const;
     bool operator!=(const Matrix& matrix) const;
