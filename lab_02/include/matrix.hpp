@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iterator>
 #include <memory>
+#include "matrix_base.hpp"
 #include "matrix_row.hpp"
 #include "iterator.hpp"
 #include "const_iterator.hpp"
@@ -10,20 +11,6 @@
 template <typename Type>
 using SharedPtr = std::shared_ptr<Type>;
 using string = std::string;
-
-class BaseMatrix {
-public:
-    BaseMatrix(const size_t rows = 0, const size_t columns = 0): _rows(rows), _cols(columns) {}
-    virtual ~BaseMatrix() = default;
-
-    size_t GetColumns() const noexcept { return _cols; };
-    size_t GetRows() const noexcept { return _rows; };
-    operator bool() const noexcept { return _cols && _rows; }
-
-protected:
-    size_t _rows = 0, _cols = 0;
-};
-
 
 template <typename Type>
 class Matrix: public BaseMatrix {
