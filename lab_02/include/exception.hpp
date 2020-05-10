@@ -49,4 +49,22 @@ public:
     }
 };
 
+class IncompatibleElements: public ExceptionMatrix {
+public:
+    IncompatibleElements(const string time_info, const string file_info, const int line_info, 
+               const string errmsg = "No error message"):
+               ExceptionMatrix(time_info, file_info, line_info, errmsg) {
+        _errmsg += " (error type: IncompatibleElements)";
+    }
+};
+
+class InvalidState: public ExceptionMatrix {
+public:
+    InvalidState(const string time_info, const string file_info, const int line_info, 
+               const string errmsg = "No error message"):
+               ExceptionMatrix(time_info, file_info, line_info, errmsg) {
+        _errmsg += " (error type: IncompatibleElements)";
+    }
+};
+
 #include "../implementation/exception.hpp"

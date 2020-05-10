@@ -26,8 +26,27 @@ public:
 
     virtual ~Matrix() = default;
 
-    Matrix &operator=(const Matrix &matrix);
-    Matrix &operator=(const Matrix &&matrix);
+    Matrix<Type> &operator=(const Matrix &matrix);
+    Matrix<Type> &operator=(const Matrix &&matrix);
+
+    Matrix<Type> operator+(const Matrix &matrix) const;
+    Matrix<Type> operator-(const Matrix &matrix) const;
+    Matrix<Type> operator*(const Matrix &matrix) const;
+
+    Matrix<Type> operator+(const Type &elem) const;
+    Matrix<Type> operator-(const Type &elem) const;
+    Matrix<Type> operator*(const Type &elem) const;
+
+    Matrix<Type> &operator+=(const Matrix &matrix);
+    Matrix<Type> &operator-=(const Matrix &matrix);
+    Matrix<Type> &operator*=(const Matrix &matrix);
+
+    Matrix<Type> &operator+=(const Type &elem);
+    Matrix<Type> &operator-=(const Type &elem);
+    Matrix<Type> &operator*=(const Type &elem);
+
+    bool isSquare() const;
+    Type determinant() const;
 
     ConstIterator<Type> begin() const;
     ConstIterator<Type> end() const;
@@ -68,7 +87,9 @@ private:
     SharedPtr<MatrixRow<Type>[]> _allocateMemory(const size_t rows, const size_t cols);
     void _moveRow(const size_t from, const size_t to);
     void _moveCol(const size_t from, const size_t to);
-    void _checkIndex(const size_t pos, const size_t limit);
+    void _checkIndex(const size_t pos, const size_t limit) const;
+    void _checkSizes(const Matrix &matrix) const;
+    void _checkMultSizes(const Matrix &matrix) const;
 };
 
 #include "../implementation/matrix.hpp"

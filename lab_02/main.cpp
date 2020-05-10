@@ -156,6 +156,59 @@ int main() {
     std::cout << "\n\n";
     std::cout << "CONST ITERATORS AND OBJECTS SECTION ENDS\n\n";
 
+    std::cout << "MATH OPERATIONS SECTION\n\n";
+    Matrix<double> math_matrix = { { 1, 2, 3, 4 }, {7, 9, 11, 13}, {4, 2, 0, -2}, {1, 4, 7, 10} };
+    std::cout << "Matrix to work with here (math_matrix): \n";
+    std::cout << math_matrix << "\n\n";
+
+    std::cout << "Operation: math_matrix += 2.5;\n";
+    math_matrix += 2.5;
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+    std::cout << "Operation: math_matrix -= 2.5;\n";
+    math_matrix -= 2.5;
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+    std::cout << "Operation: math_matrix *= 2.5;\n";
+    math_matrix *= 2.5;
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+    std::cout << "Operation: math_matrix *= 0.4;\n";
+    math_matrix *= 0.4;
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+
+    Matrix<double> tmp;
+
+    std::cout << "Operation: tmp = math_matrix + 2.5;\n";
+    tmp = math_matrix + 2.5;
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+    std::cout << "Operation: tmp = math_matrix - 2.5;\n";
+    tmp = math_matrix - 2.5;
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+    std::cout << "Operation: tmp = math_matrix * 2.5;\n";
+    tmp = math_matrix * 2.5;
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+    std::cout << "Operation: tmp = math_matrix * 0.4;\n";
+    tmp = math_matrix * 0.4;
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+
+    Matrix<int> det_matrix = { { 38, 382, 21, 9 }, { 21, 1, 9, 11 }, { 118, 5, 85, 2 }, { 10, 8, 22, 13 } };
+    std::cout << "Operation: det_matrix.determinant();\n";
+    std::cout << "Result: " << det_matrix.determinant() << "\n";
+
+    std::cout << "Matrix multiplication check: \n";
+    Matrix<double> res;
+    Matrix<double> m1 = { { 1 }, { 2 }, { 3 } }, m2 = { { 1, 2 } };
+    std::cout << "Operation: m1 * m2 (m1 = { { 1 }, { 2 }, { 3 } }, m2 = { { 1, 2 } })\n";
+    res = m1 * m2;
+    std::cout << "Result:\n" << res << "\n\n";
+
+    std::cout << "MATH OPERATIONS SECTION END\n\n";
 
     return 0;
 }
