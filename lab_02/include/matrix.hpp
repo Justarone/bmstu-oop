@@ -18,35 +18,70 @@ class Matrix: public BaseMatrix {
     friend ConstIterator<Type>;
 public:
 
-    Matrix(const size_t rows = 0, const size_t columns = 0);
-    Matrix(const size_t rows, const size_t columns, const Type &filler);
+    explicit Matrix(size_t rows = 0, size_t columns = 0);
+    Matrix(size_t rows, size_t columns, const Type &filler);
+    // C-matrix constructor
+    //Matrix(const size_t rows, const size_t columns, Type **matrix);
     Matrix(std::initializer_list<std::initializer_list<Type> > init_list);
-    Matrix(const Matrix &matrix);
-    Matrix(const Matrix &&matrix);
+    explicit Matrix(const Matrix &matrix);
+    Matrix(Matrix &&matrix);
 
     virtual ~Matrix() = default;
 
     Matrix<Type> &operator=(const Matrix &matrix);
-    Matrix<Type> &operator=(const Matrix &&matrix);
+    Matrix<Type> &operator=(Matrix &&matrix);
+    // init-list operator=
+    //Matrix<Type> &operator=(init_list);
 
+    // operator ==> method
+    // division operators and methods
     Matrix<Type> operator+(const Matrix &matrix) const;
     Matrix<Type> operator-(const Matrix &matrix) const;
     Matrix<Type> operator*(const Matrix &matrix) const;
+    //Matrix<Type> operator/(const Matrix &matrix) const;
 
-    Matrix<Type> operator+(const Type &elem) const;
-    Matrix<Type> operator-(const Type &elem) const;
-    Matrix<Type> operator*(const Type &elem) const;
+    Matrix<Type> addMatrix(const Matrix &matrix) const;
+    Matrix<Type> subMatrix(const Matrix &matrix) const;
+    Matrix<Type> mulMatrix(const Matrix &matrix) const;
+    //Matrix<Type> divMatrix(const Matrix &matrix) const;
+
+    Matrix<Type> operator+(const Type &elem) const noexcept;
+    Matrix<Type> operator-(const Type &elem) const noexcept;
+    Matrix<Type> operator*(const Type &elem) const noexcept;
+    //Matrix<Type> operator/(const Type &elem) const;
+
+    Matrix<Type> addElem(const Type &elem) const noexcept;
+    Matrix<Type> subElem(const Type &elem) const noexcept;
+    Matrix<Type> mulElem(const Type &elem) const noexcept;
+    //Matrix<Type> divElem(const Type &elem) const;
+
+    //-Matrix
+    //Matrix<Type> operator-();
+    //Matrix<Type> neg();
 
     Matrix<Type> &operator+=(const Matrix &matrix);
     Matrix<Type> &operator-=(const Matrix &matrix);
     Matrix<Type> &operator*=(const Matrix &matrix);
 
-    Matrix<Type> &operator+=(const Type &elem);
-    Matrix<Type> &operator-=(const Type &elem);
-    Matrix<Type> &operator*=(const Type &elem);
+    Matrix<Type> &addEqMatrix(const Matrix &matrix);
+    Matrix<Type> &subEqMatrix(const Matrix &matrix);
+    Matrix<Type> &mulEqMatrix(const Matrix &matrix);
+
+    Matrix<Type> &operator+=(const Type &elem) noexcept;
+    Matrix<Type> &operator-=(const Type &elem) noexcept;
+    Matrix<Type> &operator*=(const Type &elem) noexcept;
+    //Matrix<Type> &operator/=(const Type &elem);
+
+    Matrix<Type> &addEqElem(const Type &elem) noexcept;
+    Matrix<Type> &subEqElem(const Type &elem) noexcept;
+    Matrix<Type> &mulEqElem(const Type &elem) noexcept;
+    //Matrix<Type> divEqElem(const Type &elem);
 
     bool isSquare() const;
     Type determinant() const;
+    void transpose();
+    // reverse method
+    //void reverse();
 
     ConstIterator<Type> begin() const;
     ConstIterator<Type> end() const;
@@ -55,39 +90,39 @@ public:
     ConstIterator<Type> cbegin() const;
     ConstIterator<Type> cend() const;
 
-    void insert(Iterator<Type> start, const Iterator<Type> &end, const Type &value);
-    void insert(Iterator<Type> start, Iterator<Type> source_start, const Iterator<Type> &source_end);
-    void insert(Iterator<Type> start, ConstIterator<Type> source_start, const ConstIterator<Type> &source_end);
+    // insert ==> fill
+    void fill(Iterator<Type> start, const Iterator<Type> &end, const Type &value);
+    void fill(Iterator<Type> start, Iterator<Type> source_start, const Iterator<Type> &source_end);
+    void fill(Iterator<Type> start, ConstIterator<Type> source_start, const ConstIterator<Type> &source_end);
     void reverse(Iterator<Type> start, Iterator<Type> end);
-    void transpose();
 
     void resize(size_t new_rows, size_t new_cols, const Type &filler = {});
     void resizeRows(size_t new_size, const Type &filler = {});
     void resizeCols(size_t new_size, const Type &filler = {});
 
-    void insertRow(const size_t pos, const Type &filler = {});
-    void insertCol(const size_t pos, const Type &filler = {});
+    void insertRow(size_t pos, const Type &filler = {});
+    void insertCol(size_t pos, const Type &filler = {});
 
-    void deleteRow(const size_t pos);
-    void deleteCol(const size_t pos);
+    void deleteRow(size_t pos);
+    void deleteCol(size_t pos);
 
     bool operator==(const Matrix& matrix) const;
     bool operator!=(const Matrix& matrix) const;
 
-    MatrixRow<Type> operator[](const size_t row);
-    const MatrixRow<Type> operator[](const size_t row) const;
-    Type &at(const size_t row, const size_t col);
-    const Type &at(const size_t row, const size_t col) const;
-    Type &operator()(const size_t row, const size_t col);
-    const Type &operator()(const size_t row, const size_t col) const;
+    MatrixRow<Type> operator[](size_t row);
+    const MatrixRow<Type> operator[](size_t row) const;
+    Type &at(size_t row, size_t col);
+    const Type &at(size_t row, size_t col) const;
+    Type &operator()(size_t row, size_t col);
+    const Type &operator()(size_t row, size_t col) const;
 
 
 private:
     SharedPtr<MatrixRow<Type>[]> _data { nullptr };
-    SharedPtr<MatrixRow<Type>[]> _allocateMemory(const size_t rows, const size_t cols);
-    void _moveRow(const size_t from, const size_t to);
-    void _moveCol(const size_t from, const size_t to);
-    void _checkIndex(const size_t pos, const size_t limit) const;
+    SharedPtr<MatrixRow<Type>[]> _allocateMemory(size_t rows, size_t cols);
+    void _moveRow(size_t from, size_t to);
+    void _moveCol(size_t from, size_t to);
+    void _checkIndex(size_t pos, size_t limit) const;
     void _checkSizes(const Matrix &matrix) const;
     void _checkMultSizes(const Matrix &matrix) const;
 };

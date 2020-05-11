@@ -9,7 +9,7 @@ void Iterator<T>::_checkIndex(const string hint) {
 
 template <typename T>
 void Iterator<T>::_checkValid(const string hint) const {
-    if (!isValid()) {
+    if (!isValid()) { // !_data.expired()
         time_t cur_time = time(NULL);
         auto local_time = localtime(&cur_time);
         throw MemoryError(asctime(local_time), __FILE__, __LINE__, hint);

@@ -119,13 +119,13 @@ int main() {
         elem = "new_test" + std::to_string(++cnt);
     std::cout << new_m << "\n\n";
 
-    std::cout << "Test insert [from, to, filler]:\n";
-    new_m.insert(new_m.end() - static_cast<int>(new_m.GetColumns()), new_m.end(), "filler_for_last_line");
+    std::cout << "Test fill [from, to, filler]:\n";
+    new_m.fill(new_m.end() - static_cast<int>(new_m.GetColumns()), new_m.end(), "filler_for_last_line");
     std::cout << new_m << "\n\n";
 
-    std::cout << "Test insert from another matrix container via iterators:\n";
+    std::cout << "Test fill from another matrix container via iterators:\n";
     Matrix<string> test_m = {{"test1", "test2", "test3"}, {"test4", "test5", "test6"}};
-    new_m.insert(new_m.end() - static_cast<int>(new_m.GetColumns()), test_m.begin(), test_m.end());
+    new_m.fill(new_m.end() - static_cast<int>(new_m.GetColumns()), test_m.begin(), test_m.end());
     std::cout << new_m << "\n\n";
 
     std::cout << "Reverse method check (reverse first line): \n";
@@ -146,8 +146,8 @@ int main() {
 
     std::cout << "Insert in new_m matrix from const matrix:\n";
     std::cout << "new_m matrix:\n" << new_m << "\n\n";
-    std::cout << "Insert command: new_m.insert(new_m.begin(), const_m.begin(), const_m.begin() + 3);\n";
-    new_m.insert(new_m.begin(), const_m.begin(), const_m.begin() + 3);
+    std::cout << "Insert command: new_m.fill(new_m.begin(), const_m.begin(), const_m.begin() + 3);\n";
+    new_m.fill(new_m.begin(), const_m.begin(), const_m.begin() + 3);
     std::cout << "new_m matrix after insertion: \n" << new_m << "\n\n";
 
     std::cout << "Check of cbegin and cend methods of non-constant object (new_m matrix):\n";

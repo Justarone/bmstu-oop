@@ -8,7 +8,7 @@ void Matrix<T>::_checkSizes(const Matrix<T> &matrix) const {
 }
 
 template <typename T> 
-static void _excludeCopy(Matrix<T> &target, const Matrix<T> &source, const size_t ex_row, const size_t ex_col) {
+static void _excludeCopy(Matrix<T> &target, const Matrix<T> &source, size_t ex_row, size_t ex_col) {
     if (target.GetRows() != source.GetRows() - 1 || target.GetColumns() != source.GetColumns() - 1) {
         time_t cur_time = time(NULL);
         auto curtime = localtime(&cur_time);
@@ -56,7 +56,7 @@ void Matrix<T>::_checkMultSizes(const Matrix<T> &matrix) const {
 }
 
 template <typename T>
-void Matrix<T>::_checkIndex(const size_t pos, const size_t limit) const {
+void Matrix<T>::_checkIndex(size_t pos, size_t limit) const {
     if (pos > limit) {
         time_t cur_time = time(NULL);
         auto curtime = localtime(&cur_time);
@@ -65,7 +65,7 @@ void Matrix<T>::_checkIndex(const size_t pos, const size_t limit) const {
 }
 
 template <typename T>
-void Matrix<T>::_moveRow(const size_t from, const size_t to) {
+void Matrix<T>::_moveRow(size_t from, size_t to) {
     auto tmp = _data[from];
     for (size_t i = from; i > to; --i)
         _data[i] = _data[i - 1];
@@ -75,7 +75,7 @@ void Matrix<T>::_moveRow(const size_t from, const size_t to) {
 }
 
 template <typename T>
-void Matrix<T>::_moveCol(const size_t from, const size_t to) {
+void Matrix<T>::_moveCol(size_t from, size_t to) {
     for (size_t j = 0; j < _rows; ++j)
     {
         auto tmp = _data[j][from];
@@ -88,7 +88,7 @@ void Matrix<T>::_moveCol(const size_t from, const size_t to) {
 }
 
 template <typename T>
-SharedPtr<MatrixRow<T>[]> Matrix<T>::_allocateMemory(const size_t rows, const size_t cols) {
+SharedPtr<MatrixRow<T>[]> Matrix<T>::_allocateMemory(size_t rows, size_t cols) {
     SharedPtr< MatrixRow<T>[] > data = nullptr;
     try {
         data.reset(new MatrixRow<T>[rows]);
@@ -105,12 +105,12 @@ SharedPtr<MatrixRow<T>[]> Matrix<T>::_allocateMemory(const size_t rows, const si
 }
 
 template <typename T>
-Matrix<T>::Matrix(const size_t rows, const size_t columns): BaseMatrix(rows, columns) {
+Matrix<T>::Matrix(size_t rows, size_t columns): BaseMatrix(rows, columns) {
     _data = _allocateMemory(rows, columns);
 }
 
 template <typename T>
-Matrix<T>::Matrix(const size_t rows, const size_t columns, const T &filler): BaseMatrix(rows, columns) {
+Matrix<T>::Matrix(size_t rows, size_t columns, const T &filler): BaseMatrix(rows, columns) {
     _data = _allocateMemory(rows, columns);
     for (size_t i = 0; i < rows; ++i)
         for (size_t j = 0; j < columns; ++j)
@@ -151,7 +151,7 @@ Matrix<T>::Matrix(const Matrix &matrix): BaseMatrix(matrix._rows, matrix._cols) 
 }
 
 template <typename T>
-Matrix<T>::Matrix(const Matrix &&matrix): BaseMatrix(matrix._rows, matrix._cols) {
+Matrix<T>::Matrix(Matrix &&matrix): BaseMatrix(matrix._rows, matrix._cols) {
     _data = matrix._data;
 }
 
@@ -163,20 +163,20 @@ Matrix<T> &Matrix<T>::operator=(const Matrix &matrix) {
 }
 
 template <typename T>
-Matrix<T> &Matrix<T>::operator=(const Matrix<T> &&matrix) {
+Matrix<T> &Matrix<T>::operator=(Matrix<T> &&matrix) {
     _data = matrix._data;
     _rows = matrix._rows, _cols = matrix._cols;
     return *this;
 }
 
 template <typename T>
-void Matrix<T>::insert(Iterator<T> start, const Iterator<T> &end, const T &value) {
+void Matrix<T>::fill(Iterator<T> start, const Iterator<T> &end, const T &value) {
     for (auto it = start; it < end; ++it)
         *it = value;
 }
 
 template <typename T>
-void Matrix<T>::insert(Iterator<T> start, Iterator<T> source_start, const Iterator<T> &source_end) {
+void Matrix<T>::fill(Iterator<T> start, Iterator<T> source_start, const Iterator<T> &source_end) {
     auto source_it = source_start;
     auto it = start;
     while (!it.isEnd() && source_it < source_end) {
@@ -186,7 +186,7 @@ void Matrix<T>::insert(Iterator<T> start, Iterator<T> source_start, const Iterat
 }
 
 template <typename T>
-void Matrix<T>::insert(Iterator<T> start, ConstIterator<T> source_start, const ConstIterator<T> &source_end) {
+void Matrix<T>::fill(Iterator<T> start, ConstIterator<T> source_start, const ConstIterator<T> &source_end) {
     auto source_it = source_start;
     auto it = start;
     while (!it.isEnd() && source_it < source_end) {
@@ -253,7 +253,7 @@ void Matrix<T>::resizeCols(size_t new_size, const T &filler) {
 }
 
 template <typename T>
-void Matrix<T>::insertRow(const size_t pos, const T &filler) {
+void Matrix<T>::insertRow(size_t pos, const T &filler) {
     _checkIndex(pos, _rows);
 
     resizeRows(_rows + 1);
@@ -262,7 +262,7 @@ void Matrix<T>::insertRow(const size_t pos, const T &filler) {
 }
 
 template <typename T>
-void Matrix<T>::insertCol(const size_t pos, const T &filler) {
+void Matrix<T>::insertCol(size_t pos, const T &filler) {
     _checkIndex(pos, _cols);
 
     resizeCols(_cols + 1);
@@ -273,7 +273,7 @@ void Matrix<T>::insertCol(const size_t pos, const T &filler) {
 }
 
 template <typename T>
-void Matrix<T>::deleteRow(const size_t pos) {
+void Matrix<T>::deleteRow(size_t pos) {
     _checkIndex(pos, _rows - 1);
     auto tmp = _allocateMemory(_rows - 1, _cols);
     
@@ -292,7 +292,7 @@ void Matrix<T>::deleteRow(const size_t pos) {
 }
 
 template <typename T>
-void Matrix<T>::deleteCol(const size_t pos) {
+void Matrix<T>::deleteCol(size_t pos) {
     _checkIndex(pos, _cols - 1);
     auto tmp = _allocateMemory(_rows, _cols - 1);
     
@@ -330,32 +330,32 @@ bool Matrix<T>::operator!=(const Matrix& matrix) const {
 }
 
 template <typename T>
-MatrixRow<T> Matrix<T>::operator[](const size_t row) {
+MatrixRow<T> Matrix<T>::operator[](size_t row) {
     return _data[row];
 }
 
 template <typename T>
-const MatrixRow<T> Matrix<T>::operator[](const size_t row) const {
+const MatrixRow<T> Matrix<T>::operator[](size_t row) const {
     return _data[row];
 }
 
 template <typename T>
-T &Matrix<T>::at(const size_t row, const size_t col) {
+T &Matrix<T>::at(size_t row, size_t col) {
     return _data[row][col];
 }
 
 template <typename T>
-const T &Matrix<T>::at(const size_t row, const size_t col) const {
+const T &Matrix<T>::at(size_t row, size_t col) const {
     return _data[row][col];
 }
 
 template <typename T>
-T &Matrix<T>::operator()(const size_t row, const size_t col) {
+T &Matrix<T>::operator()(size_t row, size_t col) {
     return _data[row][col];
 }
 
 template <typename T>
-const T &Matrix<T>::operator()(const size_t row, const size_t col) const {
+const T &Matrix<T>::operator()(size_t row, size_t col) const {
     return _data[row][col];
 }
 
@@ -447,7 +447,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T> &matrix) const {
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::operator+(const T &elem) const {
+Matrix<T> Matrix<T>::operator+(const T &elem) const noexcept {
     Matrix<T> tmp(_rows, _cols);
     for (size_t i = 0; i < _rows; ++i)
         for (size_t j = 0; j < _cols; ++j)
@@ -457,7 +457,7 @@ Matrix<T> Matrix<T>::operator+(const T &elem) const {
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::operator-(const T &elem) const {
+Matrix<T> Matrix<T>::operator-(const T &elem) const noexcept {
     Matrix<T> tmp(_rows, _cols);
     for (size_t i = 0; i < _rows; ++i)
         for (size_t j = 0; j < _cols; ++j)
@@ -467,7 +467,7 @@ Matrix<T> Matrix<T>::operator-(const T &elem) const {
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::operator*(const T &elem) const {
+Matrix<T> Matrix<T>::operator*(const T &elem) const noexcept {
     Matrix<T> tmp(_rows, _cols);
     for (size_t i = 0; i < _rows; ++i)
         for (size_t j = 0; j < _cols; ++j)
@@ -514,7 +514,7 @@ Matrix<T> &Matrix<T>::operator*=(const Matrix &matrix) {
 }
 
 template <typename T>
-Matrix<T> &Matrix<T>::operator+=(const T &elem) {
+Matrix<T> &Matrix<T>::operator+=(const T &elem) noexcept {
     for (auto &element: *this)
         element += elem;
 
@@ -522,7 +522,7 @@ Matrix<T> &Matrix<T>::operator+=(const T &elem) {
 }
 
 template <typename T>
-Matrix<T> &Matrix<T>::operator-=(const T &elem) {
+Matrix<T> &Matrix<T>::operator-=(const T &elem) noexcept {
     for (auto &element: *this)
         element -= elem;
 
@@ -530,7 +530,7 @@ Matrix<T> &Matrix<T>::operator-=(const T &elem) {
 }
 
 template <typename T>
-Matrix<T> &Matrix<T>::operator*=(const T &elem) {
+Matrix<T> &Matrix<T>::operator*=(const T &elem) noexcept {
     for (auto &element: *this)
         element *= elem;
 
@@ -549,4 +549,65 @@ T Matrix<T>::determinant() const {
     }
 
     return _determinant(*this);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::addMatrix(const Matrix &matrix) const {
+    return operator+(matrix);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::subMatrix(const Matrix &matrix) const {
+    return operator-(matrix);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::mulMatrix(const Matrix &matrix) const {
+    return operator*(matrix);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::addElem(const T &elem) const noexcept {
+    return operator+(elem);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::subElem(const T &elem) const noexcept {
+    return operator-(elem);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::mulElem(const T &elem) const noexcept {
+    return operator*(elem);
+}
+
+
+template <typename T>
+Matrix<T> &Matrix<T>::addEqMatrix(const Matrix &matrix) {
+    return operator+=(matrix);
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::subEqMatrix(const Matrix &matrix) {
+    return operator-=(matrix);
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::mulEqMatrix(const Matrix &matrix) {
+    return operator*=(matrix);
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::addEqElem(const T &elem) noexcept {
+    return operator+=(elem);
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::subEqElem(const T &elem) noexcept {
+    return operator-=(elem);
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::mulEqElem(const T &elem) noexcept {
+    return operator*=(elem);
 }

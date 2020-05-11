@@ -5,6 +5,7 @@
 template<typename T>
 using SharedPtr = std::shared_ptr<T>;
 
+// внести в класс матрицы
 template<typename Type>
 class MatrixRow {
 private:
