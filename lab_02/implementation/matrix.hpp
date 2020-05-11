@@ -759,3 +759,25 @@ template <typename T>
 Matrix<T> &Matrix<T>::divEqMatrix(const Matrix &matrix) {
     return operator/=(matrix);
 }
+
+template <typename T>
+Matrix<T> operator+(const T &elem, const Matrix<T> &matrix) {
+    return matrix + elem;
+}
+
+template <typename T>
+Matrix<T> operator-(const T &elem, const Matrix<T> &matrix) {
+    return matrix - elem;
+}
+
+template <typename T>
+Matrix<T> operator*(const T &elem, const Matrix<T> &matrix) {
+    return matrix * elem;
+}
+
+template <typename T>
+Matrix<T> operator/(const T &elem, const Matrix<T> &matrix) {
+    Matrix tmp(matrix);
+    tmp.inverse();
+    return tmp * elem;
+}
