@@ -151,6 +151,12 @@ public:
 
 };
 
-
-#include "../implementation/matrix.hpp"
+#include "../implementation/matrix_constructors_and_eqoperators.hpp"
+#include "../implementation/matrix_form_operations.hpp"
+#include "../implementation/matrix_iterators.hpp"
+#include "../implementation/matrix_math.hpp"
+#include "../implementation/matrix_oper_methods.hpp"
+#include "../implementation/matrix_operators.hpp"
+#include "../implementation/matrix_private.hpp"
+#include "../implementation/matrix_rest_methods.hpp"
 #include "../implementation/matrix_row.hpp"
