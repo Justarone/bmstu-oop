@@ -98,7 +98,7 @@ SharedPtr<MatrixRow<T>[]> Matrix<T>::_allocateMemory(const size_t rows, const si
     catch (std::bad_alloc &err) {
         time_t cur_time = time(NULL);
         auto curtime = localtime(&cur_time);
-        throw MemoryError(asctime(curtime), __FILE__, __LINE__, "resizeRows error");
+        throw MemoryError(asctime(curtime), __FILE__, __LINE__, "_allocateMemory function error");
     }
 
     return data;
