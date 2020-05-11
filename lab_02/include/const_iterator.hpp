@@ -11,6 +11,9 @@ using SharedPtr = std::shared_ptr<T>;
 template <typename T>
 using WeakPtr = std::weak_ptr<T>;
 
+template <typename T>
+class Matrix;
+
 template <typename Type>
 class ConstIterator: public std::iterator<std::bidirectional_iterator_tag, Type> {
 public:
