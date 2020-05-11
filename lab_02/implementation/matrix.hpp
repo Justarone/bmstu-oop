@@ -143,6 +143,27 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init_list) {
 }
 
 template <typename T>
+static void _checkPtr(T ptr) {
+    if (!ptr) {
+        time_t cur_time = time(NULL);
+        auto curtime = localtime(&cur_time);
+        throw InvalidArgument(asctime(curtime), __FILE__, __LINE__, "nullptr as a ptr of c-matrix");
+    }
+}
+
+template <typename T>
+Matrix<T>::Matrix(size_t rows, size_t columns, T **matrix): BaseMatrix(rows, columns) {
+    _checkPtr(matrix);
+    _data = _allocateMemory(rows, columns);
+    for (size_t i = 0; i < rows; ++i)
+    {
+        _checkPtr(matrix[i]);
+        for (size_t j = 0; j < columns; ++j)
+            _data[i][j] = matrix[i][j];
+    }
+}
+
+template <typename T>
 Matrix<T>::Matrix(const Matrix &matrix): BaseMatrix(matrix._rows, matrix._cols) {
     _data = _allocateMemory(matrix._rows, matrix._cols);
     for (size_t i = 0; i < _rows; ++i)
@@ -196,7 +217,7 @@ void Matrix<T>::fill(Iterator<T> start, ConstIterator<T> source_start, const Con
 }
 
 template <typename T>
-void Matrix<T>::reverse(Iterator<T> start, Iterator<T> end) {
+void Matrix<T>::reverseSeq(Iterator<T> start, Iterator<T> end) {
     end = end - 1;
     for (; start < end; start++, end = end - 1)
     {
@@ -610,4 +631,59 @@ Matrix<T> &Matrix<T>::subEqElem(const T &elem) noexcept {
 template <typename T>
 Matrix<T> &Matrix<T>::mulEqElem(const T &elem) noexcept {
     return operator*=(elem);
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::operator/=(const T &elem) {
+    if (elem == 0) {
+        time_t cur_time = time(NULL);
+        auto curtime = localtime(&cur_time);
+        throw InvalidArgument(asctime(curtime), __FILE__, __LINE__, "Zero divisor");
+    }
+
+    for (size_t i = 0; i < _rows; ++i)
+        for (size_t j = 0; j < _cols; ++j)
+            _data[i][j] /= elem;
+
+    return *this;
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::divEqElem(const T &elem) {
+    return operator/=(elem);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::operator/(const T &elem) const {
+    if (elem == 0) {
+        time_t cur_time = time(NULL);
+        auto curtime = localtime(&cur_time);
+        throw InvalidArgument(asctime(curtime), __FILE__, __LINE__, "Zero divisor");
+    }
+
+    Matrix<T> tmp(_rows, _cols);
+    for (size_t i = 0; i < _rows; ++i)
+        for (size_t j = 0; j < _cols; ++j)
+            tmp[i][j] =_data[i][j] / elem;
+
+    return tmp;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::divElem(const T &elem) const {
+    return operator/(elem);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::operator-() {
+    Matrix<T> tmp(_rows, _cols);
+    for (size_t i = 0; i < _rows; ++i)
+        for (size_t j = 0; j < _cols; ++j)
+            tmp = -_data[i][j];
+    return tmp;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::neg() {
+    return operator-();
 }

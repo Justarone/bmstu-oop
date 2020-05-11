@@ -12,7 +12,7 @@ int main() {
         std::cout << "Attempt to create matrix with negative size" << 
             " (conversion to very big size_t number)" << std::endl;
         Matrix<int> err_m(-1, 2);
-    } catch (MemoryError &err){
+    } catch (ExceptionMatrix &err){
         std::cerr << err.what() << "\n\n";
     }
 
@@ -128,8 +128,8 @@ int main() {
     new_m.fill(new_m.end() - static_cast<int>(new_m.GetColumns()), test_m.begin(), test_m.end());
     std::cout << new_m << "\n\n";
 
-    std::cout << "Reverse method check (reverse first line): \n";
-    new_m.reverse(new_m.begin(), new_m.begin() + static_cast<int>(new_m.GetColumns()));
+    std::cout << "Reverse method check (reverseSeq first line): \n";
+    new_m.reverseSeq(new_m.begin(), new_m.begin() + static_cast<int>(new_m.GetColumns()));
     std::cout << new_m << "\n\n";
 
     std::cout << "ITERATORS SECTION ENDS\n\n";

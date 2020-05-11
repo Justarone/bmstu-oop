@@ -16,12 +16,12 @@ template <typename Type>
 class Matrix: public BaseMatrix {
     friend Iterator<Type>;
     friend ConstIterator<Type>;
-public:
 
+public:
     explicit Matrix(size_t rows = 0, size_t columns = 0);
     Matrix(size_t rows, size_t columns, const Type &filler);
     // C-matrix constructor
-    //Matrix(const size_t rows, const size_t columns, Type **matrix);
+    Matrix(size_t rows, size_t columns, Type **matrix);
     Matrix(std::initializer_list<std::initializer_list<Type> > init_list);
     explicit Matrix(const Matrix &matrix);
     Matrix(Matrix &&matrix);
@@ -31,7 +31,7 @@ public:
     Matrix<Type> &operator=(const Matrix &matrix);
     Matrix<Type> &operator=(Matrix &&matrix);
     // init-list operator=
-    //Matrix<Type> &operator=(init_list);
+    //Matrix<Type> &operator=(std::initializer_list<std::initializer_list<Type> > init_list);
 
     // operator ==> method
     // division operators and methods
@@ -48,34 +48,36 @@ public:
     Matrix<Type> operator+(const Type &elem) const noexcept;
     Matrix<Type> operator-(const Type &elem) const noexcept;
     Matrix<Type> operator*(const Type &elem) const noexcept;
-    //Matrix<Type> operator/(const Type &elem) const;
+    Matrix<Type> operator/(const Type &elem) const;
 
     Matrix<Type> addElem(const Type &elem) const noexcept;
     Matrix<Type> subElem(const Type &elem) const noexcept;
     Matrix<Type> mulElem(const Type &elem) const noexcept;
-    //Matrix<Type> divElem(const Type &elem) const;
+    Matrix<Type> divElem(const Type &elem) const;
 
     //-Matrix
-    //Matrix<Type> operator-();
-    //Matrix<Type> neg();
+    Matrix<Type> operator-();
+    Matrix<Type> neg();
 
     Matrix<Type> &operator+=(const Matrix &matrix);
     Matrix<Type> &operator-=(const Matrix &matrix);
     Matrix<Type> &operator*=(const Matrix &matrix);
+    //Matrix<Type> &operator/=(const Matrix &matrix);
 
     Matrix<Type> &addEqMatrix(const Matrix &matrix);
     Matrix<Type> &subEqMatrix(const Matrix &matrix);
     Matrix<Type> &mulEqMatrix(const Matrix &matrix);
+    //Matrix<Type> &divEqMatrix(const Matrix &matrix);
 
     Matrix<Type> &operator+=(const Type &elem) noexcept;
     Matrix<Type> &operator-=(const Type &elem) noexcept;
     Matrix<Type> &operator*=(const Type &elem) noexcept;
-    //Matrix<Type> &operator/=(const Type &elem);
+    Matrix<Type> &operator/=(const Type &elem);
 
     Matrix<Type> &addEqElem(const Type &elem) noexcept;
     Matrix<Type> &subEqElem(const Type &elem) noexcept;
     Matrix<Type> &mulEqElem(const Type &elem) noexcept;
-    //Matrix<Type> divEqElem(const Type &elem);
+    Matrix<Type> &divEqElem(const Type &elem);
 
     bool isSquare() const;
     Type determinant() const;
@@ -94,7 +96,7 @@ public:
     void fill(Iterator<Type> start, const Iterator<Type> &end, const Type &value);
     void fill(Iterator<Type> start, Iterator<Type> source_start, const Iterator<Type> &source_end);
     void fill(Iterator<Type> start, ConstIterator<Type> source_start, const ConstIterator<Type> &source_end);
-    void reverse(Iterator<Type> start, Iterator<Type> end);
+    void reverseSeq(Iterator<Type> start, Iterator<Type> end);
 
     void resize(size_t new_rows, size_t new_cols, const Type &filler = {});
     void resizeRows(size_t new_size, const Type &filler = {});
@@ -128,4 +130,3 @@ private:
 };
 
 #include "../implementation/matrix.hpp"
-
