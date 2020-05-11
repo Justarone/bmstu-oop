@@ -25,8 +25,8 @@ public:
     bool operator<(Iterator const& other) const;
 
     operator bool() const;
-    bool is_end() const;
-    bool is_valid() const;
+    bool isEnd() const;
+    bool isValid() const;
 
     Iterator<Type> operator+(const int value) const;
     Iterator<Type> operator-(const int value) const;
@@ -46,7 +46,8 @@ public:
     Iterator<Type> operator++(int);
 
 private:
-    void _index_check(const string hint = "");
+    void _checkIndex(const string hint = "");
+    void _checkValid(const string hint = "") const;
     WeakPtr<MatrixRow<Type>[]> _data;
     size_t _index = 0;
     size_t _rows = 0;

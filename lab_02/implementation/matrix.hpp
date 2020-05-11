@@ -179,7 +179,7 @@ template <typename T>
 void Matrix<T>::insert(Iterator<T> start, Iterator<T> source_start, const Iterator<T> &source_end) {
     auto source_it = source_start;
     auto it = start;
-    while (!it.is_end() && source_it < source_end) {
+    while (!it.isEnd() && source_it < source_end) {
         *it = *source_it;
         ++it, ++source_it;
     }
@@ -189,7 +189,7 @@ template <typename T>
 void Matrix<T>::insert(Iterator<T> start, ConstIterator<T> source_start, const ConstIterator<T> &source_end) {
     auto source_it = source_start;
     auto it = start;
-    while (!it.is_end() && source_it < source_end) {
+    while (!it.isEnd() && source_it < source_end) {
         *it = *source_it;
         ++it, ++source_it;
     }

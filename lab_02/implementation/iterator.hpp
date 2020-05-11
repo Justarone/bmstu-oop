@@ -1,10 +1,19 @@
 template <typename T>
-void Iterator<T>::_index_check(const string hint) {
+void Iterator<T>::_checkIndex(const string hint) {
     if (_index < _rows * _cols)
         return;
     time_t cur_time = time(NULL);
     auto local_time = localtime(&cur_time);
     throw IndexError(asctime(local_time), __FILE__, __LINE__, hint);
+}
+
+template <typename T>
+void Iterator<T>::_checkValid(const string hint) const {
+    if (!isValid()) {
+        time_t cur_time = time(NULL);
+        auto local_time = localtime(&cur_time);
+        throw MemoryError(asctime(local_time), __FILE__, __LINE__, hint);
+    }
 }
 
 template <typename T>
@@ -19,7 +28,8 @@ bool Iterator<T>::operator==(Iterator const& other) const {
 
 template <typename T>
 T& Iterator<T>::operator*() {
-    _index_check("Iterator doens't in data bounds, while executing operator*");
+    _checkValid("Iterator points on nullptr");
+    _checkIndex("Iterator doens't in data bounds, while executing operator*");
     SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols][_index % _cols];
 }
@@ -31,7 +41,8 @@ T& Iterator<T>::value() {
 
 template <typename T>
 const T& Iterator<T>::operator*() const {
-    _index_check("Iterator doens't in data bounds, while executing const operator*");
+    _checkValid("Iterator points on nullptr");
+    _checkIndex("Iterator doens't in data bounds, while executing const operator*");
     SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols][_index % _cols];
 }
@@ -43,14 +54,17 @@ const T& Iterator<T>::value() const {
 
 template <typename T>
 T* Iterator<T>::operator->() {
-    _index_check("Iterator doens't in data bounds, while executing operator->");
+    _checkValid("Iterator points on nullptr");
+    _checkIndex("Iterator doens't in data bounds, while executing operator->");
+
     SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols].getAddr() + (_index % _cols);
 }
 
 template <typename T>
 const T* Iterator<T>::operator->() const {
-    _index_check("Iterator doens't in data bounds, while executing const operator->");
+    _checkValid("Iterator points on nullptr");
+    _checkIndex("Iterator doens't in data bounds, while executing const operator->");
     SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols].getAddr() + (_index % _cols);
 }
@@ -80,7 +94,7 @@ bool Iterator<T>::operator<(Iterator const& other) const {
 }
 
 template <typename T>
-bool Iterator<T>::is_end() const {
+bool Iterator<T>::isEnd() const {
     return _index == _rows * _cols;
 }
 
@@ -90,8 +104,8 @@ Iterator<T>::operator bool() const {
 }
 
 template <typename T>
-bool Iterator<T>::is_valid() const {
-    return _data.expired();
+bool Iterator<T>::isValid() const {
+    return !_data.expired();
 }
 
 template <typename T>
