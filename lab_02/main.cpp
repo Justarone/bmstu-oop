@@ -198,6 +198,7 @@ int main() {
     std::cout << tmp << "\n\n";
 
     Matrix<int> det_matrix = { { 38, 382, 21, 9 }, { 21, 1, 9, 11 }, { 118, 5, 85, 2 }, { 10, 8, 22, 13 } };
+    std::cout << "det_matrix:\n" << det_matrix << "\n\n";
     std::cout << "Operation: det_matrix.determinant();\n";
     std::cout << "Result: " << det_matrix.determinant() << "\n";
 
