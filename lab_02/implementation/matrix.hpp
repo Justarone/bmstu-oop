@@ -735,3 +735,27 @@ void Matrix<T>::inverse() {
 
     *this = res;
 }
+
+template <typename T>
+Matrix<T> Matrix<T>::operator/(const Matrix &matrix) const {
+    Matrix<T> tmp(matrix);
+    tmp.inverse();
+    return operator*(tmp);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::divMatrix(const Matrix &matrix) const {
+    return operator/(matrix);
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::operator/=(const Matrix &matrix) {
+    Matrix<T> tmp = operator/(matrix);
+    *this = tmp;
+    return *this;
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::divEqMatrix(const Matrix &matrix) {
+    return operator/=(matrix);
+}

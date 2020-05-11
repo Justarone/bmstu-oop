@@ -17,6 +17,7 @@ public:
     class MatrixRow;
     friend Iterator<Type>;
     friend ConstIterator<Type>;
+    // lvalue sum, sub, mul and div `elem x matrix`
 
 public:
     explicit Matrix(size_t rows = 0, size_t columns = 0);
@@ -39,12 +40,12 @@ public:
     Matrix<Type> operator+(const Matrix &matrix) const;
     Matrix<Type> operator-(const Matrix &matrix) const;
     Matrix<Type> operator*(const Matrix &matrix) const;
-    //Matrix<Type> operator/(const Matrix &matrix) const;
+    Matrix<Type> operator/(const Matrix &matrix) const;
 
     Matrix<Type> addMatrix(const Matrix &matrix) const;
     Matrix<Type> subMatrix(const Matrix &matrix) const;
     Matrix<Type> mulMatrix(const Matrix &matrix) const;
-    //Matrix<Type> divMatrix(const Matrix &matrix) const;
+    Matrix<Type> divMatrix(const Matrix &matrix) const;
 
     Matrix<Type> operator+(const Type &elem) const noexcept;
     Matrix<Type> operator-(const Type &elem) const noexcept;
@@ -63,12 +64,12 @@ public:
     Matrix<Type> &operator+=(const Matrix &matrix);
     Matrix<Type> &operator-=(const Matrix &matrix);
     Matrix<Type> &operator*=(const Matrix &matrix);
-    //Matrix<Type> &operator/=(const Matrix &matrix);
+    Matrix<Type> &operator/=(const Matrix &matrix);
 
     Matrix<Type> &addEqMatrix(const Matrix &matrix);
     Matrix<Type> &subEqMatrix(const Matrix &matrix);
     Matrix<Type> &mulEqMatrix(const Matrix &matrix);
-    //Matrix<Type> &divEqMatrix(const Matrix &matrix);
+    Matrix<Type> &divEqMatrix(const Matrix &matrix);
 
     Matrix<Type> &operator+=(const Type &elem) noexcept;
     Matrix<Type> &operator-=(const Type &elem) noexcept;
@@ -130,6 +131,7 @@ private:
     void _checkMultSizes(const Matrix &matrix) const;
 
 public:
+    // subclass
     class MatrixRow {
         friend Iterator<Type>;
         friend ConstIterator<Type>;
