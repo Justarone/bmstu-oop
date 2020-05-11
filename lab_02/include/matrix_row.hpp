@@ -14,12 +14,36 @@ private:
 public:
     MatrixRow(Type *data, const size_t size): _data(data), _size(size) {}
     MatrixRow(): _data(nullptr), _size(0) {}
-    Type &operator[](const size_t index);
-    const Type &operator[](const size_t index) const;
-    void reset(Type *data, const size_t size);
-    void reset();
-    Type *getAddr();
-    const Type *getAddr() const;
-};
+    Type &operator[](const size_t index) {
+        if (index >= _size) {
+            time_t cur_time = time(NULL);
+            auto local_time = localtime(&cur_time);
+            throw IndexError(asctime(local_time), __FILE__, __LINE__, "Incorrect column");
+        }
 
-#include "../implementation/matrix_row.hpp"
+        return _data[index];
+    }
+
+    const Type &operator[](const size_t index) const {
+        if (index >= _size) {
+            time_t cur_time = time(NULL);
+            auto local_time = localtime(&cur_time);
+            throw IndexError(asctime(local_time), __FILE__, __LINE__, "Incorrect column");
+        }
+
+        return _data[index];
+    }
+
+    void reset(Type *data, const size_t size) {
+        _size = size;
+        _data.reset(data);
+    }
+
+    void reset() {
+        _size = 0;
+        _data.reset();
+    }
+
+    Type *getAddr() { return _data.get(); }
+    const Type *getAddr() const { return _data.get(); }
+};
