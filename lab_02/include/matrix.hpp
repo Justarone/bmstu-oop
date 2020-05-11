@@ -32,7 +32,7 @@ public:
     Matrix<Type> &operator=(const Matrix &matrix);
     Matrix<Type> &operator=(Matrix &&matrix);
     // init-list operator=
-    //Matrix<Type> &operator=(std::initializer_list<std::initializer_list<Type> > init_list);
+    Matrix<Type> &operator=(std::initializer_list<std::initializer_list<Type> > init_list);
 
     // operator ==> method
     // division operators and methods
@@ -83,8 +83,8 @@ public:
     bool isSquare() const;
     Type determinant() const;
     void transpose();
-    // reverse method
-    //void reverse();
+    // inverse method
+    void inverse();
 
     ConstIterator<Type> begin() const;
     ConstIterator<Type> end() const;

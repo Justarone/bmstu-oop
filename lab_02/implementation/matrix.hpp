@@ -17,8 +17,7 @@ static void _excludeCopy(Matrix<T> &target, const Matrix<T> &source, size_t ex_r
 
     size_t row_index, col_index;
     for (size_t i = 0; i < source.GetRows() - 1; ++i)
-        for (size_t j = 0; j < source.GetColumns() - 1; ++j)
-        {
+        for (size_t j = 0; j < source.GetColumns() - 1; ++j) {
             row_index = i >= ex_row ? i + 1 : i;
             col_index = j >= ex_col ? j + 1: j;
             target[i][j] = source[row_index][col_index];
@@ -26,7 +25,7 @@ static void _excludeCopy(Matrix<T> &target, const Matrix<T> &source, size_t ex_r
 }
 
 template <typename T>
-T _determinant(const Matrix<T> &matrix) {
+static T _determinant(const Matrix<T> &matrix) {
     if (matrix.GetRows() == 2)
         return matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1];
     if (matrix.GetRows() == 1)
@@ -130,9 +129,9 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init_list) {
             throw InvalidArgument(asctime(curtime), __FILE__, __LINE__, "Bad initializer list");
         }
 
+    _data = _allocateMemory(rows, cols);
     _rows = rows;
     _cols = cols;
-    _data = _allocateMemory(rows, cols);
     size_t i = 0;
     for (const auto &ilist: init_list)
         for (const auto &elem: ilist)
@@ -686,4 +685,53 @@ Matrix<T> Matrix<T>::operator-() {
 template <typename T>
 Matrix<T> Matrix<T>::neg() {
     return operator-();
+}
+
+template <typename T>
+Matrix<T> &Matrix<T>::operator=(std::initializer_list<std::initializer_list<T> > init_list) {
+    size_t rows = init_list.size();
+    auto it = init_list.begin();
+    size_t cols = it->size();
+
+    for (const auto &ilist: init_list)
+        if (ilist.size() != cols) {
+            time_t cur_time = time(NULL);
+            auto curtime = localtime(&cur_time);
+            throw InvalidArgument(asctime(curtime), __FILE__, __LINE__, "Bad initializer list");
+        }
+
+    _data.resize(rows, cols);
+    size_t i = 0;
+    for (const auto &ilist: init_list)
+        for (const auto &elem: ilist)
+        {
+            _data[i / cols][i % cols] = elem;
+            ++i;
+        }
+}
+
+template <typename T>
+void Matrix<T>::inverse() {
+    T det = determinant();
+    if (!isSquare() || !det) {
+        time_t cur_time = time(NULL);
+        auto curtime = localtime(&cur_time);
+        throw InvalidState(asctime(curtime), __FILE__, __LINE__, "Only square matrix can be inversed and determinant should be > 0");
+    }
+
+    Matrix<T> res(_rows, _cols);
+    Matrix<T> tmp(_rows - 1, _cols - 1);
+    T value = {};
+    
+    for (size_t i = 0; i < _rows; ++i)
+        for (size_t j = 0; j < _cols; ++j)
+        {
+            _excludeCopy(tmp, *this, i, j);
+            value = tmp.determinant() / det;
+            if ((i + j) & 1)
+                value = -value;
+            res[j][i] = value;
+        }
+
+    *this = res;
 }
