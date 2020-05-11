@@ -3,17 +3,63 @@
 #include <iterator>
 #include <memory>
 #include "matrix_base.hpp"
-#include "matrix_row.hpp"
-#include "iterator.hpp"
-#include "const_iterator.hpp"
 #include "exception.hpp"
 
 template <typename Type>
 using SharedPtr = std::shared_ptr<Type>;
 using string = std::string;
 
+template <typename T>
+class Iterator;
+template <typename T>
+class ConstIterator;
+
 template <typename Type>
 class Matrix: public BaseMatrix {
+public:
+    class MatrixRow {
+        friend Iterator<Type>;
+        friend ConstIterator<Type>;
+    private:
+        SharedPtr<Type[]> _data = nullptr;
+        size_t _size = 0;
+    public:
+        MatrixRow(Type *data, const size_t size): _data(data), _size(size) {}
+        MatrixRow(): _data(nullptr), _size(0) {}
+        Type &operator[](const size_t index) {
+            if (index >= _size) {
+                time_t cur_time = time(NULL);
+                auto local_time = localtime(&cur_time);
+                throw IndexError(asctime(local_time), __FILE__, __LINE__, "Incorrect column");
+            }
+
+            return _data[index];
+        }
+
+        const Type &operator[](const size_t index) const {
+            if (index >= _size) {
+                time_t cur_time = time(NULL);
+                auto local_time = localtime(&cur_time);
+                throw IndexError(asctime(local_time), __FILE__, __LINE__, "Incorrect column");
+            }
+
+            return _data[index];
+        }
+
+        void reset(Type *data, const size_t size) {
+            _size = size;
+            _data.reset(data);
+        }
+
+        void reset() {
+            _size = 0;
+            _data.reset();
+        }
+
+        Type *getAddr() { return _data.get(); }
+        const Type *getAddr() const { return _data.get(); }
+    };
+
     friend Iterator<Type>;
     friend ConstIterator<Type>;
 
@@ -111,8 +157,8 @@ public:
     bool operator==(const Matrix& matrix) const;
     bool operator!=(const Matrix& matrix) const;
 
-    MatrixRow<Type> operator[](size_t row);
-    const MatrixRow<Type> operator[](size_t row) const;
+    MatrixRow operator[](size_t row);
+    const MatrixRow operator[](size_t row) const;
     Type &at(size_t row, size_t col);
     const Type &at(size_t row, size_t col) const;
     Type &operator()(size_t row, size_t col);
@@ -120,8 +166,8 @@ public:
 
 
 private:
-    SharedPtr<MatrixRow<Type>[]> _data { nullptr };
-    SharedPtr<MatrixRow<Type>[]> _allocateMemory(size_t rows, size_t cols);
+    SharedPtr<MatrixRow[]> _data { nullptr };
+    SharedPtr<MatrixRow[]> _allocateMemory(size_t rows, size_t cols);
     void _moveRow(size_t from, size_t to);
     void _moveCol(size_t from, size_t to);
     void _checkIndex(size_t pos, size_t limit) const;
@@ -130,3 +176,5 @@ private:
 };
 
 #include "../implementation/matrix.hpp"
+#include "iterator.hpp"
+#include "const_iterator.hpp"

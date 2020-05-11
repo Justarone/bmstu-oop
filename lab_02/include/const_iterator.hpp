@@ -5,8 +5,6 @@
 #include "exception.hpp"
 #include "matrix_row.hpp"
 
-template<typename T>
-class Matrix;
 
 template <typename T>
 using SharedPtr = std::shared_ptr<T>;
@@ -44,7 +42,7 @@ public:
 private:
     void _checkIndex(const string hint = "") const;
     void _checkValid(const string hint = "") const;
-    WeakPtr<MatrixRow<Type>[]> _data = nullptr;
+    WeakPtr<typename Matrix<Type>::MatrixRow[]> _data = nullptr;
     mutable size_t _index = 0;
     size_t _rows = 0;
     size_t _cols = 0;

@@ -88,10 +88,10 @@ void Matrix<T>::_moveCol(size_t from, size_t to) {
 }
 
 template <typename T>
-SharedPtr<MatrixRow<T>[]> Matrix<T>::_allocateMemory(size_t rows, size_t cols) {
-    SharedPtr< MatrixRow<T>[] > data = nullptr;
+SharedPtr<typename Matrix<T>::MatrixRow[]> Matrix<T>::_allocateMemory(size_t rows, size_t cols) {
+    SharedPtr< MatrixRow[] > data = nullptr;
     try {
-        data.reset(new MatrixRow<T>[rows]);
+        data.reset(new MatrixRow[rows]);
         for (size_t i = 0; i < rows; i++)
             data[i].reset(new T[cols], cols);
     }
@@ -351,12 +351,12 @@ bool Matrix<T>::operator!=(const Matrix& matrix) const {
 }
 
 template <typename T>
-MatrixRow<T> Matrix<T>::operator[](size_t row) {
+typename Matrix<T>::MatrixRow Matrix<T>::operator[](size_t row) {
     return _data[row];
 }
 
 template <typename T>
-const MatrixRow<T> Matrix<T>::operator[](size_t row) const {
+const typename Matrix<T>::MatrixRow Matrix<T>::operator[](size_t row) const {
     return _data[row];
 }
 

@@ -30,7 +30,7 @@ template <typename T>
 T& Iterator<T>::operator*() {
     _checkValid("Iterator points on nullptr");
     _checkIndex("Iterator doens't in data bounds, while executing operator*");
-    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    SharedPtr<typename Matrix<T>::MatrixRow[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols][_index % _cols];
 }
 
@@ -43,7 +43,7 @@ template <typename T>
 const T& Iterator<T>::operator*() const {
     _checkValid("Iterator points on nullptr");
     _checkIndex("Iterator doens't in data bounds, while executing const operator*");
-    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    SharedPtr<typename Matrix<T>::MatrixRow[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols][_index % _cols];
 }
 
@@ -57,7 +57,7 @@ T* Iterator<T>::operator->() {
     _checkValid("Iterator points on nullptr");
     _checkIndex("Iterator doens't in data bounds, while executing operator->");
 
-    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    SharedPtr<typename Matrix<T>::MatrixRow[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols].getAddr() + (_index % _cols);
 }
 
@@ -65,7 +65,7 @@ template <typename T>
 const T* Iterator<T>::operator->() const {
     _checkValid("Iterator points on nullptr");
     _checkIndex("Iterator doens't in data bounds, while executing const operator->");
-    SharedPtr<MatrixRow<T>[]> data_ptr = _data.lock();
+    SharedPtr<typename Matrix<T>::MatrixRow[]> data_ptr = _data.lock();
     return data_ptr[_index / _cols].getAddr() + (_index % _cols);
 }
 
