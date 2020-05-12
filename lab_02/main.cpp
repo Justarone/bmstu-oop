@@ -1,10 +1,5 @@
-#include <vector>
 #include <iostream>
-#include <algorithm>
 #include "matrix.hpp"
-
-template <typename T>
-using vector = std::vector<T>;
 
 int main() {
     std::cout << "CONSTRUCTOR TESTING SECTION:" << "\n\n";
@@ -267,6 +262,79 @@ int main() {
     std::cout << "Result:\n" << res << "\n\n";
 
     std::cout << "MATH OPERATIONS SECTION END\n\n";
+
+
+    std::cout << "ERRORS OPERATIONS SECTION\n\n";
+    std::cout << "Attempt to reach wrong column:\n";
+    try {
+        res[0][100] = 1;
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "Attempt to reach wrong row:\n";
+    try {
+        res[100][0] = 22;
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "Attempt to read expired iterator\n";
+    try {
+        Iterator<double> it_tmp = res.begin();
+        {
+            Matrix<double> tmp = { { 1, 2 }, { 3, 4 } };
+            it_tmp = tmp.begin();
+        }
+        std::cout << *it_tmp;
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "call operator* for iterator out of the bounds:\n";
+    try {
+        Iterator<double> it_tmp = res.end();
+        std::cout << *it_tmp;
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "operator + for incompatible matrices:\n";
+    try {
+        Matrix<int> m1 = { { 1, 2, 3 } };
+        Matrix<int> m2 = { { 1, 2 }, { 3, 4 } };
+        std::cout << m1 + m2;
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "operator * for incompatible matrices:\n";
+    try {
+        Matrix<int> m1 = { { 1, 2, 3 } };
+        Matrix<int> m2 = { { 1, 2, 3 } };
+        std::cout << m1 * m2;
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "Call of constructor with invalid argument:\n";
+    try {
+        Matrix<int> matrix_inv = { { 1, 2 }, { 3 } };
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "Call of operator= with init list (correct and incorrect):\n";
+    try {
+        Matrix<int> matrix_inv = { { 1, 2 }, { 3, 4 } };
+        matrix_inv = { { 3, 4, 5 }, {1, 2, 3} };
+        matrix_inv = { { 4, 5 }, {1, 2, 3} };
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "ERRORS OPERATIONS SECTION END\n\n";
+
 
     return 0;
 }

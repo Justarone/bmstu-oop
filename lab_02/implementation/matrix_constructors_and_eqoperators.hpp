@@ -100,7 +100,7 @@ Matrix<T> &Matrix<T>::operator=(std::initializer_list<std::initializer_list<T> >
             throw InvalidArgument(asctime(curtime), __FILE__, __LINE__, "Bad initializer list");
         }
 
-    _data.resize(rows, cols);
+    resize(rows, cols);
     size_t i = 0;
     for (const auto &ilist: init_list)
         for (const auto &elem: ilist)
@@ -108,5 +108,6 @@ Matrix<T> &Matrix<T>::operator=(std::initializer_list<std::initializer_list<T> >
             _data[i / cols][i % cols] = elem;
             ++i;
         }
+    return *this;
 }
 
