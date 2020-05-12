@@ -16,6 +16,20 @@ int main() {
     Matrix<int> a(q, z);
     std::cout << a << "\n\n";
 
+    std::cout << "Check of constructor with c-matrix:\n";
+    int **c_matrix = new int*[2];
+    for (int i = 0; i < 2; ++i) {
+        c_matrix[i] = new int[2];
+        for (int j = 0; j < 2; ++j)
+            c_matrix[i][j] = i + j;
+    }
+
+    Matrix<int> matr { 2, 2, c_matrix };
+    std::cout << matr << "\n\n";
+    for (int i = 0; i < 2; ++i)
+        delete []c_matrix[i];
+    delete []c_matrix;
+
     std::cout << "Constructor with one zero size:\n";
     Matrix<int> ab(0, 3);
     std::cout << "Sizes of matrix: " << ab.GetRows() << " and " << ab.GetColumns() << "\n\n";
@@ -331,6 +345,22 @@ int main() {
         matrix_inv = { { 4, 5 }, {1, 2, 3} };
     } catch (ExceptionMatrix &err) {
         std::cout << err.what() << "\n\n\n";
+    }
+
+    std::cout << "Call or constructor which is working with c_matrix\n";
+    try {
+        int **ec_matrix = new int*[2];
+        ec_matrix[0] = new int[2];
+        for (int j = 0; j < 2; ++j)
+            ec_matrix[0][j] = j;
+        ec_matrix[1] = NULL;
+
+        Matrix<int> matr_er { 2, 2, ec_matrix };
+        std::cout << matr << "\n\n";
+        delete []ec_matrix[0];
+        delete []ec_matrix;
+    } catch (ExceptionMatrix &err) {
+        std::cout << err.what() << "\n\n";
     }
 
     std::cout << "ERRORS OPERATIONS SECTION END\n\n";
