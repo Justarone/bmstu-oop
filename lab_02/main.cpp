@@ -236,13 +236,15 @@ int main() {
     std::cout << "Negative matrix: \n" << -math_matrix <<
         "\nand one more time with METHOD (neg):\n" << math_matrix.neg() << '\n';
 
-    Matrix<int> det_matrix = { { 38, 382, 21, 9 }, { 21, 1, 9, 11 }, { 118, 5, 85, 2 }, { 10, 8, 22, 13 } };
+    Matrix<double> det_matrix = { { 38, 382, 21, 9 }, { 21, 1, 9, 11 }, { 118, 5, 85, 2 }, { 10, 8, 22, 13 } };
     std::cout << "det_matrix:\n" << det_matrix << "\n\n";
     std::cout << "Operation: det_matrix.determinant();\n";
     std::cout << "Result: " << det_matrix.determinant() << "\n";
     std::cout << "Operation: det_matrix.inverse();\n";
     det_matrix.inverse();
     std::cout << "Result: \n" << det_matrix << "\n";
+    det_matrix.inverse();
+    std::cout << "\nInverse one more time\nResult: \n" << det_matrix << "\n";
 
     std::cout << "Matrix multiplication check: \n";
     Matrix<double> res;
