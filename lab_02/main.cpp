@@ -2,6 +2,7 @@
 #include "matrix.hpp"
 
 int main() {
+    // more tests;
     std::cout << "CONSTRUCTOR TESTING SECTION:" << "\n\n";
     try {
         std::cout << "Attempt to create matrix with negative size" << 
@@ -349,16 +350,9 @@ int main() {
 
     std::cout << "Call or constructor which is working with c_matrix\n";
     try {
-        int **ec_matrix = new int*[2];
-        ec_matrix[0] = new int[2];
-        for (int j = 0; j < 2; ++j)
-            ec_matrix[0][j] = j;
-        ec_matrix[1] = NULL;
-
+        int **ec_matrix = NULL;
         Matrix<int> matr_er { 2, 2, ec_matrix };
         std::cout << matr << "\n\n";
-        delete []ec_matrix[0];
-        delete []ec_matrix;
     } catch (ExceptionMatrix &err) {
         std::cout << err.what() << "\n\n";
     }
