@@ -173,8 +173,26 @@ int main() {
     math_matrix *= 2.5;
     std::cout << "matrix after operation:\n";
     std::cout << math_matrix << "\n\n";
-    std::cout << "Operation: math_matrix *= 0.4;\n";
-    math_matrix *= 0.4;
+    std::cout << "Operation: math_matrix /= 2.5;\n";
+    math_matrix /= 2.5;
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+
+    std::cout << "Same operations, but using METHODS..\n";
+    std::cout << "Operation: math_matrix.addEqElem(2.5);\n";
+    math_matrix.addEqElem(2.5);
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+    std::cout << "Operation: math_matrix.subEqElem(2.5);\n";
+    math_matrix.subEqElem(2.5);
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+    std::cout << "Operation: math_matrix.mulEqElem(2.5);\n";
+    math_matrix.mulEqElem(2.5);
+    std::cout << "matrix after operation:\n";
+    std::cout << math_matrix << "\n\n";
+    std::cout << "Operation: math_matrix.divEqElem(2.5);\n";
+    math_matrix.divEqElem(2.5);
     std::cout << "matrix after operation:\n";
     std::cout << math_matrix << "\n\n";
 
@@ -192,21 +210,58 @@ int main() {
     tmp = math_matrix * 2.5;
     std::cout << "matrix after operation:\n";
     std::cout << tmp << "\n\n";
-    std::cout << "Operation: tmp = math_matrix * 0.4;\n";
-    tmp = math_matrix * 0.4;
+    std::cout << "Operation: tmp = math_matrix / 2.5;\n";
+    tmp = math_matrix / 2.5;
     std::cout << "matrix after operation:\n";
     std::cout << tmp << "\n\n";
+
+    std::cout << "Same operations, but using METHODS..\n";
+    std::cout << "Operation: tmp = math_matrix.addElem(2.5);\n";
+    tmp = math_matrix.addElem(2.5);
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+    std::cout << "Operation: tmp = math_matrix.subElem(2.5);\n";
+    tmp = math_matrix.subElem(2.5);
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+    std::cout << "Operation: tmp = math_matrix.mulElem(2.5);\n";
+    tmp = math_matrix.mulElem(2.5);
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+    std::cout << "Operation: tmp = math_matrix.divElem(2.5);\n";
+    tmp = math_matrix.divElem(2.5);
+    std::cout << "matrix after operation:\n";
+    std::cout << tmp << "\n\n";
+
+    std::cout << "Negative matrix: \n" << -math_matrix <<
+        "\nand one more time with METHOD (neg):\n" << math_matrix.neg() << '\n';
 
     Matrix<int> det_matrix = { { 38, 382, 21, 9 }, { 21, 1, 9, 11 }, { 118, 5, 85, 2 }, { 10, 8, 22, 13 } };
     std::cout << "det_matrix:\n" << det_matrix << "\n\n";
     std::cout << "Operation: det_matrix.determinant();\n";
     std::cout << "Result: " << det_matrix.determinant() << "\n";
+    std::cout << "Operation: det_matrix.inverse();\n";
+    det_matrix.inverse();
+    std::cout << "Result: \n" << det_matrix << "\n";
 
     std::cout << "Matrix multiplication check: \n";
     Matrix<double> res;
     Matrix<double> m1 = { { 1 }, { 2 }, { 3 } }, m2 = { { 1, 2 } };
     std::cout << "Operation: m1 * m2 (m1 = { { 1 }, { 2 }, { 3 } }, m2 = { { 1, 2 } })\n";
     res = m1 * m2;
+    std::cout << "Result:\n" << res << "\n\n";
+    std::cout << "*with method* Operation: m1 * m2 (m1 = { { 1 }, { 2 }, { 3 } }, m2 = { { 1, 2 } })\n";
+    res = m1.mulMatrix(m2);
+    std::cout << "Result:\n" << res << "\n\n";
+
+    std::cout << "Matrix division check: \n";
+    Matrix<double> m3 = { { 1, 2 }, { 3, 4 } };
+    Matrix<double> m4 = { { 1, 2 }, { 3, 4 } };
+    std::cout << "Operation: m3 / m4 (m4 = m3, sizes: 2x2, code line: " << __LINE__ << ")\n";
+    res = m3 / m4;
+    std::cout << "Result:\n" << res << "\n\n";
+    std::cout << "*with method* Operation: m3 / m4 (m4 = m3, sizes: 2x2, code line: " << __LINE__ << ")\n";
+    res = m3.divMatrix(m4);
     std::cout << "Result:\n" << res << "\n\n";
 
     std::cout << "MATH OPERATIONS SECTION END\n\n";
