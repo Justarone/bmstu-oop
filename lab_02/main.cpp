@@ -343,6 +343,7 @@ int main() {
     try {
         Matrix<int> matrix_inv = { { 1, 2 }, { 3, 4 } };
         matrix_inv = { { 3, 4, 5 }, {1, 2, 3} };
+        std::cout << "Correct init-list done:\n" << matrix_inv << "\n";
         matrix_inv = { { 4, 5 }, {1, 2, 3} };
     } catch (ExceptionMatrix &err) {
         std::cout << err.what() << "\n\n\n";
