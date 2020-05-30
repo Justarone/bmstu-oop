@@ -2,6 +2,9 @@
 #include <memory>
 #include <vector>
 
+#include "model.hpp"
+#include "camera.hpp"
+
 template <typename Type>
 using shared_ptr = std::shared_ptr<Type>;
 
@@ -72,7 +75,6 @@ public:
     ModelComponent() = delete;
     ModelComponent(const ModelComponent &elem) = default;
     ModelComponent(shared_ptr<BaseModel> &model): _model(model) {};
-    ModelComponent(BaseModel *model): _model(std::make_shared(model)) {};
     ModelComponent &operator=(const ModelComponent &elem) = default;
     virtual void accept(const BaseComponentVisitor &visitor) override {
         visitor.visit(*this);
