@@ -101,6 +101,23 @@ void mainWindow::callbackFunction(const char *str) {
          //int result = dialog2.run();
          //std::cout << result;
     }
+
+    //if (!strcmp(str, "loadButton")) {
+        //Gtk::FileChooserDialog dialog("Please choose a file", Gtk::FILE_CHOOSER_ACTION_OPEN);
+        //dialog.set_transient_for(*appWindow);
+
+        ////Add response buttons the the dialog:
+        //dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+        //dialog.add_button("_Open", Gtk::RESPONSE_OK);
+
+        //int result = dialog.run();
+        //if (result == Gtk::RESPONSE_OK) {
+            //std::cout << "Open clicked." << std::endl;
+
+            //std::string filename = dialog.get_filename();
+            //std::cout << "File selected: " << filename << std::endl;
+        //}
+    //}
     //std::cout << sceneRadio->get_active() << modelRadio->get_active() 
     //<< cameraRadio->get_active() << std::endl;
 }
