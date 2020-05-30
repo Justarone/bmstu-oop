@@ -1,5 +1,7 @@
 #include "components.hpp"
 
+Component::~Component() {}
+
 bool Composite::add(shared_ptr<Component> &element) {
     try {
         _data.push_back(element); 

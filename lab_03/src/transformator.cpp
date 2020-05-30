@@ -1,8 +1,9 @@
 #include "transformator.hpp"
+#include "point.hpp"
 #include <limits>
 
 Point MatrixTransformator::transform(const Point &p) {
-    MathVec<4, double> resVec = { p.getX(), p.getY(), p.getZ() };
+    MathVec<4, double> resVec = { p.getX(), p.getY(), p.getZ(), 1 };
     resVec.mulLeft(_transMatrix);
     return Point(resVec.at(0), resVec.at(1), resVec.at(2));
 }

@@ -4,6 +4,7 @@
 
 #include "model.hpp"
 #include "camera.hpp"
+#include "visitor.hpp"
 
 template <typename Type>
 using shared_ptr = std::shared_ptr<Type>;
@@ -18,6 +19,7 @@ using ComponentIterator = std::vector<shared_ptr<Component>>::const_iterator;
 class Component {
 public:
     virtual void accept(const BaseComponentVisitor &) = 0;
+    virtual bool isVisible() { return false; }
     virtual bool isComposite() { 
         return false; 
     }
@@ -35,8 +37,6 @@ public:
     }
     virtual ~Component() = 0;
 };
-
-Component::~Component() {}
 
 
 class Composite: public Component {
@@ -70,24 +70,24 @@ public:
 
 
 class ModelComponent: public Component {
-    shared_ptr<BaseModel> _model; // чтобы был полиморфизм, нужен указатель
 public:
+    shared_ptr<BaseModel> model; // чтобы был полиморфизм, нужен указатель
     ModelComponent() = delete;
     ModelComponent(const ModelComponent &elem) = default;
-    ModelComponent(shared_ptr<BaseModel> &model): _model(model) {};
+    ModelComponent(shared_ptr<BaseModel> &model): model(model) {};
     ModelComponent &operator=(const ModelComponent &elem) = default;
+    virtual bool isVisible() override { return true; }
     virtual void accept(const BaseComponentVisitor &visitor) override {
         visitor.visit(*this);
     }
 };
 
 class CameraComponent: public Component {
-    shared_ptr<BaseCamera> _camera; // аналогично модели
 public:
+    shared_ptr<BaseCamera> camera; // аналогично модели
     CameraComponent() = delete;
     CameraComponent(const CameraComponent &elem) = default;
-    CameraComponent(shared_ptr<BaseCamera> &cam): _camera(cam) {};
-    CameraComponent(BaseCamera *cam): _camera(std::make_shared(cam)) {};
+    CameraComponent(shared_ptr<BaseCamera> &cam): camera(cam) {};
     CameraComponent &operator=(const CameraComponent &elem) = default;
 
     virtual void accept(const BaseComponentVisitor &visitor) override {

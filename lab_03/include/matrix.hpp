@@ -19,6 +19,7 @@ public:
     void resetMatrix();
 
     T &at(size_t row, size_t column);
+    const T &at(size_t row, size_t column) const;
     void mulRight(const Matrix &matrix);
 };
 
@@ -28,11 +29,13 @@ class MathVec {
     T _data[N];
 public:
     MathVec();
+    MathVec(const std::initializer_list<T> &init_list);
     MathVec(const MathVec &) = delete;
     MathVec &operator=(const MathVec &) = delete;
     void resetVec();
     void mulLeft(const Matrix<N, T> &matrix);
     T &at(size_t pos);
+    const T &at(size_t pos) const;
 };
 
 #include "implementation/matrix.hpp"
