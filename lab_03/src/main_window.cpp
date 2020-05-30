@@ -29,12 +29,22 @@ mainWindow::mainWindow(const char *filename)
     nextButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
                     &mainWindow::callbackFunction), "nextButton"));
 
-    builder->get_widget("xEntry", xEntry);
-    builder->get_widget("yEntry", yEntry);
-    builder->get_widget("zEntry", zEntry);
-    xEntry->get_buffer()->set_text("0");
-    yEntry->get_buffer()->set_text("0");
-    zEntry->get_buffer()->set_text("0");
+    builder->get_widget("moveXEntry", moveXEntry);
+    builder->get_widget("moveYEntry", moveYEntry);
+    builder->get_widget("moveZEntry", moveZEntry);
+    builder->get_widget("rotateEntry", rotateEntry);
+    builder->get_widget("scaleEntry", scaleEntry);
+    moveXEntry->get_buffer()->set_text("0");
+    moveYEntry->get_buffer()->set_text("0");
+    moveZEntry->get_buffer()->set_text("0");
+    rotateEntry->get_buffer()->set_text("0");
+    scaleEntry->get_buffer()->set_text("0");
+
+    builder->get_widget("rotateXRadio", rotateXRadio);
+    builder->get_widget("rotateYRadio", rotateYRadio);
+    builder->get_widget("rotateZRadio", rotateZRadio);
+    rotateYRadio->join_group(*rotateXRadio);
+    rotateZRadio->join_group(*rotateXRadio);
 
     builder->get_widget("moveButton", moveButton);
     builder->get_widget("rotateButton", rotateButton);
@@ -45,6 +55,7 @@ mainWindow::mainWindow(const char *filename)
                     &mainWindow::callbackFunction), "rotateButton"));
     scaleButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
                     &mainWindow::callbackFunction), "scaleButton"));
+
 
     builder->get_widget("addButton", addButton);
     builder->get_widget("removeButton", removeButton);
@@ -73,6 +84,7 @@ void mainWindow::callbackFunction(const char *str) {
     cr->move_to(100, 200);
     cr->line_to(700, 200);
     cr->stroke();
+    //cr->stroke_preserve();
 
     std::cout << str << std::endl;
     //std::cout << sceneRadio->get_active() << modelRadio->get_active() 

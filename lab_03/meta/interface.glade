@@ -186,7 +186,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="xEntry">
+              <object class="GtkEntry" id="moveXEntry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="placeholder_text" translatable="yes">Conversion value...</property>
@@ -198,7 +198,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="yEntry">
+              <object class="GtkEntry" id="moveYEntry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="placeholder_text" translatable="yes">Conversion value...</property>
@@ -210,7 +210,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="zEntry">
+              <object class="GtkEntry" id="moveZEntry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="placeholder_text" translatable="yes">Conversion value...</property>
@@ -229,6 +229,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="margin_top">10</property>
+                <property name="margin_bottom">15</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -246,7 +247,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">12</property>
+                <property name="top_attach">13</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -260,7 +261,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">13</property>
+                <property name="top_attach">15</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -277,7 +278,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">14</property>
+                <property name="top_attach">16</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -291,7 +292,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">15</property>
+                <property name="top_attach">17</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -305,7 +306,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">16</property>
+                <property name="top_attach">18</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -322,7 +323,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">17</property>
+                <property name="top_attach">19</property>
                 <property name="width">2</property>
                 <property name="height">2</property>
               </packing>
@@ -336,7 +337,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">19</property>
+                <property name="top_attach">21</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -350,7 +351,87 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">20</property>
+                <property name="top_attach">22</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="rotateEntry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_bottom">10</property>
+                <property name="placeholder_text" translatable="yes">Conversion value...</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">12</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_end">10</property>
+                <child>
+                  <object class="GtkRadioButton" id="rotateXRadio">
+                    <property name="label" translatable="yes">X</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="rotateYRadio">
+                    <property name="label" translatable="yes">Y</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="rotateZRadio">
+                    <property name="label" translatable="yes">Z</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">12</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="scaleEntry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_top">15</property>
+                <property name="margin_bottom">10</property>
+                <property name="shadow_type">etched-in</property>
+                <property name="placeholder_text" translatable="yes">Conversion value...</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">14</property>
                 <property name="width">2</property>
               </packing>
             </child>

@@ -14,7 +14,8 @@ class mainWindow
         Gtk::RadioButton *sceneRadio, *modelRadio, *cameraRadio;
         Gtk::DrawingArea *sceneWindow;
         Gtk::Button *prevButton, *nextButton;
-        Gtk::Entry *xEntry, *yEntry, *zEntry;
+        Gtk::Entry *moveXEntry, *moveYEntry, *moveZEntry, *scaleEntry, *rotateEntry;
+        Gtk::RadioButton *rotateXRadio, *rotateYRadio, *rotateZRadio;
         Gtk::Button *moveButton, *rotateButton, *scaleButton;
         Gtk::Button *addButton, *removeButton;
         Gtk::Button *loadButton;
