@@ -1,4 +1,5 @@
 #include "main_window.h"
+#include <cstring>
 
 mainWindow::mainWindow(const char *filename)
 {
@@ -87,6 +88,19 @@ void mainWindow::callbackFunction(const char *str) {
     //cr->stroke_preserve();
 
     std::cout << str << std::endl;
+
+    if (!strcmp(str, "removeButton")) {
+         Gtk::MessageDialog dialog(*appWindow, "This is an INFO MessageDialog");
+         dialog.set_secondary_text("And this is the secondary text that explains things.");
+         dialog.run();
+         //Gtk::MessageDialog dialog2(*appWindow, "This is a QUESTION MessageDialog",
+                 //false [> use_markup <], Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
+         //dialog.set_secondary_text(
+                 //"And this is the secondary text that explains things.");
+
+         //int result = dialog2.run();
+         //std::cout << result;
+    }
     //std::cout << sceneRadio->get_active() << modelRadio->get_active() 
     //<< cameraRadio->get_active() << std::endl;
 }
