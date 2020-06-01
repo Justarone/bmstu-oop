@@ -1,4 +1,4 @@
-#include "main_window.h"
+#include "main_window.hpp"
 #include <cstring>
 
 mainWindow::mainWindow(const char *filename)
@@ -7,11 +7,6 @@ mainWindow::mainWindow(const char *filename)
     builder->add_from_file(filename);
 
     builder->get_widget("appWindow", appWindow);
-    //main_window->set_title("Лабораторная №3.");
-    //Gdk::RGBA color, color2;
-    //color.set_rgba(0.95, 0.95, 0.95);
-    //color2.set_rgba(0., 0.15, 0.3);
-    //main_window->override_background_color(color);
 
     builder->get_widget("sceneRadio", sceneRadio);
     builder->get_widget("modelRadio", modelRadio);
@@ -25,10 +20,10 @@ mainWindow::mainWindow(const char *filename)
     builder->get_widget("prevButton", prevButton);
     builder->get_widget("nextButton", nextButton);
 
-    prevButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "prevButton"));
-    nextButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "nextButton"));
+    prevButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::PREV_BUTTON));
+    nextButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::NEXT_BUTTON));
 
     builder->get_widget("moveXEntry", moveXEntry);
     builder->get_widget("moveYEntry", moveYEntry);
@@ -50,46 +45,46 @@ mainWindow::mainWindow(const char *filename)
     builder->get_widget("moveButton", moveButton);
     builder->get_widget("rotateButton", rotateButton);
     builder->get_widget("scaleButton", scaleButton);
-    moveButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "moveButton"));
-    rotateButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "rotateButton"));
-    scaleButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "scaleButton"));
+    moveButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::MOVE_BUTTON));
+    rotateButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::ROTATE_BUTTON));
+    scaleButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::SCALE_BUTTON));
 
 
     builder->get_widget("addButton", addButton);
     builder->get_widget("removeButton", removeButton);
-    addButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "addButton"));
-    removeButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "removeButton"));
+    addButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::ADD_BUTTON));
+    removeButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::REMOVE_BUTTON));
 
     builder->get_widget("loadButton", loadButton);
-    builder->get_widget("loadEntry", loadEntry);
-    loadButton->signal_clicked().connect(sigc::bind<const char *>(sigc::mem_fun(*this,
-                    &mainWindow::callbackFunction), "loadButton"));
-
+    loadButton->signal_clicked().connect(sigc::bind<ButtonType>(sigc::mem_fun(*this,
+                    &mainWindow::callbackFunction), ButtonType::LOAD_BUTTON));
     //any_widget->override_background_color(color2);
     //any_widget->override_color(color);
 }
 
-void mainWindow::callbackFunction(const char *str) {
-    auto cr = sceneWindow->get_window()->create_cairo_context();
-    //cr->set_source_rgb(1, 1, 1);
-    //cr->paint();
-    //cr->stroke();
+void mainWindow::callbackFunction(ButtonType bt) {
+    if (bt == ButtonType::LOAD_BUTTON) {
+        Gtk::FileChooserDialog dialog("Please, choose a file", Gtk::FILE_CHOOSER_ACTION_OPEN);
+        dialog.set_transient_for(*appWindow);
 
-    cr->set_source_rgb(0., 0., 0.);
-    //cr->set_line_width(5);
-    cr->move_to(100, 200);
-    cr->line_to(700, 200);
-    cr->stroke();
-    //cr->stroke_preserve();
+        //Add response buttons the the dialog:
+        dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+        dialog.add_button("_Open", Gtk::RESPONSE_OK);
 
-    std::cout << str << std::endl;
+        int result = dialog.run();
+        if (result == Gtk::RESPONSE_OK) {
+            std::cout << "Open clicked." << std::endl;
 
-    if (!strcmp(str, "removeButton")) {
+            std::string filename = dialog.get_filename();
+            std::cout << "File selected: " << filename << std::endl;
+        }
+    }
+    if (bt == ButtonType::LOAD_BUTTON) {
          Gtk::MessageDialog dialog(*appWindow, "This is an INFO MessageDialog");
          dialog.set_secondary_text("And this is the secondary text that explains things.");
          dialog.run();
@@ -102,25 +97,19 @@ void mainWindow::callbackFunction(const char *str) {
          //std::cout << result;
     }
 
-    //if (!strcmp(str, "loadButton")) {
-        //Gtk::FileChooserDialog dialog("Please choose a file", Gtk::FILE_CHOOSER_ACTION_OPEN);
-        //dialog.set_transient_for(*appWindow);
-
-        ////Add response buttons the the dialog:
-        //dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
-        //dialog.add_button("_Open", Gtk::RESPONSE_OK);
-
-        //int result = dialog.run();
-        //if (result == Gtk::RESPONSE_OK) {
-            //std::cout << "Open clicked." << std::endl;
-
-            //std::string filename = dialog.get_filename();
-            //std::cout << "File selected: " << filename << std::endl;
-        //}
-    //}
     //std::cout << sceneRadio->get_active() << modelRadio->get_active() 
     //<< cameraRadio->get_active() << std::endl;
 }
+
+//==================================== HINT ==========================================================
+    //cr->set_source_rgb(1, 1, 1);
+    //cr->paint();
+    //cr->stroke();
+    //cr->set_line_width(5);
+    //cr->move_to(x, y)
+    //cr->line_to(x, y)
+    //cr->stroke_preserve();
+//====================================================================================================
 
 Gtk::Window * mainWindow::get_window() {
     return appWindow;

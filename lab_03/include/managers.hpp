@@ -28,12 +28,16 @@ public:
 };
 
 class SceneManager: public BaseManager {
+    size_t _curCam, _curModel, _curScene;
     void _addModel(/*args?*/);
     void _removeModel(/*args?*/);
+    void _setModel(/*args?*/);
     void _addCamera(/*args?*/);
     void _removeCamera(/*args?*/);
     void _setCamera(/*args?*/);
-    void _nextCamera(/*args?*/);
+    void _setScene();
+    void _addScene();
+    void _removeScene();
 public:
     virtual void operation(BaseManagerCommand &) override;
 };
