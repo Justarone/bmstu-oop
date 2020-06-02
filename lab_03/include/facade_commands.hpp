@@ -48,3 +48,20 @@ public:
     explicit RemoveFacadeCommand(ObjectType ot): _ot(ot) {}
     virtual void execute(AppFacade &facade) override;
 };
+
+
+class ChangeFacadeCommand: public BaseFacadeCommand {
+    ObjectType _ot;
+    size_t _diff; // next = 1, prev = -1;
+public:
+    explicit ChangeFacadeCommand(ObjectType ot, size_t diff): _ot(ot), _diff(diff) {}
+    virtual void execute(AppFacade &facade) override;
+};
+
+
+void LoadFacadeCommand::execute(AppFacade &facade) {}
+void TransformFacadeCommand::execute(AppFacade &facade) {}
+void DrawFacadeCommand::execute(AppFacade &facade) {}
+void AddFacadeCommand::execute(AppFacade &facade) {}
+void RemoveFacadeCommand::execute(AppFacade &facade) {}
+void ChangeFacadeCommand::execute(AppFacade &facade) {}

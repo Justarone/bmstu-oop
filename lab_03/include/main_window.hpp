@@ -4,6 +4,10 @@
 #include <cairomm-1.0/cairomm/cairomm.h>
 
 #include "facade.hpp"
+#include "facade_commands.hpp"
+
+#define NEXT 1
+#define PREV -1
 
 enum class ButtonType {
     PREV_BUTTON,
@@ -34,6 +38,7 @@ protected:
     Gtk::Button *loadButton;
     void callbackFunction(ButtonType bt);
     bool on_draw(Cairo::RefPtr<Cairo::Context> const& cr);
+    void readEntry(const Gtk::Entry &entry);
 private:
     AppFacade facade;
 };

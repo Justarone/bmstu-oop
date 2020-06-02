@@ -68,6 +68,9 @@ mainWindow::mainWindow(const char *filename)
 }
 
 void mainWindow::callbackFunction(ButtonType bt) {
+    ObjectType ot = modelRadio->get_active() ? ObjectType::MODEL : (cameraRadio->get_active() ?
+            ObjectType::CAMERA : ObjectType::SCENE);
+
     if (bt == ButtonType::LOAD_BUTTON) {
         Gtk::FileChooserDialog dialog("Please, choose a file", Gtk::FILE_CHOOSER_ACTION_OPEN);
         dialog.set_transient_for(*appWindow);
@@ -78,27 +81,73 @@ void mainWindow::callbackFunction(ButtonType bt) {
 
         int result = dialog.run();
         if (result == Gtk::RESPONSE_OK) {
-            std::cout << "Open clicked." << std::endl;
-
             std::string filename = dialog.get_filename();
-            std::cout << "File selected: " << filename << std::endl;
+            LoadFacadeCommand(filename.c_str());
+        } else {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text("Something went wrong while you were chosing file.");
+            dialog.run();
         }
     }
-    if (bt == ButtonType::LOAD_BUTTON) {
-         Gtk::MessageDialog dialog(*appWindow, "This is an INFO MessageDialog");
-         dialog.set_secondary_text("And this is the secondary text that explains things.");
-         dialog.run();
-         //Gtk::MessageDialog dialog2(*appWindow, "This is a QUESTION MessageDialog",
-                 //false [> use_markup <], Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
-         //dialog.set_secondary_text(
-                 //"And this is the secondary text that explains things.");
-
-         //int result = dialog2.run();
-         //std::cout << result;
+    else if (bt == ButtonType::ADD_BUTTON) {
+        AddFacadeCommand comm(ot);
+        comm.execute(facade);
     }
-
-    //std::cout << sceneRadio->get_active() << modelRadio->get_active() 
-    //<< cameraRadio->get_active() << std::endl;
+    else if (bt == ButtonType::REMOVE_BUTTON) {
+        RemoveFacadeCommand comm(ot);
+        comm.execute(facade);
+    }
+    else if (bt == ButtonType::NEXT_BUTTON) {
+        ChangeFacadeCommand comm(ot, NEXT);
+        comm.execute(facade);
+    }
+    else if (bt == ButtonType::PREV_BUTTON) {
+        ChangeFacadeCommand comm(ot, PREV);
+        comm.execute(facade);
+    }
+    else if (bt == ButtonType::MOVE_BUTTON) {
+        double x, y, z;
+        try {
+            x = readEntry(*moveXEntry);
+            y = readEntry(*moveYEntry);
+            z = readEntry(*moveZEntry);
+        } catch(AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
+        shared_ptr<BaseComponentVisitor> visitor(new MoveVisitor(x, y, z));
+        TransformFacadeCommand comm(visitor, ot);
+        comm.execute(facade);
+    }
+    else if (bt == ButtonType::SCALE_BUTTON) {
+        double value = 0;
+        try {
+            value = readEntry(*scaleEntry);
+        } catch(AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
+        shared_ptr<BaseComponentVisitor> visitor(new ScaleVisitor(value));
+        TransformFacadeCommand comm(visitor, ot);
+        comm.execute(facade);
+    }
+    else if (bt == ButtonType::ROTATE_BUTTON) {
+        double value = 0;
+        try {
+            value = readEntry(*rotateEntry);
+        } catch(AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
+        Direction dir = rotateXRadio->get_active() ? Direction::X : (rotateYRadio->get_active() ?
+                Direction::Y : Direction::Z);
+        shared_ptr<BaseComponentVisitor> visitor(new RotateVisitor(dir, value));
+        TransformFacadeCommand comm(visitor, ot);
+        comm.execute(facade);
+    }
 }
 
 //==================================== HINT ==========================================================
@@ -116,30 +165,22 @@ Gtk::Window * mainWindow::get_window() {
 }
 
 
-//err_t mainWindow::read_entry(double &value, const Gtk::Entry &entry) {
-    //std::string str = static_cast<std::string>(entry.get_buffer()->get_text());
-    //try
-    //{
-        //value = std::stod(str);
-    //} 
-    //catch (const std::invalid_argument& ia) {
-        //std::cerr << "Invalid argument: " << ia.what() << '\n';
-        //return READ_ERROR;
-    //}
-    //return OK;
-//}
+void mainWindow::readEntry(const Gtk::Entry &entry) {
+    std::string str = static_cast<std::string>(entry.get_buffer()->get_text());
+    double value = 0;
+    try {
+        double value = std::stod(str);
+    } catch (const std::invalid_argument& ia) {
+        throw AppInvalidArgument("Can't convert input to double number.");
+    }
+    return value;
+}
+
 // connect: drawing_area->signal_draw().connect(sigc::mem_fun(*this, &myApplication::on_draw));
 bool mainWindow::on_draw(Cairo::RefPtr<Cairo::Context> const& cr) {
-    cr->set_source_rgb(1, 1, 1);
-    cr->paint();
-    cr->stroke();
-
-    cr->set_source_rgb(0., 0, 0);
-    cr->set_line_width(3);
-    cr->move_to(100, 100);
-    cr->line_to(800, 800);
-    cr->stroke();
-    std::cout << "Print some text\n";
+    //cr->set_source_rgb(1, 1, 1);
+    //cr->paint();
+    //cr->stroke();
     return true;
 }
 
