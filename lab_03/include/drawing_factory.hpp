@@ -12,13 +12,6 @@ class GtkDrawingFactory: public BaseDrawingFactory {
     Gtk::DrawingArea &_da;
     shared_ptr<BaseDrawer> _drawer;
 public:
-    explicit GtkDrawingFactory(Gtk::DrawingArea &da): _da(da), _drawer(nullptr) {}
+    explicit GtkDrawingFactory(Gtk::DrawingArea &da);
     virtual shared_ptr<BaseDrawer> createDrawer() override;
 };
-
-shared_ptr<BaseDrawer> GtkDrawingFactory::createDrawer() {
-    if (_drawer)
-        return _drawer;
-    _drawer.reset(new GtkDrawer(_da));
-    return _drawer;
-}

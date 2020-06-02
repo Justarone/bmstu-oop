@@ -165,11 +165,11 @@ Gtk::Window * mainWindow::get_window() {
 }
 
 
-void mainWindow::readEntry(const Gtk::Entry &entry) {
+double mainWindow::readEntry(const Gtk::Entry &entry) {
     std::string str = static_cast<std::string>(entry.get_buffer()->get_text());
     double value = 0;
     try {
-        double value = std::stod(str);
+        value = std::stod(str);
     } catch (const std::invalid_argument& ia) {
         throw AppInvalidArgument("Can't convert input to double number.");
     }

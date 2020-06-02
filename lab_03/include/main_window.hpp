@@ -38,7 +38,7 @@ protected:
     Gtk::Button *loadButton;
     void callbackFunction(ButtonType bt);
     bool on_draw(Cairo::RefPtr<Cairo::Context> const& cr);
-    void readEntry(const Gtk::Entry &entry);
+    double readEntry(const Gtk::Entry &entry);
 private:
     AppFacade facade;
 };
