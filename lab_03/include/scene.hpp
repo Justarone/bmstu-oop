@@ -1,21 +1,17 @@
 #pragma once
 
+#include <iostream>
 #include "components.hpp"
+#include "object_type.hpp"
 
 class Scene {
     vector<shared_ptr<Component>> _data;
+    int _curScene = -1;
+    ComponentIterator _getIterator(int index, ObjectType ot);
 public:
-    void addModel(shared_ptr<Component> &);
-    void removeModel(size_t index);
-    void removeModel(ComponentIterator &);
-    void getModel(size_t index);
-    void addCamera(shared_ptr<Component> &);
-    void removeCamera(size_t index);
-    void removeCamera(ComponentIterator &);
-    void getCamera(size_t index);
-    void addScene(shared_ptr<Component> &);
-    void removeScene(size_t index);
-    void removeScene(ComponentIterator &);
-    void getScene(size_t index);
-    const vector<shared_ptr<Component>> &getData();
+    Scene() = default;
+    void addComponent(shared_ptr<Component> &, ObjectType ot);
+    void removeComponent(int index, ObjectType ot);
+    shared_ptr<Component> getComponent(int index, ObjectType ot);
+    void setScene(int index);
 };

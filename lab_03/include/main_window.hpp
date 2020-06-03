@@ -4,7 +4,6 @@
 #include <cairomm-1.0/cairomm/cairomm.h>
 
 #include "facade.hpp"
-#include "facade_commands.hpp"
 
 #define NEXT 1
 #define PREV -1

@@ -19,17 +19,9 @@ private:
     TransformMananger _transformManager;
 public:
     void loadScene(const char *filename);
-    void transformModel(shared_ptr<BaseComponentVisitor> visitor);
-    void transformCamera(shared_ptr<BaseComponentVisitor> visitor);
-    void transformScene(shared_ptr<BaseComponentVisitor> visitor);
-    void addModel();
-    void addCamera();
-    void addScene();
-    void removeModel();
-    void removeCamera();
-    void removeScene();
-    void changeModel(size_t diff);
-    void changeCamera(size_t diff);
-    void changeScene(size_t diff);
+    void transformComponent(shared_ptr<BaseComponentVisitor> visitor, ObjectType ot);
+    void addComponent(ObjectType ot);
+    void removeComponent(ObjectType ot);
+    void changeComponent(size_t diff, ObjectType ot);
     void drawScene(shared_ptr<BaseDrawingFactory> factory, shared_ptr<BaseProector> proector);
 };

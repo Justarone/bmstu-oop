@@ -2,7 +2,7 @@
 
 Component::~Component() {}
 
-bool Composite::add(shared_ptr<Component> &element) {
+bool Composite::add(shared_ptr<Component> element) {
     try {
         _data.push_back(element); 
     } catch (std::exception &err) {
@@ -28,7 +28,7 @@ bool Component::isComposite() {
     return false; 
 }
 
-bool Component::add(shared_ptr<Component> &) {
+bool Component::add(shared_ptr<Component>) {
     return false;
 }
 
@@ -65,7 +65,7 @@ ComponentIterator Composite::end() {
     return _data.end();
 }
 
-Composite::Composite(vector<shared_ptr<Component>> &data): _data(data) {};
+Composite::Composite(vector<shared_ptr<Component>> data): _data(data) {};
 ModelComponent::ModelComponent(shared_ptr<BaseModel> &model): model(model) {};
 
 bool ModelComponent::isVisible() { 

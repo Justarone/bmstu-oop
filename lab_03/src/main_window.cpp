@@ -82,7 +82,7 @@ void mainWindow::callbackFunction(ButtonType bt) {
         int result = dialog.run();
         if (result == Gtk::RESPONSE_OK) {
             std::string filename = dialog.get_filename();
-            LoadFacadeCommand(filename.c_str());
+            facade.loadScene(filename.c_str());
         } else {
             Gtk::MessageDialog dialog(*appWindow, "Error!");
             dialog.set_secondary_text("Something went wrong while you were chosing file.");
@@ -90,20 +90,16 @@ void mainWindow::callbackFunction(ButtonType bt) {
         }
     }
     else if (bt == ButtonType::ADD_BUTTON) {
-        AddFacadeCommand comm(ot);
-        comm.execute(facade);
+        facade.addComponent(ot);
     }
     else if (bt == ButtonType::REMOVE_BUTTON) {
-        RemoveFacadeCommand comm(ot);
-        comm.execute(facade);
+        facade.removeComponent(ot);
     }
     else if (bt == ButtonType::NEXT_BUTTON) {
-        ChangeFacadeCommand comm(ot, NEXT);
-        comm.execute(facade);
+        facade.changeComponent(NEXT, ot);
     }
     else if (bt == ButtonType::PREV_BUTTON) {
-        ChangeFacadeCommand comm(ot, PREV);
-        comm.execute(facade);
+        facade.changeComponent(PREV, ot);
     }
     else if (bt == ButtonType::MOVE_BUTTON) {
         double x, y, z;
@@ -117,8 +113,7 @@ void mainWindow::callbackFunction(ButtonType bt) {
             dialog.run();
         }
         shared_ptr<BaseComponentVisitor> visitor(new MoveVisitor(x, y, z));
-        TransformFacadeCommand comm(visitor, ot);
-        comm.execute(facade);
+        facade.transformComponent(visitor, ot);
     }
     else if (bt == ButtonType::SCALE_BUTTON) {
         double value = 0;
@@ -130,8 +125,7 @@ void mainWindow::callbackFunction(ButtonType bt) {
             dialog.run();
         }
         shared_ptr<BaseComponentVisitor> visitor(new ScaleVisitor(value));
-        TransformFacadeCommand comm(visitor, ot);
-        comm.execute(facade);
+        facade.transformComponent(visitor, ot);
     }
     else if (bt == ButtonType::ROTATE_BUTTON) {
         double value = 0;
@@ -145,15 +139,14 @@ void mainWindow::callbackFunction(ButtonType bt) {
         Direction dir = rotateXRadio->get_active() ? Direction::X : (rotateYRadio->get_active() ?
                 Direction::Y : Direction::Z);
         shared_ptr<BaseComponentVisitor> visitor(new RotateVisitor(dir, value));
-        TransformFacadeCommand comm(visitor, ot);
-        comm.execute(facade);
+        facade.transformComponent(visitor, ot);
     }
 
-    {
-        DrawFacadeCommand dCommand(std::make_shared<BaseDrawingFactory>(new GtkDrawingFactory(sceneWindow)),
-                                   std::make_shared<BaseProector>(new OrtogonalProector()));
-        dCommand.execute(facade);
-    }
+    shared_ptr<BaseDrawingFactory> factoryPtr;
+    shared_ptr<BaseProector> proectorPtr;
+    factoryPtr.reset(new GtkDrawingFactory(*sceneWindow));
+    proectorPtr.reset(new OrtogonalProector());
+    facade.drawScene(factoryPtr, proectorPtr);
 }
 
 //==================================== HINT ==========================================================

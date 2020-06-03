@@ -21,7 +21,7 @@ public:
     virtual void accept(const BaseComponentVisitor &) = 0;
     virtual bool isVisible();
     virtual bool isComposite();
-    virtual bool add(shared_ptr<Component> &);
+    virtual bool add(shared_ptr<Component>);
     virtual bool remove(ComponentIterator &);
     virtual ComponentIterator begin();
     virtual ComponentIterator end();
@@ -34,12 +34,12 @@ class Composite: public Component {
 public:
     Composite() = default;
     Composite(const Composite &elem) = default;
-    Composite(vector<shared_ptr<Component>> &data);
+    Composite(vector<shared_ptr<Component>> data);
     Composite &operator=(const Composite &elem) = default;
     Composite &operator=(vector<shared_ptr<Component>> data);
     virtual void accept(const BaseComponentVisitor &visitor) override;
     virtual bool isComposite() override;
-    virtual bool add(shared_ptr<Component> &element) override;
+    virtual bool add(shared_ptr<Component> element) override;
     virtual bool remove(ComponentIterator &it) override;
     virtual ComponentIterator begin() override;
     virtual ComponentIterator end() override;

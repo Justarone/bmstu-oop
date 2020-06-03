@@ -2,37 +2,39 @@
 
 #include <vector>
 
+#include "proector.hpp"
+#include "object_type.hpp"
 #include "scene.hpp"
-#include "managers_commands.hpp"
 #include "components.hpp"
+#include "scene_loader.hpp"
+#include "drawer.hpp"
 
 template <typename T>
 using vector = std::vector<T>;
 
-class BaseManager {
-public:
-    virtual void operation(BaseManagerCommand &) = 0;
-};
+class BaseManager {};
 
 class LoadManager: public BaseManager {
-    vector<shared_ptr<Component>> _uploadScene(const char *filename) {
-        return {};
-    }
 public:
-    virtual void operation(BaseManagerCommand &) override {};
+    vector<shared_ptr<Component>> uploadScene(const char *filename, SceneLoader &loader);
 };
 
 class TransformMananger: public BaseManager {
-    void _move(/*args?*/) {};
-    void _scale(/*args?*/) {};
-    void _rotate(/*args?*/) {};
 public:
-    virtual void operation(BaseManagerCommand &) override {};
+    void transformComponent(shared_ptr<BaseComponentVisitor> visitor, ObjectType ot);
 };
 
 
 class DrawManager: public BaseManager {
-    void _drawScene(Scene &scene, shared_ptr<BaseDrawer> drawer, shared_ptr<BaseProector> proector);
 public:
-    virtual void operation(BaseManagerCommand &) override {};
+    void drawScene(Scene &scene, shared_ptr<BaseDrawer> drawer, shared_ptr<BaseProector> proector);
+};
+
+class SceneManager: public BaseManager {
+    size_t _curCam, _curModel, _curScene;
+public:
+    void addComponent(ObjectType ot);
+    void removeComponent(ObjectType ot);
+    void changeComponent(size_t diff, ObjectType ot);
+    void getComponent(ObjectType ot);
 };

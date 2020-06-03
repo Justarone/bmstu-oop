@@ -13,9 +13,11 @@ public:
 };
 
 class FrameModel: public BaseModel {
-    vector<Point> points;
-    vector<Link> links;
+    vector<Point> _points;
+    vector<Link> _links;
 public:
-    FrameModel();
+    FrameModel() = default;
+    vector<Point> &getPoints();
+    vector<Link> &getLinks();
     virtual void transform(BaseTransformator &) override;
 };
