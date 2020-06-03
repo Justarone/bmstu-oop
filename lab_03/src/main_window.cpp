@@ -148,6 +148,12 @@ void mainWindow::callbackFunction(ButtonType bt) {
         TransformFacadeCommand comm(visitor, ot);
         comm.execute(facade);
     }
+
+    {
+        DrawFacadeCommand dCommand(std::make_shared<BaseDrawingFactory>(new GtkDrawingFactory(sceneWindow)),
+                                   std::make_shared<BaseProector>(new OrtogonalProector()));
+        dCommand.execute(facade);
+    }
 }
 
 //==================================== HINT ==========================================================

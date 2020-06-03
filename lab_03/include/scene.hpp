@@ -17,4 +17,5 @@ public:
     void removeScene(size_t index);
     void removeScene(ComponentIterator &);
     void getScene(size_t index);
+    const vector<shared_ptr<Component>> &getData();
 };

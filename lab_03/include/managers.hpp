@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "scene.hpp"
 #include "managers_commands.hpp"
 #include "components.hpp"
 
@@ -29,23 +30,9 @@ public:
     virtual void operation(BaseManagerCommand &) override {};
 };
 
-class SceneManager: public BaseManager {
-    size_t _curCam, _curModel, _curScene;
-    void _addModel(/*args?*/) {};
-    void _removeModel(/*args?*/) {};
-    void _setModel(/*args?*/) {};
-    void _addCamera(/*args?*/) {};
-    void _removeCamera(/*args?*/) {};
-    void _setCamera(/*args?*/) {};
-    void _setScene() {};
-    void _addScene() {};
-    void _removeScene() {};
-public:
-    virtual void operation(BaseManagerCommand &) override {};
-};
 
 class DrawManager: public BaseManager {
-    void _drawScene(/*args?*/);
+    void _drawScene(Scene &scene, shared_ptr<BaseDrawer> drawer, shared_ptr<BaseProector> proector);
 public:
     virtual void operation(BaseManagerCommand &) override {};
 };

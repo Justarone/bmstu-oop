@@ -8,13 +8,11 @@
 
 class BaseProector {
 public:
-    virtual Point2d getProection(Point p) = 0;
+    virtual Point2d getProection(Point p, BaseCamera &cam) = 0;
 };
 
-
 class OrtogonalProector: public BaseProector { // works only with Camera obj
-    Camera _cam;
 public:
-    explicit OrtogonalProector(const Camera &cam): _cam(cam) {}
-    virtual Point2d getProection(Point p) override;
+    explicit OrtogonalProector();
+    virtual Point2d getProection(Point p, BaseCamera &cam) override;
 };

@@ -7,13 +7,8 @@
 #include <vector>
 #include "scene.hpp"
 #include "proector.hpp"
+#include "object_type.hpp"
 #include "drawing_factory.hpp"
-
-enum class ObjectType {
-    MODEL,
-    CAMERA,
-    SCENE
-};
 
 // ADD == COPY
 class AppFacade {
@@ -22,7 +17,6 @@ private:
     DrawManager _drawManager;
     LoadManager _loadManager;
     TransformMananger _transformManager;
-    SceneManager _sceneManager;
 public:
     void loadScene(const char *filename);
     void transformModel(shared_ptr<BaseComponentVisitor> visitor);
