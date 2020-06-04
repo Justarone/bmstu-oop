@@ -11,7 +11,7 @@ void AppFacade::transformComponent(shared_ptr<BaseComponentVisitor> visitor, Obj
 }
 
 void AppFacade::addComponent(ObjectType ot) {
-    std::cout << "addComponent method" << std::endl;
+    _sceneManager.addComponent(ot);
 }
 
 void AppFacade::removeComponent(ObjectType ot) {

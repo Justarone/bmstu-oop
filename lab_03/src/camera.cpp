@@ -23,3 +23,8 @@ void Camera::rotate(double ax, double ay, double az) {
     p.transform(transformator);
     _nx = p.getX(), _ny = p.getY(), _nz = p.getZ();
 }
+
+shared_ptr<BaseCamera> Camera::clone() {
+    shared_ptr<BaseCamera> cam(new Camera(*this));
+    return cam;
+}

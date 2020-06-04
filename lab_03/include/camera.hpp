@@ -11,6 +11,7 @@ public:
     virtual void setPos(double x, double y, double z) = 0;
     virtual void rotate(double ax, double ay, double az) = 0;
     virtual void setNormal(double ax, double ay, double az) = 0;
+    virtual shared_ptr<BaseCamera> clone() = 0;
 };
 
 
@@ -23,8 +24,10 @@ protected:
 public:
     Camera(): _x(0), _y(0), _z(0), _nx(0), _ny(0), _nz(1.) {};
     Camera(double x, double y, double z): _x(x), _y(y), _z(z), _nx(0), _ny(0), _nz(1.) {};
+    Camera(Camera &) = default;
     virtual void move(double x, double y, double z) override;
     virtual void setPos(double x, double y, double z) override;
     virtual void rotate(double ax, double ay, double az) override;
     virtual void setNormal(double nx, double ny, double nz) override;
+    virtual shared_ptr<BaseCamera> clone() override;
 };

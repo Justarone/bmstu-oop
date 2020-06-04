@@ -66,7 +66,7 @@ ComponentIterator Composite::end() {
 }
 
 Composite::Composite(vector<shared_ptr<Component>> data): _data(data) {};
-ModelComponent::ModelComponent(shared_ptr<BaseModel> &model): model(model) {};
+ModelComponent::ModelComponent(shared_ptr<BaseModel> model): model(model) {};
 
 bool ModelComponent::isVisible() { 
     return true; 
@@ -76,8 +76,25 @@ void ModelComponent::accept(const BaseComponentVisitor &visitor) {
     visitor.visit(*this);
 }
 
-CameraComponent::CameraComponent(shared_ptr<BaseCamera> &cam): camera(cam) {};
+CameraComponent::CameraComponent(shared_ptr<BaseCamera> cam): camera(cam) {};
 
 void CameraComponent::accept(const BaseComponentVisitor &visitor) {
     visitor.visit(*this);
+}
+
+shared_ptr<Component> Composite::clone() {
+    shared_ptr<Component> newComposite(new Composite());
+    for (auto &elem: _data)
+        newComposite->add(elem->clone());
+    return newComposite;
+}
+
+shared_ptr<Component> ModelComponent::clone() {
+    shared_ptr<Component> newComponent(new ModelComponent(model->clone()));
+    return newComponent;
+}
+
+shared_ptr<Component> CameraComponent::clone() {
+    shared_ptr<Component> newComponent(new CameraComponent(camera->clone()));
+    return newComponent;
 }

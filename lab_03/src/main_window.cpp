@@ -82,7 +82,13 @@ void mainWindow::callbackFunction(ButtonType bt) {
         int result = dialog.run();
         if (result == Gtk::RESPONSE_OK) {
             std::string filename = dialog.get_filename();
-            facade.loadScene(filename.c_str());
+            try {
+                facade.loadScene(filename.c_str());
+            } catch (AppBaseException &err) {
+                Gtk::MessageDialog dialog(*appWindow, "Can't load scene");
+                dialog.set_secondary_text(err.what());
+                dialog.run();
+            }
         } else {
             Gtk::MessageDialog dialog(*appWindow, "Error!");
             dialog.set_secondary_text("Something went wrong while you were chosing file.");

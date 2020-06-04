@@ -29,7 +29,8 @@ void SceneManager::addComponent(shared_ptr<Component> component, ObjectType ot) 
 void SceneManager::addComponent(ObjectType ot) {
     if (!_stateCheck())
         throw AppInvalidArgument("Bad state of scene");
-    std::cout << "addComponent method of Scene manager\n";
+    auto component = getComponent(ot);
+    addComponent(component->clone(), ot);
 }
 
 void SceneManager::removeComponent(ObjectType ot) {

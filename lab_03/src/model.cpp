@@ -14,3 +14,13 @@ void FrameModel::transform(BaseTransformator &transformator) {
         point = transformator.transform(point);
     }
 }
+
+FrameModel::FrameModel(FrameModel &inModel) {
+    _points = inModel._points;
+    _links = inModel._links;
+}
+
+shared_ptr<BaseModel> FrameModel::clone() {
+    shared_ptr<BaseModel> model(new FrameModel(*this));
+    return model;
+}
