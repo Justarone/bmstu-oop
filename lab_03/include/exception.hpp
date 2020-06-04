@@ -29,3 +29,7 @@ public:
     explicit AppInvalidArgument(const char *errmsg = "No error message (invalid argument)"); 
 };
 
+class AppBadState: public AppBaseException {
+public:
+    explicit AppBadState(const char *errmsg = "No error message (Bad state)"); 
+};

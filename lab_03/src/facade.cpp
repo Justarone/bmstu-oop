@@ -29,7 +29,7 @@ void AppFacade::drawScene(shared_ptr<BaseDrawingFactory> factory, shared_ptr<Bas
         curScene = _sceneManager.getComponent(ObjectType::SCENE);
         curCam = _sceneManager.getComponent(ObjectType::CAMERA);
     } catch (AppBaseException &err) {
-        std::cout << "Nothing to draw\n";
+        std::cout << err.what() << "\n";
         return;
     }
 

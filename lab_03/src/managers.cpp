@@ -64,31 +64,14 @@ shared_ptr<Component> SceneManager::getComponent(ObjectType ot) {
 }
 
 bool SceneManager::_stateCheck() {
-    int res;
-    _curScene = (res = _scene.setScene(_curScene)) == -1 ? 0 : res;
-
     try {
-        _scene.getComponent(_curCam, ObjectType::CAMERA);
+        if (_curScene < 0)
+            _curScene = 0;
+        _curScene = _scene.updateState(_curScene, ObjectType::SCENE);
+        _curModel = _scene.updateState(_curModel, ObjectType::MODEL);
+        _curCam = _scene.updateState(_curCam, ObjectType::CAMERA);
     } catch (AppBaseException &err) {
-        _curCam = 0;
-        //return false;
-        try {
-            _scene.getComponent(_curCam, ObjectType::CAMERA);
-        } catch (AppBaseException &err) {
-            return false;
-        }
+        return false;
     }
-
-    try {
-        _scene.getComponent(_curModel, ObjectType::MODEL);
-    } catch (AppBaseException &err) {
-        _curModel = 0;
-        try {
-            _scene.getComponent(_curModel, ObjectType::MODEL);
-        } catch (AppBaseException &err) {
-            return false;
-        }
-    }
-
     return true;
 }

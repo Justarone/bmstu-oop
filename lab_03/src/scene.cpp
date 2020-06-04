@@ -1,6 +1,6 @@
 #include "scene.hpp"
 
-void Scene::addComponent(shared_ptr<Component> &component, ObjectType ot) {
+void Scene::addComponent(shared_ptr<Component> component, ObjectType ot) {
     if (ot == ObjectType::SCENE && component->isComposite())
         _data.push_back(component);
     else if (!component->isComposite())
@@ -15,6 +15,61 @@ void Scene::removeComponent(int index, ObjectType ot) {
         _data.erase(it);
     else
         _data[_curScene]->remove(it);
+}
+
+bool Scene::_checkScene(int index) {
+    bool hasCam = false, hasModel = false;
+    auto curScene = _data[index];
+    for (auto it = curScene->begin(); it < curScene->end() && !(hasCam && hasModel); it++) {
+        if ((*it)->isVisible())
+            hasModel = true;
+        else if (!(*it)->isComposite())
+            hasCam = true;
+    }
+    return hasCam && hasModel;
+}
+
+void Scene::_removeBadScenes() {
+    for (int i = static_cast<int>(_data.size()) - 1; i >= 0; --i)
+        if (!_checkScene(i))
+            _data.erase(_data.begin() + i);
+}
+
+int Scene::_countObjects(ObjectType ot) {
+    if (ot == ObjectType::SCENE)
+        return static_cast<int>(_data.size()) - 1;
+
+    else if (ot == ObjectType::MODEL || ot == ObjectType::CAMERA) {
+        int cntModels = 0, cntCams = 0;
+
+        for (auto elem: _data) {
+            if (elem->isVisible())
+                cntModels++;
+            else if (!elem->isComposite())
+                cntCams++;
+        }
+
+        return ot == ObjectType::MODEL ? cntModels : cntCams;
+    }
+
+    throw AppInvalidArgument("Bad object type");
+}
+
+int Scene::updateState(int index, ObjectType ot) {
+    _removeBadScenes();
+    if (_data.size() == 0)
+        throw AppBadState("No scenes");
+    if (ot == ObjectType::SCENE) {
+        _curScene = index < static_cast<int>(_data.size()) - 1 ? index : 0;
+        return _curScene; // _data.size() - 1
+    }
+    
+    else if (ot == ObjectType::MODEL || ot == ObjectType::CAMERA) {
+        int cnt = _countObjects(ot);
+        return index < cnt - 1 ? index : 0;
+    }
+
+    throw AppInvalidArgument("Invalid object type.");
 }
 
 ComponentIterator Scene::_getIterator(int index, ObjectType ot) {

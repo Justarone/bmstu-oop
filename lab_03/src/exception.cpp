@@ -9,3 +9,4 @@ const char *AppBaseException::what() const noexcept {
 AppOutOfRange::AppOutOfRange(const char *errmsg): AppBaseException(errmsg) {};
 AppInvalidArgument::AppInvalidArgument(const char *errmsg): AppBaseException(errmsg) {};
 AppValueException::AppValueException(const char *errmsg): AppBaseException(errmsg) {};
+AppBadState::AppBadState(const char *errmsg): AppBaseException(errmsg) {};

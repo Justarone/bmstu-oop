@@ -21,8 +21,8 @@ using ComponentIterator = std::vector<shared_ptr<Component>>::const_iterator;
 class Component {
 public:
     virtual void accept(const BaseComponentVisitor &) = 0;
-    virtual bool isVisible();
-    virtual bool isComposite();
+    virtual bool isVisible() const;
+    virtual bool isComposite() const;
     virtual shared_ptr<Component> clone() = 0;
     virtual bool add(shared_ptr<Component>);
     virtual bool remove(ComponentIterator &);
@@ -41,7 +41,7 @@ public:
     Composite &operator=(const Composite &elem) = default;
     Composite &operator=(vector<shared_ptr<Component>> data);
     virtual void accept(const BaseComponentVisitor &visitor) override;
-    virtual bool isComposite() override;
+    virtual bool isComposite() const override;
     virtual shared_ptr<Component> clone() override;
     virtual bool add(shared_ptr<Component> element) override;
     virtual bool remove(ComponentIterator &it) override;
@@ -57,7 +57,7 @@ public:
     ModelComponent(const ModelComponent &elem) = default;
     ModelComponent(shared_ptr<BaseModel> model);
     ModelComponent &operator=(const ModelComponent &elem) = default;
-    virtual bool isVisible() override;
+    virtual bool isVisible() const override;
     virtual void accept(const BaseComponentVisitor &visitor) override;
     virtual shared_ptr<Component> clone() override;
 };

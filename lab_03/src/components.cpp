@@ -20,11 +20,11 @@ bool Composite::remove(ComponentIterator &it) {
     return true;
 }
 
-bool Component::isVisible() {
+bool Component::isVisible() const {
     return false; 
 }
 
-bool Component::isComposite() { 
+bool Component::isComposite() const { 
     return false; 
 }
 
@@ -53,7 +53,7 @@ void Composite::accept(const BaseComponentVisitor &visitor) {
     visitor.visit(*this);
 }
 
-bool Composite::isComposite() {
+bool Composite::isComposite() const {
     return true;
 }
 
@@ -68,7 +68,7 @@ ComponentIterator Composite::end() {
 Composite::Composite(vector<shared_ptr<Component>> data): _data(data) {};
 ModelComponent::ModelComponent(shared_ptr<BaseModel> model): model(model) {};
 
-bool ModelComponent::isVisible() { 
+bool ModelComponent::isVisible() const {
     return true; 
 }
 

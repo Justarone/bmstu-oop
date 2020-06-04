@@ -97,14 +97,20 @@ void mainWindow::callbackFunction(ButtonType bt) {
     }
 
     else if (bt == ButtonType::ADD_BUTTON) {
-        facade.addComponent(ot);
+        try {
+            facade.addComponent(ot);
+        } catch (AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
     }
 
     else if (bt == ButtonType::REMOVE_BUTTON) {
         try {
             facade.removeComponent(ot);
         } catch (AppBaseException &err) {
-            Gtk::MessageDialog dialog(*appWindow, "Something went wrong!");
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
             dialog.set_secondary_text(err.what());
             dialog.run();
         }
@@ -114,7 +120,7 @@ void mainWindow::callbackFunction(ButtonType bt) {
         try {
             facade.changeComponent(NEXT, ot);
         } catch (AppBaseException &err) {
-            Gtk::MessageDialog dialog(*appWindow, "Something went wrong!");
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
             dialog.set_secondary_text(err.what());
             dialog.run();
         }
@@ -124,7 +130,7 @@ void mainWindow::callbackFunction(ButtonType bt) {
         try {
             facade.changeComponent(PREV, ot);
         } catch (AppBaseException &err) {
-            Gtk::MessageDialog dialog(*appWindow, "Something went wrong!");
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
             dialog.set_secondary_text(err.what());
             dialog.run();
         }
@@ -141,7 +147,13 @@ void mainWindow::callbackFunction(ButtonType bt) {
             dialog.run();
         }
         shared_ptr<BaseComponentVisitor> visitor(new MoveVisitor(x, y, z));
-        facade.transformComponent(visitor, ot);
+        try {
+            facade.transformComponent(visitor, ot);
+        } catch(AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
     }
     else if (bt == ButtonType::SCALE_BUTTON) {
         double value = 0;
@@ -153,7 +165,13 @@ void mainWindow::callbackFunction(ButtonType bt) {
             dialog.run();
         }
         shared_ptr<BaseComponentVisitor> visitor(new ScaleVisitor(value));
-        facade.transformComponent(visitor, ot);
+        try {
+            facade.transformComponent(visitor, ot);
+        } catch(AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
     }
     else if (bt == ButtonType::ROTATE_BUTTON) {
         double value = 0;
@@ -167,7 +185,13 @@ void mainWindow::callbackFunction(ButtonType bt) {
         Direction dir = rotateXRadio->get_active() ? Direction::X : (rotateYRadio->get_active() ?
                 Direction::Y : Direction::Z);
         shared_ptr<BaseComponentVisitor> visitor(new RotateVisitor(dir, value));
-        facade.transformComponent(visitor, ot);
+        try {
+            facade.transformComponent(visitor, ot);
+        } catch(AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Error!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
     }
 
     shared_ptr<BaseDrawingFactory> factoryPtr;
