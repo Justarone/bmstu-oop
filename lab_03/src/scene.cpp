@@ -42,13 +42,17 @@ int Scene::_countObjects(ObjectType ot) {
     else if (ot == ObjectType::MODEL || ot == ObjectType::CAMERA) {
         int cntModels = 0, cntCams = 0;
 
-        for (auto elem: _data) {
+        std::cout << std::endl;
+        auto scene = dynamic_cast<Composite&>(*_data[_curScene].get());
+        for (auto elem: scene) {
             if (elem->isVisible())
                 cntModels++;
             else if (!elem->isComposite())
                 cntCams++;
         }
+        std::cout << std::endl;
 
+        std::cout << "cntModels: " << cntModels << " and cntCams: " << cntCams << std::endl;
         return ot == ObjectType::MODEL ? cntModels : cntCams;
     }
 
@@ -60,13 +64,13 @@ int Scene::updateState(int index, ObjectType ot) {
     if (_data.size() == 0)
         throw AppBadState("No scenes");
     if (ot == ObjectType::SCENE) {
-        _curScene = index < static_cast<int>(_data.size()) - 1 ? index : 0;
+        _curScene = index < static_cast<int>(_data.size()) ? index : 0;
         return _curScene; // _data.size() - 1
     }
     
     else if (ot == ObjectType::MODEL || ot == ObjectType::CAMERA) {
         int cnt = _countObjects(ot);
-        return index < cnt - 1 ? index : 0;
+        return index < cnt ? index : 0;
     }
 
     throw AppInvalidArgument("Invalid object type.");
