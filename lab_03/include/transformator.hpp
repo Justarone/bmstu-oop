@@ -3,6 +3,8 @@
 #include "matrix.hpp"
 #include "exception.hpp"
 #include <cmath>
+#include <iostream>
+#include <limits>
 
 class Point;
 

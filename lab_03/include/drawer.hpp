@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gtkmm-3.0/gtkmm.h>
+#include <iostream>
 
 #include "components.hpp"
 #include "point2d.hpp"
@@ -13,9 +14,9 @@ public:
 
 
 class GtkDrawer: public BaseDrawer {
-    Gtk::DrawingArea &_drawingArea;
+    const Cairo::RefPtr<Cairo::Context> &_cr;
 public:
-    explicit GtkDrawer(Gtk::DrawingArea &area);
+    explicit GtkDrawer(const Cairo::RefPtr<Cairo::Context> &_cr);
     virtual void drawLine(const Point2d &p1, const Point2d &p2) override;
     virtual void clear() override;
 };

@@ -3,6 +3,7 @@
 #include "components.hpp"
 #include "model.hpp"
 
+#include <iostream>
 #include <fstream>
 
 class BaseObjectBuilder {

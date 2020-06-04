@@ -8,11 +8,11 @@ void Matrix<N, T>::resetMatrix() {
 
 template <size_t N, typename T>
 void Matrix<N, T>::mulRight(const Matrix<N, T> &matrix) {
-    T res[N][N];
+    T res[N][N] = { 0 };
     for (size_t i = 0; i < N; ++i)
         for (size_t j = 0; j < N; ++j)
             for (size_t k = 0; k < N; ++k)
-                res[i][j] = _data[i][k] * matrix.at(k, j);
+                res[i][j] += _data[i][k] * matrix.at(k, j);
 
     for (size_t i = 0; i < N; ++i)
         for (size_t j = 0; j < N; ++j)

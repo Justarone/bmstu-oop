@@ -1,7 +1,8 @@
 #include "facade.hpp"
 
 void AppFacade::loadScene(const char *filename) {
-    std::cout << "loadScene method" << std::endl;
+    auto resComposite = _loadManager.uploadScene(filename);
+    _sceneManager.addComponent(resComposite, ObjectType::SCENE);
 }
 
 void AppFacade::transformComponent(shared_ptr<BaseComponentVisitor> visitor, ObjectType ot) {
@@ -16,11 +17,27 @@ void AppFacade::removeComponent(ObjectType ot) {
     std::cout << "removeComponent method" << std::endl;
 }
 
-void AppFacade::changeComponent(size_t diff, ObjectType ot) {
+void AppFacade::changeComponent(int diff, ObjectType ot) {
     std::cout << "changeComponent method" << std::endl;
 }
 
 void AppFacade::drawScene(shared_ptr<BaseDrawingFactory> factory, shared_ptr<BaseProector> proector) {
-    std::cout << "drawScene method" << std::endl;
-}
+    shared_ptr<Component> curScene;
+    shared_ptr<Component> curCam;
+    try {
+        curScene = _sceneManager.getComponent(ObjectType::SCENE);
+        curCam = _sceneManager.getComponent(ObjectType::CAMERA);
+    } catch (AppBaseException &err) {
+        std::cout << "Nothing to draw\n";
+    }
 
+    if (!curScene || !curCam)
+        return;
+
+    std::cout << "Something to draw\n";
+
+    shared_ptr<BaseDrawer> drawer = factory->createDrawer();
+    drawer->clear();
+    auto camera = dynamic_cast<CameraComponent *>(curCam.get())->camera;
+    _drawManager.drawScene(curScene, camera, drawer, proector);
+}

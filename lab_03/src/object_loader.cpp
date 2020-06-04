@@ -38,6 +38,7 @@ void MyModelBuilder::buildData(std::ifstream &input) {
     vector<Link> &links = model.getLinks();
     pts = _buildPoints(input);
     links = _buildLinks(input);
+    _isBuilt = true;
 }
 
 vector<Point> MyModelBuilder::_buildPoints(std::ifstream &input) {

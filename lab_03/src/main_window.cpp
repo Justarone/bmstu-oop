@@ -144,7 +144,8 @@ void mainWindow::callbackFunction(ButtonType bt) {
 
     shared_ptr<BaseDrawingFactory> factoryPtr;
     shared_ptr<BaseProector> proectorPtr;
-    factoryPtr.reset(new GtkDrawingFactory(*sceneWindow));
+    auto cr = sceneWindow->get_window()->create_cairo_context();
+    factoryPtr.reset(new GtkDrawingFactory(cr));
     proectorPtr.reset(new OrtogonalProector());
     facade.drawScene(factoryPtr, proectorPtr);
 }
@@ -177,9 +178,11 @@ double mainWindow::readEntry(const Gtk::Entry &entry) {
 
 // connect: drawing_area->signal_draw().connect(sigc::mem_fun(*this, &myApplication::on_draw));
 bool mainWindow::on_draw(Cairo::RefPtr<Cairo::Context> const& cr) {
-    //cr->set_source_rgb(1, 1, 1);
-    //cr->paint();
-    //cr->stroke();
+    shared_ptr<BaseDrawingFactory> factoryPtr;
+    shared_ptr<BaseProector> proectorPtr;
+    factoryPtr.reset(new GtkDrawingFactory(cr));
+    proectorPtr.reset(new OrtogonalProector());
+    facade.drawScene(factoryPtr, proectorPtr);
     return true;
 }
 

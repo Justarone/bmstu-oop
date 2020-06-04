@@ -6,6 +6,8 @@
 #include "camera.hpp"
 #include "visitor.hpp"
 
+class BaseComponentVisitor;
+
 template <typename Type>
 using shared_ptr = std::shared_ptr<Type>;
 

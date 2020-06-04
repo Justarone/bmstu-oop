@@ -4,6 +4,8 @@
 #include "components.hpp"
 #include "object_type.hpp"
 
+using ComponentIterator = std::vector<shared_ptr<Component>>::const_iterator;
+
 class Scene {
     vector<shared_ptr<Component>> _data;
     int _curScene = -1;

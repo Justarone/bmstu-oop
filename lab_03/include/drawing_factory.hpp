@@ -9,9 +9,9 @@ public:
 
 
 class GtkDrawingFactory: public BaseDrawingFactory {
-    Gtk::DrawingArea &_da;
+    const Cairo::RefPtr<Cairo::Context> &_cr;
     shared_ptr<BaseDrawer> _drawer;
 public:
-    explicit GtkDrawingFactory(Gtk::DrawingArea &da);
+    explicit GtkDrawingFactory(const Cairo::RefPtr<Cairo::Context> &_cr);
     virtual shared_ptr<BaseDrawer> createDrawer() override;
 };
