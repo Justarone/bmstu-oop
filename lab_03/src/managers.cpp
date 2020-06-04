@@ -35,14 +35,15 @@ void SceneManager::addComponent(ObjectType ot) {
 void SceneManager::removeComponent(ObjectType ot) {
     if (!_stateCheck())
         throw AppInvalidArgument("Bad state of scene");
-    std::cout << "removeComponent method of scene manager\n"; 
+    int index = ot == ObjectType::SCENE ? _curScene : (ot == ObjectType::MODEL ? _curModel : _curCam);
+    _scene.removeComponent(index, ot);
 }
 
 void SceneManager::changeComponent(int diff, ObjectType ot) {
     if (!_stateCheck())
         throw AppInvalidArgument("Bad state of scene");
     if (ot == ObjectType::SCENE)
-        _curScene += diff;
+        _curScene += diff, _curCam = 0, _curModel = 0;
     else if (ot == ObjectType::SCENE)
         _curScene += diff;
     else if (ot == ObjectType::SCENE)
@@ -61,17 +62,14 @@ shared_ptr<Component> SceneManager::getComponent(ObjectType ot) {
 }
 
 bool SceneManager::_stateCheck() {
-    try {
-        _scene.setScene(_curScene);
-    } catch (AppBaseException &err) {
-        _curScene = 0;
-        _scene.setScene(_curScene);
-    }
+    int res;
+    _curScene = (res = _scene.setScene(_curScene)) == -1 ? 0 : res;
 
     try {
         _scene.getComponent(_curCam, ObjectType::CAMERA);
     } catch (AppBaseException &err) {
         _curCam = 0;
+        //return false;
         try {
             _scene.getComponent(_curCam, ObjectType::CAMERA);
         } catch (AppBaseException &err) {

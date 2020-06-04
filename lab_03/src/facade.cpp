@@ -30,10 +30,8 @@ void AppFacade::drawScene(shared_ptr<BaseDrawingFactory> factory, shared_ptr<Bas
         curCam = _sceneManager.getComponent(ObjectType::CAMERA);
     } catch (AppBaseException &err) {
         std::cout << "Nothing to draw\n";
-    }
-
-    if (!curScene || !curCam)
         return;
+    }
 
     shared_ptr<BaseDrawer> drawer = factory->createDrawer();
     drawer->clear();

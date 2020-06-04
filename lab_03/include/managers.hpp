@@ -36,7 +36,7 @@ public:
 
 class SceneManager: public BaseManager {
     Scene _scene;
-    size_t _curCam, _curModel, _curScene;
+    int _curCam = 0, _curModel = 0, _curScene = 0;
     bool _stateCheck();
 public:
     void addComponent(ObjectType ot);

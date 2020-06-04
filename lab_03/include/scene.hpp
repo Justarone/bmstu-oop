@@ -11,9 +11,8 @@ class Scene {
     int _curScene = -1;
     ComponentIterator _getIterator(int index, ObjectType ot);
 public:
-    Scene() = default;
     void addComponent(shared_ptr<Component> &, ObjectType ot);
     void removeComponent(int index, ObjectType ot);
     shared_ptr<Component> getComponent(int index, ObjectType ot);
-    void setScene(int index);
+    int setScene(int index);
 };

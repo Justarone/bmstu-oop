@@ -18,7 +18,7 @@ void Scene::removeComponent(int index, ObjectType ot) {
 }
 
 ComponentIterator Scene::_getIterator(int index, ObjectType ot) {
-    if (_curScene == -1 || _curScene >= static_cast<int>(_data.size()))
+    if (_curScene < 0 || _curScene >= static_cast<int>(_data.size()))
         throw AppOutOfRange("Incorrect value of curScene index");
 
     if (ot == ObjectType::SCENE)
@@ -60,6 +60,7 @@ shared_ptr<Component> Scene::getComponent(int index, ObjectType ot) {
     return *it;
 }
 
-void Scene::setScene(int index) {
-    _curScene = index < static_cast<int>(_data.size()) ? index : _data.size() - 1;
+int Scene::setScene(int index) {
+    _curScene = index < static_cast<int>(_data.size()) ? index : static_cast<int>(_data.size()) - 1;
+    return _curScene;
 }
