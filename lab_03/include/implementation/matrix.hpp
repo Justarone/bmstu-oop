@@ -82,13 +82,16 @@ MathVec<N, T>::MathVec() {
 }
 
 template <size_t N, typename T>
-void MathVec<N, T>::mulLeft(const Matrix<N, T> &matrix) {
+void MathVec<N, T>::mulRight(const Matrix<N, T> &matrix) {
     MathVec<N, T> resVec;
     for (size_t i = 0; i < N; ++i)
     {
         resVec.at(i) = 0;
-        for (size_t j = 0; j < N; ++j)
-            resVec.at(i) += _data[j] * matrix.at(i, j);
+        for (size_t j = 0; j < N; ++j) {
+            resVec.at(i) += _data[j] * matrix.at(j, i);
+            std::cout << matrix.at(i, j) << " / ";
+        }
+        std::cout << "\n";
     }
 
     for (size_t i = 0; i < N; ++i)

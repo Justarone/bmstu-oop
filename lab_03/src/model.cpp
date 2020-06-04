@@ -11,10 +11,6 @@ vector<Point> &FrameModel::getPoints() {
 void FrameModel::transform(BaseTransformator &transformator) {
     auto &points = getPoints();
     for (auto &point: points) {
-        std::cout << "POINT BEFORE: ";
-        std::cout << point.getX() << "//" << point.getY() << "//" << point.getZ() << std::endl;
         point = transformator.transform(point);
-        std::cout << "POINT AFTER: ";
-        std::cout << point.getX() << "//" << point.getY() << "//" << point.getZ() << std::endl;
     }
 }

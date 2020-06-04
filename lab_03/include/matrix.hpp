@@ -34,7 +34,7 @@ public:
     MathVec(const MathVec &) = delete;
     MathVec &operator=(const MathVec &) = delete;
     void resetVec();
-    void mulLeft(const Matrix<N, T> &matrix);
+    void mulRight(const Matrix<N, T> &matrix);
     T &at(size_t pos);
     const T &at(size_t pos) const;
 };
