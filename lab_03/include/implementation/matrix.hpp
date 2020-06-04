@@ -87,11 +87,8 @@ void MathVec<N, T>::mulRight(const Matrix<N, T> &matrix) {
     for (size_t i = 0; i < N; ++i)
     {
         resVec.at(i) = 0;
-        for (size_t j = 0; j < N; ++j) {
+        for (size_t j = 0; j < N; ++j)
             resVec.at(i) += _data[j] * matrix.at(j, i);
-            std::cout << matrix.at(i, j) << " / ";
-        }
-        std::cout << "\n";
     }
 
     for (size_t i = 0; i < N; ++i)

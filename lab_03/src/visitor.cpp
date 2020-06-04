@@ -83,6 +83,7 @@ void ScaleVisitor::visit(ModelComponent &component) const {
     model->transform(transformator);
 }
 
+
 void DrawVisitor::visit(Composite &composite) const {
     for (auto &elem: composite) {
         if (elem->isComposite())

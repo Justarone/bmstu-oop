@@ -17,7 +17,7 @@ void MatrixTransformator::move(double x, double y, double z) {
 }
 
 void MatrixTransformator::scale(double value) {
-    if (std::abs(value) <= std::numeric_limits<double>::epsilon())
+    if (std::fabs(value) <= std::numeric_limits<double>::epsilon())
         throw AppValueException("Can't scale with 0 coeff");
     Matrix<4, double> scaleMatrix = { value, 0, 0, 0,
                                       0, value, 0, 0,
