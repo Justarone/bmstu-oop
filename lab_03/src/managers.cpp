@@ -42,12 +42,13 @@ void SceneManager::removeComponent(ObjectType ot) {
 void SceneManager::changeComponent(int diff, ObjectType ot) {
     if (!_stateCheck())
         throw AppInvalidArgument("Bad state of scene");
+
     if (ot == ObjectType::SCENE)
         _curScene += diff, _curCam = 0, _curModel = 0;
-    else if (ot == ObjectType::SCENE)
-        _curScene += diff;
-    else if (ot == ObjectType::SCENE)
-        _curScene += diff;
+    else if (ot == ObjectType::MODEL)
+        _curModel += diff;
+    else if (ot == ObjectType::CAMERA)
+        _curCam += diff;
     else
         throw AppInvalidArgument("Bad object type");
 }

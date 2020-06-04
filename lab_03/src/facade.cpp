@@ -15,11 +15,11 @@ void AppFacade::addComponent(ObjectType ot) {
 }
 
 void AppFacade::removeComponent(ObjectType ot) {
-    std::cout << "removeComponent method" << std::endl;
+    _sceneManager.removeComponent(ot);
 }
 
 void AppFacade::changeComponent(int diff, ObjectType ot) {
-    std::cout << "changeComponent method" << std::endl;
+    _sceneManager.changeComponent(diff, ot);
 }
 
 void AppFacade::drawScene(shared_ptr<BaseDrawingFactory> factory, shared_ptr<BaseProector> proector) {

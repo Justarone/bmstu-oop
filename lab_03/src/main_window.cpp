@@ -89,17 +89,39 @@ void mainWindow::callbackFunction(ButtonType bt) {
             dialog.run();
         }
     }
+
     else if (bt == ButtonType::ADD_BUTTON) {
         facade.addComponent(ot);
     }
+
     else if (bt == ButtonType::REMOVE_BUTTON) {
-        facade.removeComponent(ot);
+        try {
+            facade.removeComponent(ot);
+        } catch (AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Something went wrong!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
     }
+
     else if (bt == ButtonType::NEXT_BUTTON) {
-        facade.changeComponent(NEXT, ot);
+        try {
+            facade.changeComponent(NEXT, ot);
+        } catch (AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Something went wrong!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
     }
+
     else if (bt == ButtonType::PREV_BUTTON) {
-        facade.changeComponent(PREV, ot);
+        try {
+            facade.changeComponent(PREV, ot);
+        } catch (AppBaseException &err) {
+            Gtk::MessageDialog dialog(*appWindow, "Something went wrong!");
+            dialog.set_secondary_text(err.what());
+            dialog.run();
+        }
     }
     else if (bt == ButtonType::MOVE_BUTTON) {
         double x, y, z;
