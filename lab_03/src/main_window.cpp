@@ -107,6 +107,7 @@ void mainWindow::callbackFunction(ButtonType bt) {
             x = readEntry(*moveXEntry);
             y = readEntry(*moveYEntry);
             z = readEntry(*moveZEntry);
+            std::cout << x << y << z;
         } catch(AppBaseException &err) {
             Gtk::MessageDialog dialog(*appWindow, "Error!");
             dialog.set_secondary_text(err.what());

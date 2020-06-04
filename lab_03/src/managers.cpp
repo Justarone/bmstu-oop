@@ -13,7 +13,12 @@ shared_ptr<Component> LoadManager::uploadScene(const char *filename) {
 
 void TransformMananger::transformComponent(shared_ptr<Component> component,
         shared_ptr<BaseComponentVisitor> visitor) {
+    auto &points = dynamic_cast<FrameModel *>(dynamic_cast<ModelComponent *>(component.get())->model.get())->getPoints();
+    for (auto &p: points)
+        std::cout << p.getX() << "/" << p.getY() << "/" << p.getZ() << "\n";
     component->accept(*visitor);
+    for (auto &p: points)
+        std::cout << p.getX() << "/" << p.getY() << "/" << p.getZ() << "\n";
 }
 
 void DrawManager::drawScene(shared_ptr<Component> component, shared_ptr<BaseCamera> cam,
@@ -61,7 +66,6 @@ shared_ptr<Component> SceneManager::getComponent(ObjectType ot) {
 }
 
 bool SceneManager::_stateCheck() {
-    std::cout << "here";
     try {
         _scene.setScene(_curScene);
     } catch (AppBaseException &err) {

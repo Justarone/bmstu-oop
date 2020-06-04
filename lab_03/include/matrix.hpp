@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <memory>
+#include <iostream>
 #include "exception.hpp"
 
 template <typename T>

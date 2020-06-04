@@ -49,13 +49,13 @@ void MoveVisitor::visit(Composite &composite) const {
 void MoveVisitor::visit(ModelComponent &component) const {
     MatrixTransformator transformator;
     transformator.move(_x, _y, _z);
-    auto model = component.model;
+    auto &model = component.model;
     model->transform(transformator);
 }
 
 
 void MoveVisitor::visit(CameraComponent &component) const {
-    auto camera = component.camera;
+    auto &camera = component.camera;
     camera->move(_x, _y, _z);
 }
 
@@ -63,7 +63,7 @@ void MoveVisitor::visit(CameraComponent &component) const {
 void RotateVisitor::visit(ModelComponent &component) const {
     MatrixTransformator transformator;
     transformator.rotate(_dir, _value);
-    auto model = component.model;
+    auto &model = component.model;
     model->transform(transformator);
 }
 

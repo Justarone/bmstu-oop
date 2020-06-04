@@ -6,7 +6,8 @@ void AppFacade::loadScene(const char *filename) {
 }
 
 void AppFacade::transformComponent(shared_ptr<BaseComponentVisitor> visitor, ObjectType ot) {
-    std::cout << "transformComponent method" << std::endl;
+    auto component = _sceneManager.getComponent(ot);
+    _transformManager.transformComponent(component, visitor);
 }
 
 void AppFacade::addComponent(ObjectType ot) {
@@ -33,8 +34,6 @@ void AppFacade::drawScene(shared_ptr<BaseDrawingFactory> factory, shared_ptr<Bas
 
     if (!curScene || !curCam)
         return;
-
-    std::cout << "Something to draw\n";
 
     shared_ptr<BaseDrawer> drawer = factory->createDrawer();
     drawer->clear();

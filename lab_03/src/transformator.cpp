@@ -3,18 +3,48 @@
 
 Point MatrixTransformator::transform(const Point &p) {
     MathVec<4, double> resVec = { p.getX(), p.getY(), p.getZ(), 1 };
+    //std::cout << "Print of transMatrix";
+    //for (size_t i = 0; i < 4; i++) {
+        //std::cout << "\n";
+        //for (size_t j = 0; j < 4; j++)
+            //std::cout << _transMatrix.at(i, j) << "  ";
+    //}
     resVec.mulLeft(_transMatrix);
+    //std::cout << "RESVEC PRINT AFTER\n";
+    //std::cout << resVec.at(0) << resVec.at(1) << resVec.at(2) << resVec.at(3);
 
     return Point(resVec.at(0), resVec.at(1), resVec.at(2));
 }
 
 void MatrixTransformator::move(double x, double y, double z) {
+    if (!x && !y && !z)
+        return;
     Matrix<4, double> moveMatrix = { 1, 0, 0, 0,
                                      0, 1, 0, 0,
                                      0, 0, 1, 0,
                                      x, y, z, 1 };
 
-        _transMatrix.mulRight(moveMatrix);
+    std::cout << "Trans matrix before move:\n";
+    for (size_t i = 0; i < 4; ++i) {
+        for (size_t j = 0; j < 4; ++j)
+            std::cout << _transMatrix.at(i, j);
+        std::cout << std::endl;
+    }
+
+    std::cout << "MOve matrix:\n";
+    for (size_t i = 0; i < 4; ++i) {
+        for (size_t j = 0; j < 4; ++j)
+            std::cout << moveMatrix.at(i, j);
+        std::cout << std::endl;
+    }
+
+    _transMatrix.mulRight(moveMatrix);
+    std::cout << "Trans matrix after move:\n";
+    for (size_t i = 0; i < 4; ++i) {
+        for (size_t j = 0; j < 4; ++j)
+            std::cout << _transMatrix.at(i, j);
+        std::cout << std::endl;
+    }
 }
 
 void MatrixTransformator::scale(double value) {
@@ -29,7 +59,6 @@ void MatrixTransformator::scale(double value) {
 
 void MatrixTransformator::rotate(const Direction &dir, double value) {
     Matrix<4, double> rotateMatrix;
-    std::cout << "VAlue is: " << value;
 
     if (dir == Direction::X) {
         rotateMatrix.at(0, 0) = 1;
