@@ -5,27 +5,28 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include "direction.hpp"
+#include "strategy.hpp"
 
 class Point;
-
-enum class Direction { X, Y, Z };
+class BaseTransformStrategy;
 
 class BaseTransformator {
 public:
     // strategy
     virtual Point transform(const Point &p) = 0;
-    virtual void move(double x, double y, double z) = 0;
-    virtual void scale(double value) = 0;
-    virtual void rotate(const Direction &dir, double value) = 0;
+    virtual void setStrategy(shared_ptr<BaseTransformStrategy> strat) = 0;
 };
 
 
-class MatrixTransformator: public BaseTransformator {
-    Matrix<4, double> _transMatrix;
+class MyTransformator: public BaseTransformator {
+protected:
+    shared_ptr<BaseTransformStrategy> _strat;
 public:
-    MatrixTransformator() = default;
+    MyTransformator() = delete;
+    MyTransformator(const MyTransformator &) = delete;
+    MyTransformator &operator=(const MyTransformator &) = delete;
+    MyTransformator(shared_ptr<BaseTransformStrategy>);
     virtual Point transform(const Point &p) override;
-    virtual void move(double x, double y, double z) override;
-    virtual void scale(double value) override;
-    virtual void rotate(const Direction &dir, double value) override;
+    virtual void setStrategy(shared_ptr<BaseTransformStrategy> strat) override;
 };

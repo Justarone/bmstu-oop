@@ -47,8 +47,8 @@ void MoveVisitor::visit(Composite &composite) const {
 
 
 void MoveVisitor::visit(ModelComponent &component) const {
-    MatrixTransformator transformator;
-    transformator.move(_x, _y, _z);
+    shared_ptr<BaseTransformStrategy> strat(new MoveStrategy(_x, _y, _z));
+    MyTransformator transformator(strat);
     shared_ptr<BaseModel> model = component.model;
     model->transform(transformator);
 }
@@ -61,8 +61,8 @@ void MoveVisitor::visit(CameraComponent &component) const {
 
 
 void RotateVisitor::visit(ModelComponent &component) const {
-    MatrixTransformator transformator;
-    transformator.rotate(_dir, _value);
+    shared_ptr<BaseTransformStrategy> strat(new RotateStrategy(_dir, _value));
+    MyTransformator transformator(strat);
     shared_ptr<BaseModel> model = component.model;
     model->transform(transformator);
 }
@@ -77,8 +77,8 @@ void RotateVisitor::visit(CameraComponent &component) const {
 
 
 void ScaleVisitor::visit(ModelComponent &component) const {
-    MatrixTransformator transformator;
-    transformator.scale(_value);
+    shared_ptr<BaseTransformStrategy> strat(new ScaleStrategy(_value));
+    MyTransformator transformator(strat);
     shared_ptr<BaseModel> model = component.model;
     model->transform(transformator);
 }
