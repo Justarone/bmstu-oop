@@ -56,9 +56,9 @@ public:
 
 class ModelComponent: public Component {
     shared_ptr<BaseModel> _model;
+    shared_ptr<BaseModel> _getModel() const;
+    void _setModel(const shared_ptr<BaseModel>);
 public:
-    shared_ptr<BaseModel> getModel() const;
-    void setModel(const shared_ptr<BaseModel>);
     Property<ModelComponent, BaseModel> model; // чтобы был полиморфизм, нужен указатель
     ModelComponent() = delete;
     ModelComponent(const ModelComponent &elem) = delete;
@@ -71,9 +71,9 @@ public:
 
 class CameraComponent: public Component {
     shared_ptr<BaseCamera> _camera;
+    shared_ptr<BaseCamera> _getCamera() const;
+    void _setCamera(const shared_ptr<BaseCamera>);
 public:
-    shared_ptr<BaseCamera> getCamera() const;
-    void setCamera(const shared_ptr<BaseCamera>);
     Property<CameraComponent, BaseCamera> camera; // аналогично модели
     CameraComponent() = delete;
     CameraComponent(const CameraComponent &elem) = default;
