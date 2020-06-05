@@ -26,6 +26,7 @@ bool Scene::_checkScene(int index) {
         else if (!(*it)->isComposite())
             hasCam = true;
     }
+
     return hasCam && hasModel;
 }
 
@@ -67,7 +68,7 @@ int Scene::updateState(int index, ObjectType ot) {
     
     else if (ot == ObjectType::MODEL || ot == ObjectType::CAMERA) {
         int cnt = _countObjects(ot);
-        return index < cnt ? index : 0;
+        return (index < cnt && index > 0) ? index : 0;
     }
 
     throw AppInvalidArgument("Invalid object type.");

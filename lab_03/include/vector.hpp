@@ -27,6 +27,7 @@ public:
     Vector();
     Vector(size_t size);
     Vector(const Vector &);
+    Vector<Type> &operator=(const Vector &);
     void push_back(Type elem);
     void erase(VecIterator<Type>);
     Type &operator[](size_t index);
@@ -51,7 +52,7 @@ public:
     VecIterator(VecIterator<T> &&) = default;
     VecIterator<T> &operator=(VecIterator<T> &) = default;
 
-    bool operator!=(const VecIterator<T> &vec) const { return _index == vec._index; }
+    bool operator!=(const VecIterator<T> &vec) const { return _index != vec._index; }
 
     T *operator->();
     const T *operator->() const;

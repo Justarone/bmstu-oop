@@ -7,10 +7,10 @@
 #include "drawer.hpp"
 #include "components.hpp"
 //#include "vector.hpp"
-#include <vector>
+//#include <vector>
 
-template <typename T>
-using vector = std::vector<T>;
+//template <typename T>
+//using vector = std::vector<T>;
 //using vector = Vector<T>;
 
 class BaseManager {};

@@ -22,6 +22,14 @@ Vector<T>::Vector(size_t size) {
 }
 
 template <typename T>
+Vector<T> &Vector<T>::operator=(const Vector &vec) {
+    _allocateMemory(vec.size());
+    for (size_t i = 0; i < _size; ++i)
+        _data[i] = vec[i];
+    return *this;
+}
+
+template <typename T>
 Vector<T>::Vector(const Vector &vec) {
     _allocateMemory(vec.size());
     for (size_t i = 0; i < vec.size(); ++i)

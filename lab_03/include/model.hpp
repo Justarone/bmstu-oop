@@ -2,12 +2,12 @@
 
 #include "link.hpp"
 #include "point.hpp"
-//#include "vector.hpp"
-#include <vector>
+#include "vector.hpp"
+//#include <vector>
 
 template <typename Type>
-using vector = std::vector<Type>;
-//using vector = Vector<Type>;
+using vector = Vector<Type>;
+//using vector = std::vector<Type>;
 
 class BaseModel {
 public:
