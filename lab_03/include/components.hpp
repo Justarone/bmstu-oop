@@ -6,6 +6,7 @@
 #include "model.hpp"
 #include "camera.hpp"
 #include "visitor.hpp"
+#include "property.hpp"
 
 class BaseComponentVisitor;
 
@@ -54,11 +55,13 @@ public:
 
 
 class ModelComponent: public Component {
+    shared_ptr<BaseModel> _model;
 public:
-    // скрыть
-    shared_ptr<BaseModel> model; // чтобы был полиморфизм, нужен указатель
+    shared_ptr<BaseModel> getModel() const;
+    void setModel(const shared_ptr<BaseModel>);
+    Property<ModelComponent, BaseModel> model; // чтобы был полиморфизм, нужен указатель
     ModelComponent() = delete;
-    ModelComponent(const ModelComponent &elem) = default;
+    ModelComponent(const ModelComponent &elem) = delete;
     ModelComponent(shared_ptr<BaseModel> model);
     ModelComponent &operator=(const ModelComponent &elem) = default;
     virtual bool isVisible() const override;
@@ -67,9 +70,11 @@ public:
 };
 
 class CameraComponent: public Component {
+    shared_ptr<BaseCamera> _camera;
 public:
-    // скрыть
-    shared_ptr<BaseCamera> camera; // аналогично модели
+    shared_ptr<BaseCamera> getCamera() const;
+    void setCamera(const shared_ptr<BaseCamera>);
+    Property<CameraComponent, BaseCamera> camera; // аналогично модели
     CameraComponent() = delete;
     CameraComponent(const CameraComponent &elem) = default;
     CameraComponent(shared_ptr<BaseCamera> cam);

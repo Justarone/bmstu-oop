@@ -49,13 +49,13 @@ void MoveVisitor::visit(Composite &composite) const {
 void MoveVisitor::visit(ModelComponent &component) const {
     MatrixTransformator transformator;
     transformator.move(_x, _y, _z);
-    auto &model = component.model;
+    shared_ptr<BaseModel> model = component.model;
     model->transform(transformator);
 }
 
 
 void MoveVisitor::visit(CameraComponent &component) const {
-    auto &camera = component.camera;
+    shared_ptr<BaseCamera> camera = component.camera;
     camera->move(_x, _y, _z);
 }
 
@@ -63,13 +63,13 @@ void MoveVisitor::visit(CameraComponent &component) const {
 void RotateVisitor::visit(ModelComponent &component) const {
     MatrixTransformator transformator;
     transformator.rotate(_dir, _value);
-    auto &model = component.model;
+    shared_ptr<BaseModel> model = component.model;
     model->transform(transformator);
 }
 
 
 void RotateVisitor::visit(CameraComponent &component) const {
-    auto camera = component.camera;
+    shared_ptr<BaseCamera> camera = component.camera;
     camera->rotate(_value * (_dir == Direction::X),
                    _value * (_dir == Direction::Y),
                    _value * (_dir == Direction::Z));
@@ -79,7 +79,7 @@ void RotateVisitor::visit(CameraComponent &component) const {
 void ScaleVisitor::visit(ModelComponent &component) const {
     MatrixTransformator transformator;
     transformator.scale(_value);
-    auto model = component.model;
+    shared_ptr<BaseModel> model = component.model;
     model->transform(transformator);
 }
 
@@ -98,7 +98,8 @@ void DrawVisitor::visit(Composite &composite) const {
 void DrawVisitor::visit(CameraComponent &) const {}
 
 void DrawVisitor::visit(ModelComponent &model) const {
-    auto model3d = dynamic_cast<FrameModel*>(model.model.get());
+    shared_ptr<BaseModel> modelPtr = model.model; 
+    FrameModel *model3d = dynamic_cast<FrameModel*>(modelPtr.get());
     const auto &links = model3d->getLinks();
     const auto &points = model3d->getPoints();
     for (size_t i = 0; i < links.size(); ++i) {
