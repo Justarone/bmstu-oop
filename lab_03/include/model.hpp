@@ -1,11 +1,13 @@
 #pragma once
 
-#include <vector>
 #include "link.hpp"
 #include "point.hpp"
+//#include "vector.hpp"
+#include <vector>
 
 template <typename Type>
 using vector = std::vector<Type>;
+//using vector = Vector<Type>;
 
 class BaseModel {
 public:

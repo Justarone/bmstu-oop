@@ -81,9 +81,11 @@ VecIterator<T> VecIterator<T>::operator-(size_t diff) const {
     return it;
 }
 
+template <typename T>
 ConstIterator<T>::ConstIterator(shared_ptr<T[]> data, size_t size, size_t index):
     _data(data), _size(size), _index(index) {}
 
+template <typename T>
 const T *ConstIterator<T>::operator->() const {
     if (_index >= _size)
         throw AppOutOfRange("Vector out of range iterator");
@@ -92,6 +94,7 @@ const T *ConstIterator<T>::operator->() const {
     return _data.lock() + _index;
 }
 
+template <typename T>
 const T &ConstIterator<T>::operator*() const {
     if (_index >= _size)
         throw AppOutOfRange("Vector out of range iterator");

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <memory>
 #include "exception.hpp"
+#include "base_vector.hpp"
 
 template <typename T>
 using shared_ptr = std::shared_ptr<T>;
@@ -16,17 +17,6 @@ class VecIterator;
 template <typename T>
 class ConstIterator;
 
-class BaseVector {
-protected:
-    size_t _size;
-public:
-    virtual size_t size() { return _size; }
-    virtual bool isEmpty() { return _size == 0; }
-    virtual ~BaseVector() = 0;
-};
-
-BaseVector::~BaseVector() {}
-
 
 template <typename Type>
 class Vector: public BaseVector {
@@ -36,10 +26,11 @@ class Vector: public BaseVector {
 public:
     Vector();
     Vector(size_t size);
-    Vector(Vector &);
+    Vector(const Vector &);
     void push_back(Type elem);
     void erase(VecIterator<Type>);
     Type &operator[](size_t index);
+    const Type &operator[](size_t index) const;
 
     VecIterator<Type> begin();
     ConstIterator<Type> begin() const;
@@ -50,13 +41,14 @@ public:
 
 template <typename T>
 class VecIterator: public std::iterator<std::random_access_iterator_tag, T> {
-    size_t _index = 0;
-    size_t _size = 0;
     weak_ptr<T[]> _data;
+    size_t _size = 0;
+    size_t _index = 0;
 public:
     VecIterator();
     VecIterator(shared_ptr<T[]> data, size_t size, size_t index = 0);
-    VecIterator(VecIterator<T> &) = default;
+    VecIterator(const VecIterator<T> &) = default;
+    VecIterator(VecIterator<T> &&) = default;
     VecIterator<T> &operator=(VecIterator<T> &) = default;
 
     bool operator!=(const VecIterator<T> &vec) const { return _index == vec._index; }
@@ -77,12 +69,13 @@ public:
 
 template <typename T>
 class ConstIterator: public std::iterator<std::random_access_iterator_tag, T> {
-    mutable size_t _index = 0;
-    size_t _size = 0;
     weak_ptr<T[]> _data;
+    size_t _size = 0;
+    mutable size_t _index = 0;
 public:
     ConstIterator() = delete;
-    ConstIterator(ConstIterator<T> &) = default;
+    ConstIterator(const ConstIterator<T> &) = default;
+    ConstIterator(ConstIterator<T> &&) = default;
     ConstIterator(shared_ptr<T[]> data, size_t size, size_t index = 0);
     VecIterator<T> &operator=(ConstIterator<T> &) = default;
 

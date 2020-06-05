@@ -5,7 +5,10 @@
 class Point {
     double _x, _y, _z;
 public:
+    Point() = default;
     Point(double x, double y, double z): _x(x), _y(y), _z(z) {};
+    Point(const Point &) = default;
+    Point &operator=(const Point &) = default;
     void transform(BaseTransformator &transformator) {
         Point res = transformator.transform(*this);
         _x = res._x, _y = res._y, _z = res._z; 

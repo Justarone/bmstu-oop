@@ -4,6 +4,7 @@
 #include "components.hpp"
 #include "object_type.hpp"
 
+//using ComponentIterator = VecIterator<shared_ptr<Component>>;
 using ComponentIterator = std::vector<shared_ptr<Component>>::const_iterator;
 
 class Scene {

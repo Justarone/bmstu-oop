@@ -1,16 +1,17 @@
 #pragma once
 
-#include <vector>
-
 #include "proector.hpp"
 #include "object_type.hpp"
 #include "scene.hpp"
 #include "scene_loader.hpp"
 #include "drawer.hpp"
 #include "components.hpp"
+//#include "vector.hpp"
+#include <vector>
 
 template <typename T>
 using vector = std::vector<T>;
+//using vector = Vector<T>;
 
 class BaseManager {};
 

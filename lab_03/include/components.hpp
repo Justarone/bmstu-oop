@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+//#include "vector.hpp"
 #include <vector>
 
 #include "model.hpp"
@@ -13,9 +14,11 @@ using shared_ptr = std::shared_ptr<Type>;
 
 template <typename Type>
 using vector = std::vector<Type>;
+//using vector = Vector<Type>;
 
 class Component;
 
+//using ComponentIterator = VecIterator<shared_ptr<Component>>;
 using ComponentIterator = std::vector<shared_ptr<Component>>::const_iterator;
 
 class Component {

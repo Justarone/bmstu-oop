@@ -4,7 +4,6 @@
 
 #include "managers.hpp"
 #include "visitor.hpp"
-#include <vector>
 #include "scene.hpp"
 #include "proector.hpp"
 #include "object_type.hpp"

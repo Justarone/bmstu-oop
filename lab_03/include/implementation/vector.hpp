@@ -22,14 +22,21 @@ Vector<T>::Vector(size_t size) {
 }
 
 template <typename T>
-Vector<T>::Vector(Vector &vec) {
+Vector<T>::Vector(const Vector &vec) {
     _allocateMemory(vec.size());
     for (size_t i = 0; i < vec.size(); ++i)
         _data[i] = vec[i];
 };
 
 template <typename T>
-T &operator[](size_t index) {
+T &Vector<T>::operator[](size_t index) {
+    if (index > _size)
+        throw AppOutOfRange("Vector out of range elem");
+    return _data[index];
+};
+
+template <typename T>
+const T &Vector<T>::operator[](size_t index) const {
     if (index > _size)
         throw AppOutOfRange("Vector out of range elem");
     return _data[index];
@@ -44,7 +51,7 @@ void Vector<T>::push_back(T elem) {
 template <typename T>
 void Vector<T>::erase(VecIterator<T> di) {
     auto si = di + 1;
-    while (si)
+    while (si != end())
         *di++ = *si++;
     _allocateMemory(_size - 1);
 }

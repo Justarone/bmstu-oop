@@ -33,3 +33,8 @@ class AppBadState: public AppBaseException {
 public:
     explicit AppBadState(const char *errmsg = "No error message (Bad state)"); 
 };
+
+class AppMemoryError: public AppBaseException {
+public:
+    explicit AppMemoryError(const char *errmsg = "No error message (memory error)"); 
+};

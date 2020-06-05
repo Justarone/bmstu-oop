@@ -20,7 +20,7 @@ void Scene::removeComponent(int index, ObjectType ot) {
 bool Scene::_checkScene(int index) {
     bool hasCam = false, hasModel = false;
     auto curScene = _data[index];
-    for (auto it = curScene->begin(); it < curScene->end() && !(hasCam && hasModel); it++) {
+    for (auto it = curScene->begin(); it != curScene->end() && !(hasCam && hasModel); it++) {
         if ((*it)->isVisible())
             hasModel = true;
         else if (!(*it)->isComposite())
@@ -42,7 +42,6 @@ int Scene::_countObjects(ObjectType ot) {
     else if (ot == ObjectType::MODEL || ot == ObjectType::CAMERA) {
         int cntModels = 0, cntCams = 0;
 
-        std::cout << std::endl;
         auto scene = dynamic_cast<Composite&>(*_data[_curScene].get());
         for (auto elem: scene) {
             if (elem->isVisible())
@@ -50,9 +49,7 @@ int Scene::_countObjects(ObjectType ot) {
             else if (!elem->isComposite())
                 cntCams++;
         }
-        std::cout << std::endl;
 
-        std::cout << "cntModels: " << cntModels << " and cntCams: " << cntCams << std::endl;
         return ot == ObjectType::MODEL ? cntModels : cntCams;
     }
 
@@ -87,7 +84,7 @@ ComponentIterator Scene::_getIterator(int index, ObjectType ot) {
     if (ot == ObjectType::MODEL) {
         int i = -1;
         auto it = composite.begin();
-        while (it < composite.end() && i != index) {
+        while (it != composite.end() && i != index) {
             if ((*it)->isVisible())
                 ++i;
             if (index == i)
@@ -100,7 +97,7 @@ ComponentIterator Scene::_getIterator(int index, ObjectType ot) {
     else if(ot == ObjectType::CAMERA) {
         int i = -1;
         auto it = composite.begin();
-        while (it < composite.end() && i != index) {
+        while (it != composite.end() && i != index) {
             if (!(*it)->isVisible())
                 ++i;
             if (index == i)
