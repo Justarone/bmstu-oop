@@ -37,7 +37,8 @@ void SceneManager::removeComponent(ObjectType ot) {
     if (!_stateCheck())
         throw AppInvalidArgument("Bad state of scene");
     int index = ot == ObjectType::SCENE ? _curScene : (ot == ObjectType::MODEL ? _curModel : _curCam);
-    _scene.removeComponent(index, ot);
+    auto it = _scene.getIterator(index, ot);
+    _scene.removeComponent(it, ot);
 }
 
 void SceneManager::changeComponent(int diff, ObjectType ot) {

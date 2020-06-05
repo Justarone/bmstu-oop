@@ -9,8 +9,7 @@ void Scene::addComponent(shared_ptr<Component> component, ObjectType ot) {
         throw AppInvalidArgument("Invalid elem to add");
 }
 
-void Scene::removeComponent(int index, ObjectType ot) {
-    ComponentIterator it = _getIterator(index, ot);
+void Scene::removeComponent(ComponentIterator it, ObjectType ot) {
     if (ot == ObjectType::SCENE)
         _data.erase(it);
     else
@@ -74,7 +73,7 @@ int Scene::updateState(int index, ObjectType ot) {
     throw AppInvalidArgument("Invalid object type.");
 }
 
-ComponentIterator Scene::_getIterator(int index, ObjectType ot) {
+ComponentIterator Scene::getIterator(int index, ObjectType ot) {
     if (_curScene < 0 || _curScene >= static_cast<int>(_data.size()))
         throw AppOutOfRange("Incorrect value of curScene index");
     if (ot == ObjectType::SCENE)
@@ -112,7 +111,7 @@ ComponentIterator Scene::_getIterator(int index, ObjectType ot) {
 }
 
 shared_ptr<Component> Scene::getComponent(int index, ObjectType ot) {
-    ComponentIterator it = _getIterator(index, ot);
+    ComponentIterator it = getIterator(index, ot);
     return *it;
 }
 
