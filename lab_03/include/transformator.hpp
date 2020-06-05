@@ -12,6 +12,7 @@ enum class Direction { X, Y, Z };
 
 class BaseTransformator {
 public:
+    // strategy
     virtual Point transform(const Point &p) = 0;
     virtual void move(double x, double y, double z) = 0;
     virtual void scale(double value) = 0;

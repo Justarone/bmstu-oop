@@ -55,6 +55,7 @@ public:
 
 class ModelComponent: public Component {
 public:
+    // скрыть
     shared_ptr<BaseModel> model; // чтобы был полиморфизм, нужен указатель
     ModelComponent() = delete;
     ModelComponent(const ModelComponent &elem) = default;
@@ -67,6 +68,7 @@ public:
 
 class CameraComponent: public Component {
 public:
+    // скрыть
     shared_ptr<BaseCamera> camera; // аналогично модели
     CameraComponent() = delete;
     CameraComponent(const CameraComponent &elem) = default;

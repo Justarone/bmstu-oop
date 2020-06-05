@@ -13,7 +13,6 @@
 // ADD == COPY
 class AppFacade {
 private:
-    Scene _scene;
     DrawManager _drawManager;
     LoadManager _loadManager;
     TransformMananger _transformManager;

@@ -7,6 +7,7 @@
 //using ComponentIterator = VecIterator<shared_ptr<Component>>;
 //using ComponentIterator = std::vector<shared_ptr<Component>>::const_iterator;
 
+// Использовать итераторы
 class Scene {
     vector<shared_ptr<Component>> _data;
     int _curScene = -1;
