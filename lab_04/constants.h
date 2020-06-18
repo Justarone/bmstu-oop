@@ -3,7 +3,7 @@
 
 
 enum class Times {
-    FLOOR_MOVE = 1000,
+    FLOOR_MOVE = 2500,
     DOORS_MOVE = 1500,
     DOORS_WAIT = 4000,
 };
@@ -14,7 +14,7 @@ enum class Constants {
     NO_DESTINATION_FLOOR = -1,
 };
 
-enum Direction
+enum class Direction
 {
     UP = 1,
     STAND = 0,

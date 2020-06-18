@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Лифт (тут пахнет чем-то странным)</string>
+   <string>Elevator</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="button1">

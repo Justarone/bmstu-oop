@@ -21,7 +21,7 @@ class Doors : public QObject
    public slots:
     void open();
     void close();
-    void moveToCall();
+    void getReadyToMove();
 
    public:
     explicit Doors(QObject *parent = nullptr);

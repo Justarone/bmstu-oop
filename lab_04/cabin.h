@@ -5,12 +5,12 @@
 
 #include "controller.h"
 #include "constants.h"
-#include "door.h"
+#include "doors.h"
 
 enum class CabinState
 {
     MOVE,
-    SYNC,
+    ACTIVE,
     STAND
 };
 
@@ -21,16 +21,16 @@ class Cabin : public QObject
    public slots:
     void move();
     void stand();
-    void call(short floor); // Убрать direction отсюда к чертям собачьим
+    void setDestination(short floor);
 
    public:
     explicit Cabin(QObject *parent = nullptr);
 
    signals:
-    void cabinIsCalled();
-    void cabinPassingFloor(short floor); // Убрать direction
-    void cabinReachedDestinationFloor(short floor);
-    void cabinStopped(short floor);
+    void getReady();
+    void passingFloor(short floor);
+    void stop();
+    void stopped(short floor);
 
    private:
 

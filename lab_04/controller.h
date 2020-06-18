@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <vector>
+#include <algorithm>
 
 #include "constants.h"
 
@@ -29,13 +30,20 @@ public:
     void setTarget(short floor);
 
 signals:
-    void setDestinationFloor(short floor);
+    void setDestination(short floor);
 
-   private:
-
+private:
+    vector<short> _queue;
     short _curFloor;
+    short _curTarget;
     vector<bool> _floors;
     ControllerState _state;
+    Direction _direction;
+
+    void _correctQueue();
+    short _getClosestTarget();
+    short _getUpwards();
+    short _getDownwards();
 };
 
 #endif // CONTROLLER_H

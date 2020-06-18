@@ -18,12 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += controller.h door.h mainwindow.h \
+HEADERS += controller.h mainwindow.h \
     cabin.h \
     constants.h \
+    doors.h \
     elevator.h
 FORMS += mainwindow.ui
-SOURCES += controller.cpp door.cpp main.cpp mainwindow.cpp \
+SOURCES += controller.cpp main.cpp mainwindow.cpp \
     cabin.cpp \
+    doors.cpp \
     elevator.cpp
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
