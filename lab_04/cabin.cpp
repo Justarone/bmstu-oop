@@ -26,9 +26,9 @@ void Cabin::move() {
         return;
 
     if (_state == CabinState::MOVE) {
+        _floor += static_cast<short>(_direction);
         if (_floor != _destination) {
             emit passingFloor(_floor);
-            _floor += static_cast<short>(_direction);
             _moveTimer.start();
         }
         else
@@ -48,7 +48,7 @@ void Cabin::move() {
 
 
 void Cabin::stand() {
-    if (_state != CabinState::MOVE)
+    if (_state != CabinState::MOVE) // плохо, следует писать "из каких можно"
         return;
 
     _state = CabinState::STAND;

@@ -8,7 +8,6 @@ Controller::Controller(QObject *parent) : QObject(parent),
       _state(ControllerState::FREE), _direction(Direction::STAND) {}
 
 
-// ok
 void Controller::setTarget(short floor)
 {
     _queue.push_back(floor);
@@ -22,7 +21,6 @@ void Controller::setTarget(short floor)
 }
 
 
-// ok
 void Controller::onFloor(short floor)
 {
     if (_state != ControllerState::BUSY)
@@ -40,14 +38,12 @@ void Controller::onFloor(short floor)
         _state = ControllerState::FREE;
 }
 
-// ok
 void Controller::passedFloor(short floor)
 {
     _curFloor = floor;
     qDebug("Passing floor %d", _curFloor);
 }
 
-// ok
 short Controller::_getUpwards() {
     short noFloor = static_cast<short>(Constants::NO_DESTINATION_FLOOR);
     short newFloor = noFloor;
@@ -62,7 +58,6 @@ short Controller::_getUpwards() {
 }
 
 
-// ok
 short Controller::_getDownwards() {
     short noFloor = static_cast<short>(Constants::NO_DESTINATION_FLOOR);
     short newFloor = noFloor;
@@ -75,7 +70,6 @@ short Controller::_getDownwards() {
 }
 
 
-// ok
 short Controller::_getClosestTarget() {
     _correctQueue();
     if (_queue.size() == 0)
@@ -98,7 +92,6 @@ short Controller::_getClosestTarget() {
 }
 
 
-// ok (corrected)
 void Controller::_correctQueue() {
     vector<bool> &floorsCopy = _floors;
     auto it = remove_if(_queue.begin(), _queue.end(), [floorsCopy](short elem) {

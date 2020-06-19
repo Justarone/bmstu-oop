@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-#include "controller.h"
 #include "constants.h"
 #include "doors.h"
 
@@ -18,22 +17,21 @@ class Cabin : public QObject
 {
     Q_OBJECT
 
-   public slots:
+public slots:
     void move();
     void stand();
     void setDestination(short floor);
 
-   public:
+public:
     explicit Cabin(QObject *parent = nullptr);
 
-   signals:
+signals:
     void getReady();
     void passingFloor(short floor);
     void stop();
     void stopped(short floor);
 
-   private:
-
+private:
     Doors _doors;
     short _floor;
     short _destination;

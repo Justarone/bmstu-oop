@@ -18,24 +18,23 @@ class Doors : public QObject
 {
     Q_OBJECT
 
-   public slots:
+public slots:
     void open();
     void close();
     void getReadyToMove();
 
-   public:
+public:
     explicit Doors(QObject *parent = nullptr);
 
-   signals:
+signals:
     void closed();
     void opened();
 
-   private slots:
+private slots:
     void _open();
     void _close();
 
-   private:
-
+private:
     DoorsState _state;
     QTimer _openTimer;
     QTimer _closeTimer;
